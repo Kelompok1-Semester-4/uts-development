@@ -1,31 +1,11 @@
 import React from 'react';
-import Brand from '../../images/speakup.jpg';
-
-import icon_info from '../../images/icon_info.svg';
+import Header from './partials/Header';
 
 const DashboardUser = () => {
     return (
         <div className='dashboard'>
             {/* HEADER */}
-            <header className="p-3 mb-3 my-navbar">
-                <div className="container">
-                    <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                        <a href="/" className="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-                            <img src={Brand} width={146} height={64} alt="" />
-                        </a>
-
-                        <div className="dropdown text-end ms-auto">
-                            <a href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle" />
-                            </a>
-
-                            <ul className="dropdown-menu text-small mt-2" aria-labelledby="dropdownUser1">
-                                <li><a className="dropdown-item" href="/">Sign out</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            <Header />
 
             {/* MENU */}
             <div className="container">
@@ -46,12 +26,121 @@ const DashboardUser = () => {
                     </ul>
 
                     {/* CONTENT */}
-                    <div className="tab-content" id="pills-tabContent">
-                        <div className="tab-pane fade show" id="pills-diary" role="tabpanel" aria-labelledby="pills-diary-tab">
-                            <h1>Diary</h1>
+                    <div className="tab-content p-0 content" id="pills-tabContent">
+                        <div className="tab-pane fade show active" id="pills-diary" role="tabpanel" aria-labelledby="pills-diary-tab">
+                            <div className="row justify-content-between">
+                                <div className="col-md-6">
+                                    <h2>List Diary</h2>
+                                    <h5 className="text-secondary">Record the precious moments in your life </h5>
+                                </div>
+                                <div className="col-md-3 text-end">
+                                    <a className='btn btn-primary' href='/add-diary'>Add New</a>
+                                </div>
+                            </div>
+
+                            <div className="row  mt-5 justify-content-between">
+                                <div className="col-md-4 diary-item">
+                                    <div className="row">
+                                        <div className="col-md">
+                                            <img src="https://media.suara.com/pictures/653x366/2021/12/28/11513-ilustrasi-kucing-dengan-mata-beda-warna-pixabaybaran65.jpg" className="img-fluid diary-image" alt="" />
+                                        </div>
+                                        <div className="col-md-8">
+                                            <h4 className='diary-title'>Mencari Kerja</h4>
+                                            <h4 className='diary-date'>10 April 22 . 14.00 PM</h4>
+                                            <p className='giveMeEllipsis'>Record the precious moments in your life..</p>
+
+                                            <div className="row d-inline ms-0">
+                                                <button className='btn btn-edit btn-warning'>Edit</button>
+                                                <a href="" className='ms-4 text-decoration-none text-secondary'>Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-md-4 diary-item">
+                                    <div className="row">
+                                        <div className="col-md">
+                                            <img src="https://media.suara.com/pictures/653x366/2021/12/28/11513-ilustrasi-kucing-dengan-mata-beda-warna-pixabaybaran65.jpg" className="img-fluid diary-image" alt="" />
+                                        </div>
+                                        <div className="col-md-8">
+                                            <h4 className='diary-title'>Mencari Kerja</h4>
+                                            <h4 className='diary-date'>10 April 22 . 14.00 PM</h4>
+                                            <p className='giveMeEllipsis'>Record the precious moments in your life..</p>
+
+                                            <div className="row d-inline ms-0">
+                                                <button className='btn btn-edit btn-warning'>Edit</button>
+                                                <a href="" className='ms-4 text-decoration-none text-secondary'>Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-md-4 diary-item">
+                                    <div className="row">
+                                        <div className="col-md">
+                                            <img src="https://media.suara.com/pictures/653x366/2021/12/28/11513-ilustrasi-kucing-dengan-mata-beda-warna-pixabaybaran65.jpg" className="img-fluid diary-image" alt="" />
+                                        </div>
+                                        <div className="col-md-8">
+                                            <h4 className='diary-title'>Mencari Kerja</h4>
+                                            <h4 className='diary-date'>10 April 22 . 14.00 PM</h4>
+                                            <p className='giveMeEllipsis'>Record the precious moments in your life..</p>
+
+                                            <div className="row d-inline ms-0">
+                                                <button className='btn btn-edit btn-warning'>Edit</button>
+                                                <a href="" className='ms-4 text-decoration-none text-secondary'>Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div className="tab-pane fade" id="pills-class" role="tabpanel" aria-labelledby="pills-class-tab">
-                            <h1>Your Class</h1>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <h2>Your Class</h2>
+                                    <h5 className="text-secondary">This is all yout class that you have after finish the transaction</h5>
+                                </div>
+                            </div>
+                            <div className="row mt-5">
+                                <div className="col mx-4 class-item">
+                                    <img src="https://static.republika.co.id/uploads/images/inpicture_slide/film-avatar-menjadi-film-dengan-pendapatan_210314141347-608.jpeg" className='img-fluid' alt="" />
+
+                                    <div className="row">
+                                        <h2 className='class-title'>Know Yourself And Maximize</h2>
+                                        <p className='giveMeEllipsis col-md-8'>Record the precious moments in your life..</p>
+
+                                        <div className="col">
+                                            <button className='btn btn-primary btn-sm mt-2 mb-2'>Learn</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div className="col mx-4 class-item">
+                                    <img src="https://static.republika.co.id/uploads/images/inpicture_slide/film-avatar-menjadi-film-dengan-pendapatan_210314141347-608.jpeg" className='img-fluid' alt="" />
+
+                                    <div className="row">
+                                        <h2 className='class-title'>Know Yourself And Maximize</h2>
+                                        <p className='giveMeEllipsis col-md-8'>Record the precious moments in your life..</p>
+
+                                        <div className="col">
+                                            <button className='btn btn-primary btn-sm mt-2 mb-2'>Learn</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div className="col mx-4 class-item">
+                                    <img src="https://static.republika.co.id/uploads/images/inpicture_slide/film-avatar-menjadi-film-dengan-pendapatan_210314141347-608.jpeg" className='img-fluid' alt="" />
+
+                                    <div className="row">
+                                        <h2 className='class-title'>Know Yourself And Maximize</h2>
+                                        <p className='giveMeEllipsis col-md-8'>Record the precious moments in your life..</p>
+
+                                        <div className="col">
+                                            <button className='btn btn-primary btn-sm mt-2 mb-2'>Learn</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                         <div className="tab-pane fade" id="pills-transaction" role="tabpanel" aria-labelledby="pills-transaction-tab">
                             <h1>Transaction</h1>
@@ -61,6 +150,10 @@ const DashboardUser = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className="mt-5 row">
+                <span></span>
             </div>
         </div>
     )

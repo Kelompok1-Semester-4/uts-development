@@ -967,3 +967,74 @@ img.transaction-image {
     margin-top: 97px;
 }
 
+.dashboard h2 {
+    font-size: 1.5rem;
+    font-weight: var(--semibold);
+    color: var(--black);
+}
+
+.dashboard h5 {
+    font-size: 0.875rem;
+    font-weight: var(--regular);
+}
+
+.dashboard .diary-image {
+    width: 86px;
+    height: 86px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.dashboard .diary-item {
+    border-radius: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    padding: 17px;
+    /* margin-right: 26px; */
+    margin-bottom: 26px;
+    width: 410px;
+}
+
+.dashboard .diary-item .diary-date {
+    font-size: 0.75rem;
+    font-weight: var(--regular);
+    color: var(--secondary);
+}
+
+.btn-warning {
+    background-color: #F38401;
+    color: white;
+}
+
+.btn-edit {
+    width: 88px;
+    height: 38px;
+    font-size: 14px;
+    padding: 0;
+    border-radius: 7px;
+}
+
+.class-item {
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    border-radius: 24px;
+    padding: 10px;
+}
+
+.class-item img {
+    width: 100%;
+    height: 250px;
+    border-radius: 24px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+
+/* END */
+
+/* ADD DIARY */
+.add-diary img.diary-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+/* END */

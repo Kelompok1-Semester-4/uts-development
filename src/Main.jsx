@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Counseling from "./assets/pages/Counseling";
 import Courses from "./assets/pages/Courses";
+import AddDiary from "./assets/pages/Dashboard User/AddDiary";
 import DashboardUser from "./assets/pages/Dashboard User/DashboardUser";
 import DetailCourse from "./assets/pages/DetailCourse";
 import DetailDiary from "./assets/pages/DetailDiary";
@@ -27,6 +28,7 @@ const Main = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="/checkout/:id" element={<Transaction />} />
                     <Route path="/dashboard-user" element={<DashboardUser />} />
+                    <Route path="/add-diary" element={<AddDiary />} />
                 </Routes>
             </div>
         </Router>
