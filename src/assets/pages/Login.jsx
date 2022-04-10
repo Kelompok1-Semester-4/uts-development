@@ -1,11 +1,12 @@
 import React from "react";
 import Header from "../../components/Header";
-import Faq from "../../components/Faq";
 import Footer from "../../components/Footer";
 
 import image_login from "../../assets/images/image_login.svg";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    let navigate = useNavigate();
     return (
         <div>
             <Header />
@@ -30,8 +31,10 @@ const Login = () => {
                                     className="form-control"
                                     placeholder="Password"
                                 />
-                                <div class="d-grid gap-2">
-                                    <button class="btn btn-primary" type="button">Sign In</button>
+                                <div className="d-grid gap-2">
+                                    <button className="btn btn-primary" onClick={
+                                        () => navigate("/dashboard-user")
+                                    } type="button">Sign In</button>
                                 </div>
                             </form>
                             <div className="row">

@@ -938,3 +938,32 @@ img.transaction-image {
     color: var(--black);
 }
 /* END */
+
+/* DASHBOARD USER */
+
+.register-tab {
+    margin-top: 47px;
+}
+
+.dashboard .tab-content {
+    margin-top: 64px;
+}
+
+.dashboard .nav-pills button.nav-link.active {
+    background-color: var(--blue);
+    border-radius: 15px;
+    color: white;
+    font-weight: 500;
+}
+
+.dashboard .nav-item .nav-link {
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    /* font-weight: 500; */
+    border-radius: 15px;
+    color: var(--secondary);
+}
+
+.dashboard .menu {
+    margin-top: 97px;
+}
+
