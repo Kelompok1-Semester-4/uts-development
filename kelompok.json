@@ -1,0 +1,391 @@
+{
+  "detail_user": [
+    {
+      "id": 1,
+      "users": {
+        "id": 1,
+        "email": "nilaa3794@gmail.com",
+        "password": "nilaa3794",
+        "role": {
+          "id": 1,
+          "name": "admin"
+        }
+      },
+      "name": "Nilaa",
+      "gender": "P",
+      "date_brith": "2002-03-02",
+      "photo": "https://images.unsplash.com/photo-1600603405959-6d623e92445c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+      "address": "Jl. Kebon Jeruk",
+      "phone": "0812341234",
+      "position": "",
+      "work_address": "Jl. Kebon Jeruk",
+      "practice_place_address": "",
+      "office_phone_number": "",
+      "is_verified": true
+    },
+    {
+      "id": 2,
+      "users": {
+        "id": 2,
+        "email": "noga123@gmail.com",
+        "password": "noga123",
+        "role": {
+          "id": 1,
+          "name": "admin"
+        }
+      },
+      "name": "Noga",
+      "gender": "P",
+      "date_brith": "2002-03-02",
+      "photo": "https://images.unsplash.com/photo-1600603405959-6d623e92445c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+      "address": "Jl. Kebon Jeruk",
+      "phone": "0812341234",
+      "position": "",
+      "work_address": "Jl. Kebon Jeruk",
+      "practice_place_address": "",
+      "office_phone_number": "",
+      "is_verified": true
+    },
+    {
+      "id": 3,
+      "users": {
+        "id": 3,
+        "email": "tharix32@gmail.com",
+        "password": "tharix32",
+        "role": {
+          "id": 1,
+          "name": "admin"
+        }
+      },
+      "name": "Tharixs",
+      "gender": "L",
+      "date_brith": "2002-03-02",
+      "photo": "https://images.unsplash.com/photo-1600603405959-6d623e92445c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+      "address": "Jl. Kebon Jeruk",
+      "phone": "0812341234",
+      "position": "",
+      "work_address": "Jl. Kebon Jeruk",
+      "practice_place_address": "",
+      "office_phone_number": "",
+      "is_verified": true
+    },
+    {
+      "id": 4,
+      "users": {
+        "id": 4,
+        "email": "ezza345@gmail.com",
+        "password": "ezza345",
+        "role": {
+          "id": 1,
+          "name": "admin"
+        }
+      },
+      "name": "Reja",
+      "gender": "L",
+      "date_brith": "2002-03-02",
+      "photo": "https://images.unsplash.com/photo-1600603405959-6d623e92445c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+      "address": "Jl. Kebon Jeruk",
+      "phone": "0812341234",
+      "position": "",
+      "work_address": "Jl. Kebon Jeruk",
+      "practice_place_address": "",
+      "office_phone_number": "",
+      "is_verified": true
+    },
+    {
+      "id": 5,
+      "users": {
+        "id": 5,
+        "email": "ibnu098@gmail.com",
+        "password": "ibnu098",
+        "role": {
+          "id": 1,
+          "name": "admin"
+        }
+      },
+      "name": "Ibnu",
+      "gender": "L",
+      "date_brith": "2002-03-02",
+      "photo": "https://images.unsplash.com/photo-1600603405959-6d623e92445c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+      "address": "Jl. Kebon Jeruk",
+      "phone": "0812341234",
+      "position": "",
+      "work_address": "Jl. Kebon Jeruk",
+      "practice_place_address": "",
+      "office_phone_number": "",
+      "is_verified": true
+    },
+    {
+      "id": 6,
+      "users": {
+        "id": 6,
+        "email": "EdwardNaduart@gmail.com",
+        "password": "EdwardNaduart",
+        "role": {
+          "id": 2,
+          "name": "conselor"
+        }
+      },
+      "name": "Edward Naduart",
+      "gender": "L",
+      "date_brith": "2002-03-02",
+      "photo": "https://images.unsplash.com/photo-1600603405959-6d623e92445c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+      "address": "Jl. Kebon Jeruk",
+      "phone": "0812341234",
+      "work_address": "Jl. Kebon Jeruk",
+      "position": "Psikolog • Blogger",
+      "practice_place_address": "",
+      "office_phone_number": "",
+      "is_verified": true
+    },
+    {
+      "id": 7,
+      "users": {
+        "id": 7,
+        "email": "SelenaGemes@gmail.com",
+        "password": "SelenaGemes",
+        "role": {
+          "id": 2,
+          "name": "conselor"
+        }
+      },
+      "name": "Selena Gemes",
+      "gender": "P",
+      "date_brith": "2002-03-02",
+      "photo": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=6   0",
+      "address": "Jl. Kebon Jeruk",
+      "phone": "0812341234",
+      "work_address": "Jl. Kebon Jeruk",
+      "position": "Psikolog • UI Designer",
+      "practice_place_address": "",
+      "office_phone_number": "",
+      "is_verified": true
+    },
+    {
+      "id": 8,
+      "users": {
+        "id": 8,
+        "email": "RobertoCarlos@gmail.com",
+        "password": "RobertoCarlos",
+        "role": {
+          "id": 2,
+          "name": "conselor"
+        }
+      },
+      "name": "Roberto Carlos",
+      "gender": "L",
+      "date_brith": "2002-03-02",
+      "photo": "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60",
+      "address": "Jl. Kebon Jeruk",
+      "phone": "0812341234",
+      "work_address": "Jl. Kebon Jeruk",
+      "position": "Lecturer • Conselor",
+      "practice_place_address": "",
+      "office_phone_number": "",
+      "is_verified": true
+    },
+    {
+      "id": 9,
+      "users": {
+        "id": 9,
+        "email": "AndyWarhol@gmail.com",
+        "password": "AndyWarhol",
+        "role": {
+          "id": 2,
+          "name": "conselor"
+        }
+      },
+      "name": "Andy Warhol",
+      "gender": "L",
+      "date_brith": "2002-03-02",
+      "photo": "https://images.unsplash.com/photo-1600603405959-6d623e92445c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+      "address": "Jl. Kebon Jeruk",
+      "phone": "0812341234",
+      "work_address": "Jl. Kebon Jeruk",
+      "position": "Psikolog • Scientist",
+      "practice_place_address": "",
+      "office_phone_number": "",
+      "is_verified": true
+    },
+    {
+      "id": 10,
+      "users": {
+        "id": 10,
+        "email": "akuUser@gmail.com",
+        "password": "user",
+        "role": {
+          "id": 3,
+          "name": "guest"
+        }
+      },
+      "name": "aku user",
+      "gender": "L",
+      "date_brith": "2002-03-02",
+      "photo": "https://images.unsplash.com/photo-1600603405959-6d623e92445c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+      "address": "Jl. Kebon Jeruk",
+      "phone": "0812341234",
+      "work_address": "Jl. Kebon Jeruk",
+      "position": "Psikolog • Scientist",
+      "practice_place_address": "",
+      "office_phone_number": "",
+      "is_verified": true
+    }
+  ],
+
+  "courses": [
+    {
+      "id": 1,
+      "detail_user_id": 123,
+      "image": "https://images.unsplash.com/photo-1516534775068-ba3e7458af70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+      "title": "How To Be Productive Every Day",
+      "course_type_id": 1,
+      "users": "3,987",
+      "rate": {
+        "id": 3,
+        "name": "popular"
+      },
+      "discount": "10",
+      "created_at": "2020-05-05",
+      "description": " Mr. Noga S.Psi Guide you to organize your schedule to be more organized. Learn of the mistakes",
+      "benefit": "this is the benefit of the course"
+    },
+    {
+      "id": 2,
+      "detail_user_id": 234,
+      "image": "https://images.unsplash.com/photo-1494959764136-6be9eb3c261e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+      "title": "Know Yourself And Maximize",
+
+      "course_type_id": 2,
+      "users": "2,983",
+      "rate": {
+        "id": 3,
+        "name": "popular"
+      },
+      "discount": "10",
+      "created_at": "2020-05-05",
+      "description": "Together we will learn how to brand yourself.Life is a journey to be experienced, not a problem to be solved.",
+      "benefit": "this is the benefit of the course"
+    },
+    {
+      "id": 3,
+      "detail_user_id": 345,
+      "image": "https://images.unsplash.com/photo-1565073624497-7144969d0a07?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+      "title": "How to Get More Than Before",
+      "course_type_id": 3,
+      "users": "2,987",
+      "rate": {
+        "id": 3,
+        "name": "popular"
+      },
+      "discount": "10",
+      "created_at": "2020-05-05",
+      "description": "Where focus goes energy flows. This is the benefit of the course by Nauga Might",
+      "benefit": "this is the benefit of the course"
+    },
+    {
+      "id": 4,
+      "detail_user_id": 456,
+      "image": "https://images.unsplash.com/photo-1535295972055-1c762f4483e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+      "title": "How to Happiness Than Of Your Life",
+      "course_type_id": 3,
+      "users": "1,565",
+      "rate": {
+        "id": 2,
+        "name": "midle"
+      },
+      "discount": "10",
+      "created_at": "2020-05-05",
+      "description": "Guide you to organize your schedule to be more organized",
+      "benefit": "this is the benefit of the course"
+    },
+    {
+      "id": 5,
+      "detail_user_id": 789,
+      "image": "https://images.unsplash.com/photo-1586879998462-a717f0ed7521?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80",
+      "title": "Overcome Mental Health Of Cyberbullying",
+      "course_type_id": 3,
+      "users": "1,200",
+      "rate": {
+        "id": 1,
+        "name": "normal"
+      },
+      "discount": "10",
+      "created_at": "2020-05-05",
+      "description": "Bullying is never fun. It’s cruel and terrible thing to do to someone. If you are being bullied, it is not your fault. No one deserves to be bullied, ever.",
+      "benefit": "this is the benefit of the course"
+    }
+  ],
+
+  "detail user": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "name": "nila amalia",
+      "gender": "p",
+      "date_birth": "16/12/2002",
+      "phone": "082223949865",
+      "photo": "",
+      "address": "pm",
+      "work_address": "poliye",
+      "practice_place_address": "gedungTI",
+      "office_phone_number": "000",
+      "is_verified": 99
+    },
+    {
+      "id": 2,
+      "user_id": 2,
+      "name": "noga mukti wati",
+      "gender": "p",
+      "date_birth": "1/1/2002",
+      "phone": "082223949866",
+      "photo": "",
+      "address": "ponorogo",
+      "work_address": "poliye",
+      "practice_place_address": "gedungTI",
+      "office_phone_number": "000",
+      "is_verified": 99
+    },
+    {
+      "id": 3,
+      "user_id": 3,
+      "name": "tharixx",
+      "gender": "L",
+      "date_birth": "2/2/2002",
+      "phone": "082223949867",
+      "photo": "",
+      "address": "tangguls",
+      "work_address": "poliye",
+      "practice_place_address": "gedungTI",
+      "office_phone_number": "000",
+      "is_verified": 99
+    },
+    {
+      "id": 4,
+      "user_id": 4,
+      "name": "ibnu ",
+      "gender": "L",
+      "date_birth": "16/12/2002",
+      "phone": "082223949865",
+      "photo": "",
+      "address": "pm",
+      "work_address": "poliye",
+      "practice_place_address": "gedungTI",
+      "office_phone_number": "000",
+      "is_verified": 99
+    },
+    {
+      "id": 5,
+      "user_id": 5,
+      "name": "nila amalia",
+      "gender": "p",
+      "date_birth": "16/12/2002",
+      "phone": "082223949865",
+      "photo": "",
+      "address": "pm",
+      "work_address": "poliye",
+      "practice_place_address": "gedungTI",
+      "office_phone_number": "000",
+      "is_verified": 99
+    }
+  ]
+}

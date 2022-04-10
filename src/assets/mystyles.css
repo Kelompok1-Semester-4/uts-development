@@ -1,0 +1,940 @@
+:root {
+    --blue: #3760ca;
+    --black: #2a2a2a;
+    --soft-blue: #4876eb;
+    --secondary: #7d7d7d;
+    --grey: #e5e5e5;
+    --regular: 0.875rem;
+    --semibold: 600;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    width: fit-content !important;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: var(--semibold);
+}
+
+
+/* NAVBAR */
+
+.my-navbar {
+    margin-top: 2.438rem;
+}
+
+.nav-link {
+    font-size: --regular;
+}
+
+.my-menu li a {
+    color: var(--black);
+}
+
+.my-menu li a.link-active {
+    color: var(--blue);
+    font-weight: var(--semibold);
+}
+
+.my-menu li a:hover {
+    color: var(--soft-blue);
+}
+
+
+/* BUTTON */
+
+.btn {
+    padding: 1rem 2.7rem;
+    border-radius: 15px;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--blue);
+}
+
+
+/* DROPDOWN */
+
+.dropdown-toggle::after {
+    display: none;
+}
+
+img.dropdown-icon-in-menu {
+    display: inline-block;
+    margin-left: 8px;
+    width: 18px;
+    height: 18px;
+}
+
+.dropdown-item {
+    font-size: --regular;
+}
+
+
+/* HOME */
+
+.home,
+.counseling,
+.diaries, .login, .register, .transaction {
+    margin-top: 4.875rem;
+    margin-bottom: 4.875rem;
+}
+
+.home h1.title {
+    font-size: 2.5rem;
+    font-weight: var(--semibold);
+    columns: var(--black);
+    margin-bottom: 1.75rem;
+}
+
+.home p.desc {
+    font-size: 1rem;
+    font-weight: var(--regular);
+    color: var(--secondary);
+}
+
+
+/* FEATURE */
+
+.feature {
+    margin-top: 50px;
+    margin-bottom: 7.188rem;
+}
+
+.feature img.feature_icon {
+    width: 2.388rem;
+    height: 2.388rem;
+}
+
+.feature-item {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.feature h3.feature_title {
+    margin-left: 1.25rem;
+    font-size: 1rem;
+    font-weight: var(--semibold);
+    display: inline-block;
+}
+
+
+/* POPULAR */
+
+.row.popular-course h1 {
+    font-size: 2rem;
+    font-weight: var(--semibold);
+}
+
+.row.popular-course {
+    display: flex;
+    justify-content: space-between;
+}
+
+.row.popular-course h3 {
+    font-size: 1rem;
+    font-weight: var(--regular);
+    color: var(--secondary);
+}
+
+.custom-card {
+    /* max-width: 28.063rem; */
+    padding: 22px;
+    border-radius: 30px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.02);
+}
+
+.square {
+    height: 186px !important;
+    width: 100%;
+}
+
+.custom-card img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 30px;
+}
+
+.custom-card h3.card-title {
+    font-size: 1.25rem;
+    font-weight: var(--semibold);
+    color: var(--black);
+}
+
+.custom-card p.card-text {
+    font-size: 0.75rem;
+    font-weight: var(--regular);
+    color: var(--secondary);
+}
+
+button.btn-small {
+    padding: 0.688rem 2.188rem;
+    font-size: 0.75rem;
+    font-weight: var(--regular);
+    color: white;
+    border-radius: 10px;
+}
+
+.giveMeEllipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    /* number of lines to show */
+    line-height: X;
+    /* fallback */
+    max-height: X * N;
+    /* fallback */
+}
+
+.popular-course-items {
+    margin-bottom: 6.625rem;
+}
+
+.overflow-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* CONSELOR */
+
+.conselor {
+    margin-top: 2.75rem;
+}
+
+.conselor-position {
+    color: var(--secondary);
+}
+
+.conselor-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+.conselor img {
+    height: 17.9375rem;
+    width: 100%;
+    object-fit: cover;
+}
+
+.conselor-name {
+    /* margin-top: 1.25rem; */
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    font-weight: var(--semibold);
+    color: black;
+}
+
+
+/* FAQ */
+
+.faq {
+    margin-bottom: 6.875rem;
+}
+
+.faq-list {
+    margin-top: 11rem;
+}
+
+.faq-header {
+    margin-bottom: 5.25rem;
+}
+
+.faq-list h1 {
+    font-weight: var(--semibold);
+    font-size: 2rem;
+    color: var(--black);
+}
+
+.accordion-button {
+    display: block;
+    width: 100%;
+    border-radius: 0.9375rem;
+    margin-left: auto;
+    padding: 30px;
+    border: 1px solid #e5e5e5;
+}
+
+.accordion {
+    background-color: transparent;
+    border-radius: 0.9375rem;
+    border: none;
+}
+
+.accordion-item:first-of-type .accordion-button {
+    border-radius: 0.9375rem;
+}
+
+.accordion-button:focus {
+    border: none;
+}
+
+.accordion .accordion-item {
+    border-radius: 0.9375rem;
+}
+
+.accordion-header {
+    font-size: 1rem;
+    font-weight: var(--regular);
+    color: var(--black);
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.accordion-item:last-of-type .accordion-button.collapsed {
+    border-radius: 0.9375rem;
+}
+
+.accordion-item {
+    background-color: transparent;
+    margin-top: 1.5rem;
+    /* border: 1px solid #E5E5E5; */
+    border: none;
+}
+
+
+/* FOOTER */
+
+.footer {
+    padding-left: 6.125rem;
+    padding-top: 8.625rem;
+    padding-bottom: 8.625rem;
+}
+
+.bg-primary {
+    background-color: var(--blue) !important;
+}
+
+.footer h1 {
+    font-size: 2rem;
+    font-weight: var(--semibold);
+}
+
+.footer p {
+    font-size: 0.875rem;
+    color: var(--grey);
+}
+
+.footer-menu h3 {
+    font-size: 1.125rem;
+    font-weight: var(--semibold);
+    color: white;
+}
+
+.footer-menu ul {
+    padding: 0;
+    margin: 0;
+    margin-top: 20px;
+    list-style-type: none;
+    display: inline-block;
+}
+
+.footer-menu ul li {
+    font-weight: var(--regular);
+    color: white;
+    font-size: 0.875rem;
+    margin-bottom: 8px;
+}
+
+
+/* COURSES */
+
+.courses {
+    margin-top: 4.875rem;
+    margin-bottom: 4.875rem;
+}
+
+.courses h1.title {
+    font-size: 2.5rem;
+    font-weight: var(--semibold);
+    columns: var(--black);
+    margin-bottom: 1.75rem;
+}
+
+.courses p.desc {
+    font-size: 1rem;
+    font-weight: var(--regular);
+    color: var(--secondary);
+}
+
+input.form-control,
+select.form-select {
+    padding: 1.125rem 1.25rem;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    border-radius: 15px;
+}
+
+input::placeholder {
+    color: var(--secondary);
+    font-weight: var(--regular);
+    font-size: 0.875rem;
+}
+
+.course-image,
+.conselor-image {
+    width: 100%;
+    height: 235px;
+    object-fit: cover;
+    border-radius: 1.875rem;
+}
+
+.custom-card-course {
+    padding: 12px;
+    border-radius: 30px;
+    margin-bottom: 1.875rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.custom-card-course .card-title {
+    font-size: 1.25rem;
+    font-weight: var(--semibold);
+    color: var(--black);
+    line-height: 25px;
+}
+
+.custom-card-course .card-text {
+    font-size: 0.75rem;
+    color: var(--secondary);
+    font-weight: var(--regular);
+    margin-top: 0.4375rem;
+}
+
+img.circle-image {
+    width: 3.4375rem;
+    height: 3.4375rem;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.custom-card-course .card-body,
+.custom-card-counseling {
+    padding: 0;
+    padding-top: 20px;
+}
+
+img.card-icon {
+    padding: 0;
+    margin: 0;
+    width: 20px;
+}
+
+h4.mount {
+    padding: 0;
+    font-size: 0.625rem;
+    color: var(--black);
+    font-weight: 500;
+}
+
+
+/* END COURSES */
+
+
+/* COUNSELING */
+
+.popular-counseling h1 {
+    font-size: 2rem;
+    font-weight: var(--semibold);
+    color: var(--black);
+    margin-bottom: 2.8125rem;
+}
+
+h6.conselor-job {
+    font-size: 0.625rem;
+    font-weight: var(--regular);
+    color: var(--secondary);
+}
+
+.conselor-name {
+    font-size: 1.0625rem;
+    font-weight: var(--semibold);
+    color: var(--black);
+}
+
+.text-via {
+    font-size: 0.75rem;
+}
+
+.conseling-body {
+    padding-top: 0 !important;
+}
+
+hr {
+    margin: 0;
+    padding: 0;
+    border-color: rgba(0, 0, 0, 0.05);
+    /* border: .8px solid rgba(0, 0, 0, 0.05) !important; */
+    opacity: 0.135;
+}
+
+hr:not([size]) {
+    height: 0.8px;
+}
+
+.icon_check {
+    padding: 0;
+    margin: 0;
+    width: 20px;
+}
+
+.benefit-item {
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.counseling-price {
+    font-size: 1.5rem;
+    font-weight: var(--semibold);
+    color: var(--black);
+}
+
+.counseling .title {
+    font-size: 2.5rem;
+}
+
+
+/* END COUNSELING */
+
+
+/* DIARIES */
+
+.diary-header {
+    margin-top: 8.125rem;
+    margin-bottom: 1.6875rem;
+}
+
+.diary-header h1 {
+    font-size: 2.5rem;
+}
+
+.diary-header p {
+    font-size: 1rem;
+    color: var(--secondary);
+    margin-top: 8px;
+}
+
+.diary-header form {
+    margin-bottom: 60px;
+}
+
+.btn-default {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.btn-default:hover {
+    background-color: var(--soft-blue);
+    color: white;
+    border-color: var(--soft-blue);
+}
+
+.category-button {
+    margin-bottom: 60px;
+}
+
+.list-diary h1 {
+    font-size: 2rem;
+    font-weight: var(--semibold);
+    color: var(--black);
+    margin-bottom: 45px;
+}
+
+.diary-items img {
+    border-radius: 30px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+img.diary-item {
+    height: 236px;
+    margin-bottom: 16px;
+}
+
+.diary-title {
+    font-size: 1rem;
+    font-weight: var(--semibold);
+}
+
+.diary-body {
+    font-size: 0.75rem;
+    font-weight: var(--regular);
+    color: var(--secondary);
+}
+
+.diary-items span {
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+.btn-sm {
+    padding: 0.75rem 3.125rem;
+    font-size: 0.75rem;
+    border-radius: 0.625rem;
+}
+
+.created-at {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    font-size: 0.625rem;
+    color: var(--secondary);
+    font-weight: var(--regular);
+}
+
+.diary-info {
+    flex-wrap: wrap;
+}
+
+
+/* END */
+
+
+/* DETAIL COURSE */
+.detail-course {
+    margin-top: 126px;
+}
+
+.detail-course .title {
+    font-size: 2rem;
+    font-weight: var(--semibold);
+    color: var(--black);
+    margin-bottom: 32px;
+}
+
+.detail-course img.thumbnail {
+    width: 100%;
+    height: 317px;
+    object-fit: cover;
+    border-radius: 1.875rem;
+    margin-bottom: 55px;
+}
+
+.detail-course .tags {
+    display: inline-block;
+    margin-bottom: unset;
+    margin-bottom: 4px;
+}
+
+.detail-course h4 {
+    font-size: 1rem;
+    color: var(--black);
+    font-weight: var(--semibold);
+}
+
+.track-item {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    width: 182px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 14px 15px;
+    margin-right: 29px;
+    margin-bottom: 29px;
+    box-sizing: border-box;
+}
+
+.track-item title {
+    display: flex;
+    align-items:center;
+}
+
+.track-item p {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0;
+    margin: 0;
+}
+
+.detail-course .bp {
+    margin-top: 50px;
+}
+
+.bp p.desc {
+    font-size: 0.875rem;
+    color: var(--secondary);
+    display: block;
+}
+
+.track-item span {
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    /* number of lines to show */
+    line-height: X;
+    /* fallback */
+    max-height: X * N;
+}
+
+.track-item img {
+    width: 32px;
+    height: 32px;
+    display: block;
+    padding: 0;
+    /* margin: 0; */
+}
+
+.detail-course h3.price {
+    font-size: 1.5rem;
+    /* margin-bottom: unset !important; */
+    padding: unset;
+    font-weight: var(--semibold);
+}
+
+.about p {
+    font-size: 0.875rem;
+    font-weight: var(--regular);
+    color: var(--black);
+    line-height: 25px;
+}
+
+.expert img.conselor-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 1.875rem;
+}
+
+.expert .profile h6 {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: unset !important;
+}
+
+.expert .about-me {
+    font-size: 0.75rem;
+    font-weight: var(--regular);
+}
+
+.expert .profile p {
+    font-size: 0.75rem;
+    font-weight: var(--regular);
+    color: var(--secondary);
+}
+
+/* DETAIL DIARY */
+.detail-diary {
+    margin-top: 150px;
+    margin-bottom: 105px;
+}
+
+.detail-diary .diary-image {
+    width: 100%;
+    height: 317px;
+    object-fit: cover;
+    margin-top: 30px;
+    border-radius: 30px;
+    margin-bottom: 33px;
+}
+
+.detail-diary .title {
+    font-size: 1.5rem;
+    font-weight: var(--semibold);
+    color: var(--black);
+}
+
+.detail-diary .tags {
+    margin-bottom: 55px;
+}
+
+.detail-diary p {
+    font-size: 0.875rem;
+    font-weight: var(--regular);
+    color: var(--black);
+    margin-bottom: 60px;
+}
+
+.detail-diary .topic {
+    margin-bottom: 80px;
+}
+
+.detail-diary h4 {
+    font-size: 0.875rem;
+    font-weight: var(--semibold);
+    color: var(--black);
+}
+
+/* END */
+
+/* OTHER DIARY */
+.other-diary img {
+    width: 100%;
+    height: 155px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+/* END */
+
+a.back-link {
+    cursor: pointer;
+}
+
+a.back-link:hover {
+    color: var(--blue)!important;
+}
+
+.other-diary .diary-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    /* number of lines to show */
+    line-height: X;
+    /* fallback */
+    max-height: X * N;
+    /* fallback */
+}
+
+.other-diary .diary-body {
+    font-size: 0.625rem;
+    color: var(--secondary);
+}
+
+.diaries .nav-pills button.nav-link.active {
+    background-color: var(--blue);
+    border-radius: 15px;
+    color: white;
+}
+
+.diaries .nav-item .nav-link {
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    border-radius: 15px;
+    color: var(--secondary);
+}
+
+/* LOGIN */
+.login {
+    margin-top: 159px;
+}
+.login h1 {
+    font-size: 2.5rem;
+    font-weight: var(--semibold);
+    color: var(--black);
+}
+
+.login h4 {
+    font-size: 1rem;
+    font-weight: var(--regular);
+    color: var(--secondary);
+}
+
+.login form {
+    margin-top: 74px;
+}
+
+.login form input {
+    margin-top: 32px;
+}
+
+.login form button {
+    margin-top: 54px;
+    margin-bottom: 29px;
+}
+
+/* END */
+
+
+/* REGISTER */
+.register h1 {
+    font-size: 2.5rem;
+    font-weight: var(--semibold);
+}
+
+.register h4 {
+    font-size: 1rem;
+    font-weight: var(--regular);
+    color: var(--secondary);
+}
+
+.register-tab {
+    margin-top: 47px;
+}
+
+.register .tab-content {
+    margin-top: 64px;
+}
+
+.register .nav-pills button.nav-link.active {
+    background-color: var(--blue);
+    border-radius: 15px;
+    color: white;
+    font-weight: 500;
+}
+
+.register .nav-item .nav-link {
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    /* font-weight: 500; */
+    border-radius: 15px;
+    color: var(--secondary);
+}
+
+textarea {
+    border-radius: 15px !important;
+    height: 155px !important;
+}
+
+.register img.icon {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+}
+
+.register .education-field {
+    border-radius: 15px;
+}
+
+.register h5 {
+    font-size: 0.875rem;
+    font-weight: var(--regular);
+}
+
+/* END */
+
+
+/* TRANSACTION */
+.transaction h2 {
+    font-size: 1.5rem;
+    font-weight: var(--semibold);
+    color: var(--black);
+}
+b {
+    font-weight: var(--semibold);
+}
+
+img.transaction-image {
+    width: 80%;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+    padding: 0;
+}
+
+.transaction h5 {
+    font-size: 0.875rem;
+    font-weight: var(--regular);
+    color: var(--black);
+}
+/* END */
