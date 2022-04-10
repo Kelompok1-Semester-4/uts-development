@@ -62,7 +62,9 @@ const DetailDiary = (props) => {
                                 {
                                     diaries?.map((diary, index) => {
                                         if (index < 7) {
-                                            return <div className="col-lg-4 my-3" key={diary?.id}>
+                                            return <div onClick={() => {
+                                                navigate(`/diaries/${diary.id}`)
+                                            }} className="col-lg-4 my-3" key={diary?.id}>
                                                 <img src={diary?.cover_image} className="img-fluid" alt="" />
 
                                                 <h3 className="diary-title mt-3">{diary?.title}</h3>
