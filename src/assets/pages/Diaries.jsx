@@ -12,22 +12,24 @@ const Diaries = (props) => {
 
     // get all date diary type
     const [diaryTypes, setDiaryType] = useState([]);
+    const [diaries, setDiaries] = React.useState([]);
+    const [searchTerm, setSearch] = useState("");
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/diary-types')
             .then(res => {
                 setDiaryType(res.data);
+                console.log(res.data);
             });
-    });
+    }, [diaries]);
 
     // get all data from diaries api
-    const [diaries, setDiaries] = React.useState([]);
     // get search data
-    const [searchTerm, setSearch] = useState("");
     // get id
     const [id, setId] = useState("");
     useEffect(() => {
         axios.get(`http://127.0.0.1:8000/api/diaries?diary_type_id=${id}`)
             .then(res => {
+                console.log(res.data);
                 setDiaries(res.data);
             });
     }, [id]);
