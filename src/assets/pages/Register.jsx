@@ -122,8 +122,10 @@ const Register = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
-                setNavigate(true);
+                if (data.meta.code == 200) {
+                    setNavigate(true);
+                    console.log(data);
+                }
             })
             .catch((err) => {
                 console.log(err);
