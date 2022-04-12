@@ -23,7 +23,7 @@ const DashboardUser = () => {
   }, []);
 
   // fetch diaries by user id
-  useEffect(() => {     
+  useEffect(() => {
     axios
       .get(`http://127.0.0.1:8000/api/diaries`, {
         headers: {
@@ -135,7 +135,7 @@ const DashboardUser = () => {
               </div>
 
               <div className="row  mt-5 justify-content-between">
-                {diaries.map((diary) => {
+                {diaries?.map((diary) => {
                   return (
                     <div className="col-md-4 diary-item" key={diary.id}>
                       <div className="row">
