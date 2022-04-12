@@ -21,9 +21,24 @@ const DashboardUser = () => {
             });
     }, []);
 
+    // fetch diaries by user id
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:8000/api/diaries`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                setDiaries(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, []);
+
 
     console.log(user.id);
-    // console.log(diaries);
+    console.log(diaries);
 
     return (
         <div className='dashboard'>
@@ -62,57 +77,29 @@ const DashboardUser = () => {
                             </div>
 
                             <div className="row  mt-5 justify-content-between">
-                                <div className="col-md-4 diary-item">
-                                    <div className="row">
-                                        <div className="col-md">
-                                            <img src="https://media.suara.com/pictures/653x366/2021/12/28/11513-ilustrasi-kucing-dengan-mata-beda-warna-pixabaybaran65.jpg" className="img-fluid diary-image" alt="" />
-                                        </div>
-                                        <div className="col-md-8">
-                                            <h4 className='diary-title'>Mencari Kerja</h4>
-                                            <h4 className='diary-date'>10 April 22 . 14.00 PM</h4>
-                                            <p className='giveMeEllipsis'>Record the precious moments in your life..</p>
+                                {
+                                    diaries.map(diary => {
+                                        return (
+                                            <div className="col-md-4 diary-item" key={diary.id}>
+                                                <div className="row">
+                                                    <div className="col-md">
+                                                        <img src={diary.cover_image} className="img-fluid diary-image" alt="" />
+                                                    </div>
+                                                    <div className="col-md-8">
+                                                        <h4 className='diary-title'>{diary.title}</h4>
+                                                        <h4 className='diary-date'>{diary.created_at}</h4>
+                                                        <p className='giveMeEllipsis'>{diary.content}</p>
 
-                                            <div className="row d-inline ms-0">
-                                                <button className='btn btn-edit btn-warning'>Edit</button>
-                                                <a href="" className='ms-4 text-decoration-none text-secondary'>Delete</a>
+                                                        <div className="row d-inline ms-0">
+                                                            <button className='btn btn-edit btn-warning'>Edit</button>
+                                                            <a href="" className='ms-4 text-decoration-none text-secondary'>Delete</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-4 diary-item">
-                                    <div className="row">
-                                        <div className="col-md">
-                                            <img src="https://media.suara.com/pictures/653x366/2021/12/28/11513-ilustrasi-kucing-dengan-mata-beda-warna-pixabaybaran65.jpg" className="img-fluid diary-image" alt="" />
-                                        </div>
-                                        <div className="col-md-8">
-                                            <h4 className='diary-title'>Mencari Kerja</h4>
-                                            <h4 className='diary-date'>10 April 22 . 14.00 PM</h4>
-                                            <p className='giveMeEllipsis'>Record the precious moments in your life..</p>
-
-                                            <div className="row d-inline ms-0">
-                                                <button className='btn btn-edit btn-warning'>Edit</button>
-                                                <a href="" className='ms-4 text-decoration-none text-secondary'>Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col-md-4 diary-item">
-                                    <div className="row">
-                                        <div className="col-md">
-                                            <img src="https://media.suara.com/pictures/653x366/2021/12/28/11513-ilustrasi-kucing-dengan-mata-beda-warna-pixabaybaran65.jpg" className="img-fluid diary-image" alt="" />
-                                        </div>
-                                        <div className="col-md-8">
-                                            <h4 className='diary-title'>Mencari Kerja</h4>
-                                            <h4 className='diary-date'>10 April 22 . 14.00 PM</h4>
-                                            <p className='giveMeEllipsis'>Record the precious moments in your life..</p>
-
-                                            <div className="row d-inline ms-0">
-                                                <button className='btn btn-edit btn-warning'>Edit</button>
-                                                <a href="" className='ms-4 text-decoration-none text-secondary'>Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                        )
+                                    })
+                                }
                             </div>
 
                         </div>
