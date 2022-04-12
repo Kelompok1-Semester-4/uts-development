@@ -152,7 +152,7 @@ const DashboardUser = () => {
               </div>
 
               <div className="row  mt-5 justify-content-between">
-                {diaries.map((diary) => {
+                {diaries?.map((diary) => {
                   return (
                     <div className="col-md-4 diary-item" key={diary.id}>
                       <div className="row">
