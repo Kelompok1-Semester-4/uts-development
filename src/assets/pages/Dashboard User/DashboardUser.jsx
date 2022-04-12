@@ -5,6 +5,7 @@ import Header from "./partials/Header";
 const DashboardUser = () => {
   const [user, setUser] = useState({});
   const [diaries, setDiaries] = useState([]);
+  const [course, setCourse] = useState([]);
   const token = localStorage.getItem("token");
   // fetch authenticated user by token
   useEffect(() => {
@@ -38,8 +39,24 @@ const DashboardUser = () => {
       });
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`http://127.0.0.1:8000/api/courses`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setCourse(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   console.log(user.id);
   console.log(diaries);
+  console.log(course);
 
   return (
     <div className="dashboard">
@@ -185,90 +202,52 @@ const DashboardUser = () => {
                 </div>
               </div>
               <div className="row mt-5">
-                <div className="col mx-4 class-item">
-                  <img
-                    src="https://static.republika.co.id/uploads/images/inpicture_slide/film-avatar-menjadi-film-dengan-pendapatan_210314141347-608.jpeg"
-                    className="img-fluid"
-                    alt=""
-                  />
+                {course.map((course) => {
+                  <div className="col mx-4 class-item">
+                    <img
+                      src={course.cover_image}
+                      className="img-fluid"
+                      alt=""
+                    />
 
-                  <div className="row">
-                    <h2 className="class-title">Know Yourself And Maximize</h2>
-                    <p className="giveMeEllipsis col-md-8">
-                      Record the precious moments in your life..
-                    </p>
+                    <div className="row">
+                      <h2 className="class-title">{course.title}</h2>
+                      <p className="giveMeEllipsis col-md-8">
+                        {course.description}
+                      </p>
 
-                    <div className="col">
-                      <button className="btn btn-primary btn-sm mt-2 mb-2">
-                        Learn
-                      </button>
+                      <div className="col">
+                        <button className="btn btn-primary btn-sm mt-2 mb-2">
+                          Learn
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  </div>;
+                })}
+                <div
+                  className="tab-pane fade"
+                  id="pills-transaction"
+                  role="tabpanel"
+                  aria-labelledby="pills-transaction-tab"
+                >
+                  <h1>Transaction</h1>
                 </div>
-                <div className="col mx-4 class-item">
-                  <img
-                    src="https://static.republika.co.id/uploads/images/inpicture_slide/film-avatar-menjadi-film-dengan-pendapatan_210314141347-608.jpeg"
-                    className="img-fluid"
-                    alt=""
-                  />
-
-                  <div className="row">
-                    <h2 className="class-title">Know Yourself And Maximize</h2>
-                    <p className="giveMeEllipsis col-md-8">
-                      Record the precious moments in your life..
-                    </p>
-
-                    <div className="col">
-                      <button className="btn btn-primary btn-sm mt-2 mb-2">
-                        Learn
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="col mx-4 class-item">
-                  <img
-                    src="https://static.republika.co.id/uploads/images/inpicture_slide/film-avatar-menjadi-film-dengan-pendapatan_210314141347-608.jpeg"
-                    className="img-fluid"
-                    alt=""
-                  />
-
-                  <div className="row">
-                    <h2 className="class-title">Know Yourself And Maximize</h2>
-                    <p className="giveMeEllipsis col-md-8">
-                      Record the precious moments in your life..
-                    </p>
-
-                    <div className="col">
-                      <button className="btn btn-primary btn-sm mt-2 mb-2">
-                        Learn
-                      </button>
-                    </div>
-                  </div>
+                <div
+                  className="tab-pane fade"
+                  id="pills-profile"
+                  role="tabpanel"
+                  aria-labelledby="pills-profile-tab"
+                >
+                  <h1>profile</h1>
                 </div>
               </div>
             </div>
-            <div
-              className="tab-pane fade"
-              id="pills-transaction"
-              role="tabpanel"
-              aria-labelledby="pills-transaction-tab"
-            >
-              <h1>Transaction</h1>
-            </div>
-            <div
-              className="tab-pane fade"
-              id="pills-profile"
-              role="tabpanel"
-              aria-labelledby="pills-profile-tab"
-            >
-              <h1>profile</h1>
-            </div>
+          </div>
+
+          <div className="mt-5 row">
+            <span></span>
           </div>
         </div>
-      </div>
-
-      <div className="mt-5 row">
-        <span></span>
       </div>
     </div>
   );
