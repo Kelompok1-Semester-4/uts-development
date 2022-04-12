@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent } from "react";
+import React, { useState } from "react";
 import { Navigate } from 'react-router-dom';
 
 import Header from "../../components/Header";
@@ -65,7 +65,9 @@ const Register = () => {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
-                setNavigate(true);
+                if (data.meta.code == 200) {
+                    setNavigate(true);
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -125,16 +127,16 @@ const Register = () => {
                 if (data.meta.code == 200) {
                     setNavigate(true);
                     console.log(data);
+                } else if (data.meta.code == 400) {
+                    setNavigate(false);
+                    console.log(data);
                 }
             })
             .catch((err) => {
                 console.log(err);
+                setNavigate(false);
             });
     };
-
-    if (navigate) {
-        return <Navigate to="/login" />;
-    }
 
     return (
         <div>

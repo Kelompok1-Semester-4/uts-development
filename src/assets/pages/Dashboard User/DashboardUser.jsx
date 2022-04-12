@@ -23,7 +23,7 @@ const DashboardUser = () => {
   }, []);
 
   // fetch diaries by user id
-  useEffect(() => {
+  useEffect(() => {     
     axios
       .get(`http://127.0.0.1:8000/api/diaries`, {
         headers: {
