@@ -83,7 +83,7 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
-                  type="text"
+                  type="password"
                   className="form-control"
                   placeholder="Password"
                   onChange={(e) => setPassword(e.target.value)}
