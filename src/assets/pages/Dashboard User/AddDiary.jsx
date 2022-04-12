@@ -23,7 +23,6 @@ const AddDiary = () => {
                 title: title,
                 content: content,
                 duration_read: durationRead,
-                file: file,
                 cover_image: cover_image,
                 diary_type_id: diaryType,
             }),
