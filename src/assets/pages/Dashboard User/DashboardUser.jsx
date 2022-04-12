@@ -4,27 +4,31 @@ import Header from './partials/Header';
 
 const DashboardUser = () => {
     const [user, setUser] = useState({});
+    const [diaries, setDiaries] = useState([]);
     const token = localStorage.getItem('token');
+    // fetch authenticated user by token
     useEffect(() => {
-        (
-            async () => {
-                const res = await fetch('http://127.0.0.1:8000/api/user', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
-                })
-                const data = await res.json();
-                setUser(data.data.detailUser);
-                console.log(user);
-            })();
-    })
+        axios.get('http://127.0.0.1:8000/api/user', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                setUser(res.data.data.detailUser);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }, []);
+
+
+    console.log(user.id);
+    // console.log(diaries);
 
     return (
         <div className='dashboard'>
             {/* HEADER */}
-            <Header />
+            <Header photo={user.photo} />
 
             {/* MENU */}
             <div className="container">
