@@ -1,7 +1,26 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import Header from './partials/Header';
 
 const DashboardUser = () => {
+    const [user, setUser] = useState({});
+    const token = localStorage.getItem('token');
+    useEffect(() => {
+        (
+            async () => {
+                const res = await fetch('http://127.0.0.1:8000/api/user', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                })
+                const data = await res.json();
+                setUser(data.data.detailUser);
+                console.log(user);
+            })();
+    })
+
     return (
         <div className='dashboard'>
             {/* HEADER */}

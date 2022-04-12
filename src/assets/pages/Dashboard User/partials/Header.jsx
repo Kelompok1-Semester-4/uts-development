@@ -2,7 +2,7 @@ import React from "react";
 
 import Brand from '../../../images/speakup.jpg';
 
-const Header = () => {
+const Header = (props) => {
     return (
         <header className="p-3 mb-3 my-navbar">
             <div className="container">
@@ -13,7 +13,7 @@ const Header = () => {
 
                     <div className="dropdown text-end ms-auto">
                         <a href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle" />
+                            <img src={props.photo} alt="mdo" width="32" height="32" className="rounded-circle" />
                         </a>
 
                         <ul className="dropdown-menu text-small mt-2" aria-labelledby="dropdownUser1">
