@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import Header from "./partials/Header";
 
 const DashboardUser = () => {
@@ -7,6 +8,8 @@ const DashboardUser = () => {
     const [diaries, setDiaries] = useState([]);
     const [course, setCourse] = useState([]);
     const token = localStorage.getItem("token");
+
+    let navigate = useNavigate();
     // fetch authenticated user by token
     useEffect(() => {
         axios
@@ -57,6 +60,22 @@ const DashboardUser = () => {
     console.log(user.id);
     console.log(diaries);
     console.log(course);
+
+    // delete diary
+    const handleDelete = (id) => {
+        axios.delete('http://127.0.0.1:8000/api/diary/' + id, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        }).then((res) => {
+            console.log(res);
+            // auto refresh page
+            window.location.reload();
+        }).catch((err) => {
+            console.log(err);
+        });
+    };
 
     return (
         <div className="dashboard">
@@ -169,15 +188,35 @@ const DashboardUser = () => {
                                                     <p className="giveMeEllipsis">{diary.content}</p>
 
                                                     <div className="row d-inline ms-0">
-                                                        <button className="btn btn-edit btn-warning">
+                                                        <button className="btn btn-edit btn-warning" onClick={() => {
+                                                            navigate('/edit-diary/' + diary.id)
+                                                        }}>
                                                             Edit
                                                         </button>
-                                                        <a
-                                                            href=""
-                                                            className="ms-4 text-decoration-none text-secondary"
-                                                        >
+                                                        <a href="" className="ms-4 text-decoration-none text-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                                             Delete
                                                         </a>
+
+                                                        {/* Modal */}
+                                                        <div className="modal fade" id="deleteModal" tabIndex={-1} aria-labelledby="deleteModal" aria-hidden="true">
+                                                            <div className="modal-dialog">
+                                                                <div className="modal-content">
+                                                                    <div className="modal-header">
+                                                                        <h5 className="modal-title" id="deleteModalLabel">Konfirmasi</h5>
+                                                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div className="modal-body">
+                                                                        Are you sure you delete this data?
+                                                                    </div>
+                                                                    <div className="modal-footer">
+                                                                        <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                                                        <button type="button" onClick={() => {
+                                                                            handleDelete(diary.id)
+                                                                        }} className="btn btn-primary btn-sm">Delete</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

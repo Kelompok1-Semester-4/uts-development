@@ -29,6 +29,7 @@ const Main = () => {
                     <Route path="/checkout/:id" element={<Transaction />} />
                     <Route path="/dashboard-user" element={<DashboardUser />} />
                     <Route path="/add-diary" element={<AddDiary />} />
+                    <Route path="/edit-diary/:id" element={<AddDiary />} />
                 </Routes>
             </div>
         </Router>

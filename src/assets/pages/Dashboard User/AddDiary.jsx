@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Header from "./partials/Header";
 
 const AddDiary = () => {
@@ -10,7 +12,8 @@ const AddDiary = () => {
     const [cover_image, setCoverImage] = useState("");
 
     const token = localStorage.getItem("token");
-
+    const { id } = useParams();
+    const [diary, setDiary] = useState({});
     const insertDiary = async (e) => {
         e.preventDefault();
         await fetch("http://127.0.0.1:8000/api/diary", {
@@ -29,9 +32,60 @@ const AddDiary = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
+                if (data.meta.code == 200) {
+                    alert("data inserted");
+                    window.location.href = "/dashboard-user";
+                }
             });
     };
+
+    // fetch data diary by id
+    useEffect(() => {
+        fetch(`http://127.0.0.1:8000/api/diaries?id=${id}`, {
+            method: "GET",
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                setDiary(data);
+                setTitle(data.title);
+                setContent(data.content);
+                setDurationRead(data.duration_read);
+                setCoverImage(data.cover_image);
+                setDiaryType(data.diary_type_id);
+            });
+    }, [id]);
+
+    // edit diary by id
+    const editDiary = async (e) => {
+        e.preventDefault();
+        await fetch(`http://127.0.0.1:8000/api/diary/${id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                title: title,
+                content: content,
+                duration_read: durationRead,
+                cover_image: cover_image,
+                diary_type_id: diaryType,
+            }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.meta.code == 200) {
+                    alert("Edit diary success");
+                    // back to dashboard user
+                    window.location.href = "/dashboard-user";   
+                } else {
+                    alert("Edit diary failed");
+                }
+            });
+    };
+
+
 
     return (
         <div className="dashboard add-diary">
@@ -112,14 +166,17 @@ const AddDiary = () => {
                         >
                             <div className="row justify-content-between">
                                 <div className="col-md-6">
-                                    <h2>Add New Diary</h2>
+                                    <h2>Form Diary</h2>
                                     <h5 className="text-secondary">
                                         Record the precious moments in your life{" "}
                                     </h5>
                                 </div>
                             </div>
                             <div className="row mt-5">
-                                <form onSubmit={insertDiary}>
+                                <form onSubmit={(
+                                    // check if url edit diary
+                                    diary.id ? editDiary : insertDiary
+                                )}>
                                     <div className="row">
                                         <div className="col-md-3">
                                             <img
@@ -136,6 +193,7 @@ const AddDiary = () => {
                                                         className="form-control"
                                                         id="cover_image"
                                                         name="cover_image"
+                                                        defaultValue={diary.cover_image}
                                                         onChange={(e) => {
                                                             setCoverImage(e.target.value);
                                                         }}
@@ -148,6 +206,7 @@ const AddDiary = () => {
                                                         className="form-control"
                                                         id="title"
                                                         name="title"
+                                                        defaultValue={diary.title}
                                                         placeholder="Title"
                                                         onChange={(e) => {
                                                             setTitle(e.target.value);
@@ -177,6 +236,7 @@ const AddDiary = () => {
                                                         className="form-control"
                                                         id="duration_read"
                                                         name="duration_read"
+                                                        defaultValue={diary.duration_read}
                                                         placeholder="Duration Read / minute"
                                                         onChange={(e) => {
                                                             setDurationRead(e.target.value);
@@ -191,6 +251,7 @@ const AddDiary = () => {
                                                             className="form-control"
                                                             placeholder="content"
                                                             id="content"
+                                                            defaultValue={diary.content}
                                                             onChange={(e) => {
                                                                 setContent(e.target.value);
                                                             }}
