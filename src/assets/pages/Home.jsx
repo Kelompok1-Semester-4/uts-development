@@ -12,6 +12,7 @@ import Faq from "../../components/Faq";
 import Footer from "../../components/Footer";
 
 class Home extends React.Component {
+  // store data form api
   state = {
     courses: [],
     conselors: [],
@@ -92,7 +93,14 @@ class Home extends React.Component {
           {/* POPULAR COURSE */}
           <div className="row d-flex justify-content-between align-items-center popular-course">
             <h1>Popular Course</h1>
-            <h3><a href="/courses" className="text-decoration-none text-secondary">See all →</a></h3>
+            <h3>
+              <a
+                href="/courses"
+                className="text-decoration-none text-secondary"
+              >
+                See all →
+              </a>
+            </h3>
 
             <div className="row popular-course-items mt-4 flex-row flex-nowrap flex-row flex-nowrap overflow-scroll">
               {this.state.courses.map((course, index) => {
@@ -119,15 +127,18 @@ class Home extends React.Component {
                 various needs of our customers and partners.
               </p>
             </div>
-            <h3><a href="/counseling" className="text-decoration-none text-secondary">See all →</a></h3>
+            <h3>
+              <a
+                href="/counseling"
+                className="text-decoration-none text-secondary"
+              >
+                See all →
+              </a>
+            </h3>
           </div>
 
           {/* conselors LIST */}
           <div className="row conselors mt-4">
-            {/* {[1, 2, 3, 4, 5, 6].map((item, index) => {
-          return <conselorsItems />;
-        })} */}
-
             {this.state.conselors.map((conselors) => {
               return (
                 <ConselorItems
@@ -135,7 +146,9 @@ class Home extends React.Component {
                   img={conselors.detail_user.photo}
                   name={conselors.detail_user.name}
                   position={
-                    (conselors.detail_user.job == '' ? 'None' : conselors.detail_user.job) +
+                    (conselors.detail_user.job == ""
+                      ? "None"
+                      : conselors.detail_user.job) +
                     " • " +
                     conselors.detail_user.address
                   }
