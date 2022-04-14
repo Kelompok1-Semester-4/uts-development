@@ -62,9 +62,10 @@ const Register = () => {
             }),
         })
             .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                if (data.meta.code == 200) {
+            .then((res) => {
+                console.log(res);
+                // check if code is 200
+                if (res.meta.code === 200) {
                     setNavigate(true);
                 }
             })
@@ -122,13 +123,13 @@ const Register = () => {
             }),
         })
             .then((res) => res.json())
-            .then((data) => {
-                if (data.meta.code == 200) {
+            .then((res) => {
+                if (res.data.meta.code == 200) {
                     setNavigate(true);
-                    console.log(data);
-                } else if (data.meta.code == 400) {
+                    console.log(res);
+                } else if (res.meta.code == 400) {
                     setNavigate(false);
-                    console.log(data);
+                    console.log(res);
                 }
             })
             .catch((err) => {
@@ -136,6 +137,10 @@ const Register = () => {
                 setNavigate(false);
             });
     };
+
+    if (navigate) {
+        return <Navigate to="/login" />;
+    }
 
     return (
         <div>
