@@ -80,7 +80,7 @@ const DashboardUser = () => {
     return (
         <div className="dashboard">
             {/* HEADER */}
-            <Header photo={user.photo} />
+            <Header photo={(user.photo == '' ? 'https://png.pngtree.com/png-vector/20200614/ourlarge/pngtree-businessman-user-avatar-character-vector-illustration-png-image_2242909.jpg' : user.photo)} />
 
             {/* MENU */}
             <div className="container">
