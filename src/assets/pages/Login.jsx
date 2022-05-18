@@ -3,9 +3,8 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 
 import image_login from "../../assets/images/image_login.svg";
-import { Navigate } from "react-router-dom";
 import { useState } from "react";
-import DashboardUser from "./Dashboard User/DashboardUser";
+import swal from "sweetalert";
 
 const Login = () => {
   // required fields
@@ -40,25 +39,23 @@ const Login = () => {
         console.log(data);
         if (data.meta.code == 200) {
           localStorage.setItem("token", data.data.token);
-          setUser(data.user);
-          setNavigate(true);
+          if (data.data.user.role_id == 1) {
+            window.location.href = "/dashboard-user";
+            setUser(data.user);
+          } else if (data.data.user.role_id == 2) {
+            // window.location.href = "/dashboard-conselor";
+            swal("Login Success", "Kamu adalah conselor", "success");
+            setUser(data.user);
+          } else if (data.data.user.role_id == 3) {
+            // window.location.href = "/dashboard-admin";
+            swal("Login Success", "Kamu adalah admin", "success");
+            setUser(data.user);
+          }
+        } else if (data.meta.code == 400) {
+          swal("Login Failed", data.data, "error");
         }
       });
   };
-
-  if (navigate) {
-    // navigate to dashboard-user and pass the data
-    return (
-      <Navigate
-        to={{
-          pathname: "/dashboard-user",
-          state: {
-            user,
-          },
-        }}
-      />
-    );
-  }
 
   return (
     <div>

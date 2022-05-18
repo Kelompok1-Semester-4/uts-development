@@ -2,6 +2,7 @@ import React from "react";
 import Faq from "../../components/Faq";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
+import swal from "sweetalert";
 
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -13,6 +14,8 @@ import icon_info from "../../assets/images/icon_info.svg";
 const Transaction = () => {
   let { id } = useParams();
   const [course, setCourse] = useState({});
+  let token = localStorage.getItem("token");
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     axios
@@ -25,6 +28,29 @@ const Transaction = () => {
         console.log(err);
       });
   }, [id]);
+
+
+  if (!token) {
+    swal("Oops...", "You must login first!", "error").then(() => {
+      document.location.href = "/login";
+    });
+  }
+
+  // fetch authenticated user by token
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/api/user", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setUser(res.data.data.detailUser);
+        console.log(res.data.data.detailUser);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div>
@@ -56,6 +82,7 @@ const Transaction = () => {
                       className="form-control"
                       id="fullname"
                       placeholder="Fullname"
+                      defaultValue={user.name}
                     />
                   </div>
                   <div className="col">
@@ -64,13 +91,13 @@ const Transaction = () => {
                       className="form-control"
                       id="phone-number"
                       placeholder="Phone Number"
+                      defaultValue={user.phone}
                     />
                   </div>
                 </div>
                 <div className="row mt-4">
                   <div className="col">
                     <select id="inputState" className="form-select">
-                      <option selected>Gender</option>
                       <option>L</option>
                       <option>P</option>
                     </select>

@@ -19,7 +19,7 @@ h6 {
 
 h1 {
     font-size: 2rem;
-    font-weight: var(--semibold);
+    font-weight: 700;
 }
 
 
@@ -1036,5 +1036,12 @@ img.transaction-image {
     height: 200px;
     border-radius: 15px;
     object-fit: cover;
+}
+/* END */
+
+/* CLASS */
+h4.class-title {
+    font-size: 1.5rem !important;
+    font-weight: 600;
 }
 /* END */

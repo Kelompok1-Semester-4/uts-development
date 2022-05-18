@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
 
 import Header from "../../components/Header";
 
 import icon_info from "../../assets/images/icon_info.svg";
 import Footer from "../../components/Footer";
+import swal from "sweetalert";
+import axios from "axios";
 
 const Register = () => {
     // required fields
@@ -25,10 +26,7 @@ const Register = () => {
     const [graduation_year, setGraduationYear] = useState("");
     const [gpa, setGpa] = useState("");
     const [file_url, setFileUrl] = useState("");
-
     const [role_id, setRole] = useState("");
-
-    const [navigate, setNavigate] = useState(false);
 
     // Register As User
     const registerAsUser = async (e) => {
@@ -66,7 +64,13 @@ const Register = () => {
                 console.log(res);
                 // check if code is 200
                 if (res.meta.code === 200) {
-                    setNavigate(true);
+                    // set local storage
+                    // localStorage.setItem("token", res.data.token);
+                    swal("Success", "Register Success", "success").then(() => {
+                        window.location.href = "/login";
+                    });
+                } else {
+                    swal("Error", res.data, "error");
                 }
             })
             .catch((err) => {
@@ -97,50 +101,44 @@ const Register = () => {
             file_url,
         });
 
-        await fetch("http://127.0.0.1:8000/api/register", {
-            method: "POST",
+        const form_data = new FormData();
+        form_data.append("name", name);
+        form_data.append("gender", gender);
+        form_data.append("birth", birth);
+        form_data.append("address", address);
+        form_data.append("email", email);
+        form_data.append("password", password);
+        form_data.append("job", job);
+        form_data.append("phone", phone);
+        form_data.append("role_id", role_id);
+        form_data.append("level", level);
+        form_data.append("institution", institution);
+        form_data.append("institution_address", institution_address);
+        form_data.append("major", major);
+        form_data.append("study_field", study_field);
+        form_data.append("graduation_year", graduation_year);
+        form_data.append("gpa", gpa);
+        form_data.append("file_url", file_url);
+
+        await axios.post("http://127.0.0.1:8000/api/register", form_data, {
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "multipart/form-data",
             },
-            body: JSON.stringify({
-                name: name,
-                gender: gender,
-                birth: birth,
-                address: address,
-                job: job,
-                email: email,
-                password: password,
-                phone: phone,
-                role_id: role_id,
-                level: level,
-                institution: institution,
-                institution_address: institution_address,
-                major: major,
-                study_field: study_field,
-                graduation_year: graduation_year,
-                gpa: gpa,
-                file_url: file_url,
-            }),
         })
-            .then((res) => res.json())
             .then((res) => {
-                if (res.data.meta.code == 200) {
-                    setNavigate(true);
-                    console.log(res);
-                } else if (res.meta.code == 400) {
-                    setNavigate(false);
-                    console.log(res);
+                console.log(res);
+                // check if code is 200
+                if (res.status === 200) {
+                    // set local storage
+                    // localStorage.setItem("token", res.data.token);
+                    swal("Success", "Register Success", "success").then(() => {
+                        window.location.href = "/login";
+                    });
+                } else {
+                    swal("Error", res.data, "error");
                 }
-            })
-            .catch((err) => {
-                console.log(err);
-                setNavigate(false);
             });
     };
-
-    if (navigate) {
-        return <Navigate to="/login" />;
-    }
 
     return (
         <div>
@@ -318,13 +316,8 @@ const Register = () => {
                                 </div>
                             </form>
                         </div>
-                        <div
-                            className="tab-pane fade row justify-content-center"
-                            id="pills-conselor"
-                            role="tabpanel"
-                            aria-labelledby="pills-conselor-tab"
-                        >
-                            <form className="form-register" onSubmit={registerAsConselor}>
+                        <div className="tab-pane fade row justify-content-center" id="pills-conselor" role="tabpanel" aria-labelledby="pills-conselor-tab">
+                            <form className="form-register" onSubmit={registerAsConselor} encType="multipart/form-data">
                                 <div className="row">
                                     <div className="col">
                                         <input
@@ -435,11 +428,12 @@ const Register = () => {
                                         </div>
                                         <div className="col">
                                             <input
-                                                type="text"
+                                                type="file"
                                                 className="form-control"
                                                 placeholder="File Url Link"
                                                 onChange={(e) => {
-                                                    setFileUrl(e.target.value);
+                                                    setFileUrl(e.target.files[0]);
+                                                    console.log(file_url);
                                                 }}
                                             />
                                         </div>

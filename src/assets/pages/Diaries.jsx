@@ -84,7 +84,7 @@ const Diaries = (props) => {
                                             key={diary.id}
                                             id={diary.id}
                                             title={diary.title}
-                                            gambar={diary.cover_image}
+                                            gambar={"http://127.0.0.1:8000/" + diary.cover_image}
                                             nama={diary.detail_user?.name}
                                         />
                                     )
