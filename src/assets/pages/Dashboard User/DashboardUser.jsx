@@ -57,9 +57,9 @@ const DashboardUser = () => {
             });
     }, []);
 
-    console.log(user.id);
-    console.log(diaries);
-    console.log(course);
+    // console.log(user.id);
+    // console.log(diaries);
+    // console.log(course);
 
     // delete diary
     const handleDelete = (id) => {

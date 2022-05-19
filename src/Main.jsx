@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Counseling from "./assets/pages/Counseling";
 import Courses from "./assets/pages/Courses";
+import DashboardConselor from "./assets/pages/Dashboard Conselor/DashboardConselor";
 import AddDiary from "./assets/pages/Dashboard User/AddDiary";
 import DashboardUser from "./assets/pages/Dashboard User/DashboardUser";
 import DetailCourse from "./assets/pages/DetailCourse";
@@ -30,6 +31,7 @@ const Main = () => {
                     <Route path="/dashboard-user" element={<DashboardUser />} />
                     <Route path="/add-diary" element={<AddDiary />} />
                     <Route path="/edit-diary/:id" element={<AddDiary />} />
+                    <Route path="/dashboard-conselor" element={<DashboardConselor />} />
                 </Routes>
             </div>
         </Router>
