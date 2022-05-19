@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import swal from "sweetalert";
 import Header from "./partials/Header";
 
-const AddDiary = () => {
+const AddDiaryConselor = () => {
 
     const [diaryType, setDiaryType] = useState("");
     const [durationRead, setDurationRead] = useState("");
@@ -35,7 +35,7 @@ const AddDiary = () => {
             });
             console.log(res.data);
             swal("Success", "Diary has been added", "success").then(() => {
-                window.location.href = `/dashboard-user`;
+                window.location.href = `/dashboard-conselor`;
             });
         } catch (err) {
             console.log(err);
@@ -60,7 +60,7 @@ const AddDiary = () => {
             });
             console.log(res.data);
             swal("Success", "Diary has been edited", "success").then(() => {
-                window.location.href = `/dashboard-user`;
+                window.location.href = `/dashboard-conselor`;
             }
             );
         } catch (err) {
@@ -236,4 +236,4 @@ const AddDiary = () => {
     );
 };
 
-export default AddDiary;
+export default AddDiaryConselor;

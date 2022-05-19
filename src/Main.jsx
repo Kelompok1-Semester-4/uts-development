@@ -5,6 +5,7 @@ import Counseling from "./assets/pages/Counseling";
 import Courses from "./assets/pages/Courses";
 import DashboardConselor from "./assets/pages/Dashboard Conselor/DashboardConselor";
 import AddDiary from "./assets/pages/Dashboard User/AddDiary";
+import AddDiaryConselor from "./assets/pages/Dashboard User/AddDiaryConselor";
 import DashboardUser from "./assets/pages/Dashboard User/DashboardUser";
 import DetailCourse from "./assets/pages/DetailCourse";
 import DetailDiary from "./assets/pages/DetailDiary";
@@ -30,7 +31,9 @@ const Main = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="/checkout/:id" element={<Transaction />} />
                     <Route path="/add-diary" element={<AddDiary />} />
+                    <Route path="/add-diary-conselor" element={<AddDiary />} />
                     <Route path="/edit-diary/:id" element={<AddDiary />} />
+                    <Route path="/edit-diary-conselor/:id" element={<AddDiaryConselor />} />
                     <Route path="/dashboard-conselor" element={<DashboardConselor />} />
                     <Route path="/dashboard-user" element={<DashboardUser />} />
                 </Routes>

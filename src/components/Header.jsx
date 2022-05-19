@@ -14,7 +14,7 @@ import axios from "axios";
 const Header = () => {
 
   let token = localStorage.getItem("token");
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
 
   // logout with delete local storage
   const logout = () => {
@@ -23,21 +23,21 @@ const Header = () => {
   }
 
   // fetch authenticated user by token
-useEffect(() => {
-    axios
-      .get("http://127.0.0.1:8000/api/user", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => {
-        setUser(res.data.data.detailUser);
-        // console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+// useEffect(() => {
+//     axios
+//       .get("http://127.0.0.1:8000/api/user", {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       })
+//       .then((res) => {
+//         setUser(res.data.data.detailUser);
+//         // console.log(res);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   }, []);
 
   return (
     <header className="d-flex container my-navbar flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
@@ -87,12 +87,12 @@ useEffect(() => {
       </ul>
 
       <div className="col-md-3 text-end d-none d-xl-block">
-        {(() => {
-          if (user.photo) {
+        {((user) => {
+          if (user?.photo) {
             return (
               <div>
                 <a href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src={'http://127.0.0.1:8000/' + user.photo} alt="mdo" width="32" height="32" className="rounded-circle" />
+                  <img src={'http://127.0.0.1:8000/' + user?.photo} alt="mdo" width="32" height="32" className="rounded-circle" />
                 </a>
 
                 <ul className="dropdown-menu text-small mt-2" aria-labelledby="dropdownUser1">

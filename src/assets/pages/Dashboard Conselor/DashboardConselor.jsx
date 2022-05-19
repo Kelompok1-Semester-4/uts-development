@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import CoursesConselor from "../../../items/CoursesConselor";
 import DiariesUser from "../../../items/DiariesUser";
 import Header from "../Dashboard User/partials/Header";
@@ -7,7 +9,8 @@ import Header from "../Dashboard User/partials/Header";
 const DashboardConselor = () => {
 
     let token = localStorage.getItem("token");
-    if(!token) {window.location.replace("/login")}
+    let navigate = useNavigate();
+    if (!token) { window.location.replace("/login") }
     const [user, setUser] = useState({});
     const [diaries, setDiaries] = useState([]);
     const [course, setCourse] = useState([]);
@@ -30,6 +33,7 @@ const DashboardConselor = () => {
             });
     }, []);
 
+    // get diaries by user id
     useEffect(() => {
         axios
             .get(`http://127.0.0.1:8000/api/diaries-user`, {
@@ -45,9 +49,25 @@ const DashboardConselor = () => {
             });
     }, []);
 
-    
+    // delete diary by id
+    const handleDelete = (id) => {
+        axios.delete('http://127.0.0.1:8000/api/diary/' + id, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+        }).then((res) => {
+            console.log(res);
+            swal("Deleted!", "Your diary has been deleted.", "success").then(() => {
+                window.location.reload();
+            });
+        }).catch((err) => {
+            console.log(err);
+        });
+    };
 
-    if(role == 1 || role == 3) {
+
+    if (role == 1 || role == 3) {
         window.location.href = "/login";
         localStorage.clear();
     }
@@ -138,21 +158,64 @@ const DashboardConselor = () => {
                                     </h5>
                                 </div>
                                 <div className="col-md-3 text-end">
-                                    <a className="btn btn-primary" href="/add-diary">
+                                    <a className="btn btn-primary" href="/add-diary-conselor">
                                         Add New
                                     </a>
                                 </div>
                             </div>
-                            <div className="d-flex justify-content-around">
-                                <DiariesUser
-                                    gambar="https://images.unsplash.com/photo-1581300134629-4c3a06a31948?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                                    title="Make Me Happy" />
-                                <DiariesUser
-                                    gambar="https://images.unsplash.com/photo-1581300134629-4c3a06a31948?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                                    title="Make Me Happy" />
-                                <DiariesUser
-                                    gambar="https://images.unsplash.com/photo-1581300134629-4c3a06a31948?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                                    title="Make Me Happy" />
+                            <div className="row  mt-5 justify-content-between">
+                                {diaries?.map((diary) => {
+                                    return (
+                                        <div className="col-md-4 diary-item" key={diary.id}>
+                                            <div className="row">
+                                                <div className="col-md">
+                                                    <img
+                                                        src={'http://127.0.0.1:8000/' + diary.cover_image}
+                                                        className="img-fluid diary-image"
+                                                        alt=""
+                                                    />
+                                                </div>
+                                                <div className="col-md-8">
+                                                    <h4 className="diary-title">{diary.title}</h4>
+                                                    <h4 className="diary-date">{diary.created_at}</h4>
+                                                    <p className="giveMeEllipsis">{diary.content}</p>
+
+                                                    <div className="row d-inline ms-0">
+                                                        <button className="btn btn-edit btn-warning" onClick={() => {
+                                                            navigate('/edit-diary-conselor/' + diary.id)
+                                                        }}>
+                                                            Edit
+                                                        </button>
+                                                        <a href="" className="ms-4 text-decoration-none text-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                            Delete
+                                                        </a>
+
+                                                        {/* Modal */}
+                                                        <div className="modal fade" id="deleteModal" tabIndex={-1} aria-labelledby="deleteModal" aria-hidden="true">
+                                                            <div className="modal-dialog">
+                                                                <div className="modal-content">
+                                                                    <div className="modal-header">
+                                                                        <h5 className="modal-title" id="deleteModalLabel">Konfirmasi</h5>
+                                                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div className="modal-body">
+                                                                        Are you sure you delete this data?
+                                                                    </div>
+                                                                    <div className="modal-footer">
+                                                                        <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                                                        <button type="button" onClick={() => {
+                                                                            handleDelete(diary.id)
+                                                                        }} className="btn btn-primary btn-sm">Delete</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                         <div
@@ -214,13 +277,13 @@ const DashboardConselor = () => {
                                         Shows Entries
                                     </p>
                                 </div>
-                                <label for="Search" class="col-sm-1 col-form-label text-end ">Serach</label>
+                                <label htmlFor="Search" className="col-sm-1 col-form-label text-end ">Serach</label>
                                 <div className="col-md-3 text-end">
-                                    <input class="form-control form-control-sm" type="text" id="Search" placeholder="" aria-label="default input example" />
+                                    <input className="form-control form-control-sm" type="text" id="Search" placeholder="" aria-label="default input example" />
                                 </div>
                             </div>
-                            <div class="table-responsive-md mb-5">
-                                <table class="table ">
+                            <div className="table-responsive-md mb-5">
+                                <table className="table ">
                                     <thead>
                                         <tr>
                                             <th scope="col">Title</th>
