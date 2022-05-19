@@ -3,9 +3,8 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 
 import image_login from "../../assets/images/image_login.svg";
-import { Navigate } from "react-router-dom";
 import { useState } from "react";
-import DashboardUser from "./Dashboard User/DashboardUser";
+import swal from "sweetalert";
 
 const Login = () => {
   // required fields
@@ -22,6 +21,12 @@ const Login = () => {
       email,
       password,
     });
+
+    // reset form value
+    const resetForm = () => {
+      setEmail("");
+      setPassword("");
+    }
 
     // call api
     await fetch("http://127.0.0.1:8000/api/login", {
@@ -40,25 +45,25 @@ const Login = () => {
         console.log(data);
         if (data.meta.code == 200) {
           localStorage.setItem("token", data.data.token);
-          setUser(data.user);
-          setNavigate(true);
+          if (data.data.user.role_id == 1) {
+            window.location.href = "/dashboard-user";
+            setUser(data.user);
+          } else if (data.data.user.role_id == 2) {
+            // window.location.href = "/dashboard-conselor";
+            swal("Login Success", "Kamu adalah conselor", "success");
+            setUser(data.user);
+          } else if (data.data.user.role_id == 3) {
+            // window.location.href = "/dashboard-admin";
+            swal("Login Success", "Kamu adalah admin", "success");
+            setUser(data.user);
+          }
+        } else if (data.meta.code == 400) {
+          swal("Login Failed", data.data, "error");
         }
+
+        resetForm();
       });
   };
-
-  if (navigate) {
-    // navigate to dashboard-user and pass the data
-    return (
-      <Navigate
-        to={{
-          pathname: "/dashboard-user",
-          state: {
-            user,
-          },
-        }}
-      />
-    );
-  }
 
   return (
     <div>
@@ -80,12 +85,14 @@ const Login = () => {
                   type="text"
                   className="form-control"
                   placeholder="Email Address"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                   type="password"
                   className="form-control"
                   placeholder="Password"
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <div className="d-grid gap-2">

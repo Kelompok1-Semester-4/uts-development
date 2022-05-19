@@ -1,23 +1,25 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 import Header from "./partials/Header";
 
 const DashboardUser = () => {
+
     const [user, setUser] = useState({});
     const [diaries, setDiaries] = useState([]);
     const [course, setCourse] = useState([]);
+
     const token = localStorage.getItem("token");
 
     let navigate = useNavigate();
     // fetch authenticated user by token
     useEffect(() => {
-        axios
-            .get("http://127.0.0.1:8000/api/user", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
+        axios.get("http://127.0.0.1:8000/api/user", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
             .then((res) => {
                 setUser(res.data.data.detailUser);
             })
@@ -44,13 +46,13 @@ const DashboardUser = () => {
 
     useEffect(() => {
         axios
-            .get(`http://127.0.0.1:8000/api/courses`, {
+            .get(`http://127.0.0.1:8000/api/transaction`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             })
             .then((res) => {
-                setCourse(res.data);
+                setCourse(res.data.data);
             })
             .catch((err) => {
                 console.log(err);
@@ -70,8 +72,7 @@ const DashboardUser = () => {
             },
         }).then((res) => {
             console.log(res);
-            // auto refresh page
-            window.location.reload();
+            swal("Deleted!", "Your diary has been deleted.", "success");
         }).catch((err) => {
             console.log(err);
         });
@@ -80,7 +81,7 @@ const DashboardUser = () => {
     return (
         <div className="dashboard">
             {/* HEADER */}
-            <Header photo={(user.photo == '' ? 'https://png.pngtree.com/png-vector/20200614/ourlarge/pngtree-businessman-user-avatar-character-vector-illustration-png-image_2242909.jpg' : user.photo)} />
+            <Header photo={(user.photo == '' ? 'https://png.pngtree.com/png-vector/20200614/ourlarge/pngtree-businessman-user-avatar-character-vector-illustration-png-image_2242909.jpg' : 'http://127.0.0.1:8000/' + user.photo)} />
 
             {/* MENU */}
             <div className="container">
@@ -150,16 +151,16 @@ const DashboardUser = () => {
 
                     {/* CONTENT */}
                     <div className="tab-content p-0 content" id="pills-tabContent">
+                        {/* list diary */}
                         <div
                             className="tab-pane fade show active"
                             id="pills-diary"
                             role="tabpanel"
-                            aria-labelledby="pills-diary-tab"
-                        >
+                            aria-labelledby="pills-diary-tab">
                             <div className="row justify-content-between">
                                 <div className="col-md-6">
                                     <h2>List Diary</h2>
-                                    <h5 className="text-secondary">
+                                    <h5 className="text-secondary">/
                                         Record the precious moments in your life{" "}
                                     </h5>
                                 </div>
@@ -177,7 +178,7 @@ const DashboardUser = () => {
                                             <div className="row">
                                                 <div className="col-md">
                                                     <img
-                                                        src={diary.cover_image}
+                                                        src={'http://127.0.0.1:8000/' + diary.cover_image}
                                                         className="img-fluid diary-image"
                                                         alt=""
                                                     />
@@ -225,6 +226,7 @@ const DashboardUser = () => {
                                 })}
                             </div>
                         </div>
+                        {/* list class */}
                         <div
                             className="tab-pane fade"
                             id="pills-class"
@@ -240,49 +242,75 @@ const DashboardUser = () => {
                                     </h5>
                                 </div>
                             </div>
-                            <div className="row mt-5">
-                                {course.map((course) => {
-                                    <div className="col mx-4 class-item">
-                                        <img
-                                            src={course.cover_image}
-                                            className="img-fluid"
-                                            alt=""
-                                        />
+                            <div className="row mt-5 courses">
+                                {course?.map((course) => {
+                                    return (
+                                        <div className="col-md-3 mx-4 class-item">
+                                            <img
+                                                src={course['detail_transaction']['course']['thumbnail']}
+                                                className="img-fluid square"
+                                                alt=""
+                                            />
 
-                                        <div className="row">
-                                            <h2 className="class-title">{course.title}</h2>
-                                            <p className="giveMeEllipsis col-md-8">
-                                                {course.description}
-                                            </p>
+                                            <div className="row">
+                                                <h4 className="class-title">{course['detail_transaction']['course']['title']}</h4>
+                                                <p className="giveMeEllipsis col-md-8"> Enroll Date:
+                                                    {
+                                                        course['detail_transaction']['created_at']?.split("T")[0].split("-").reverse().join("-")
+                                                    }
+                                                </p>
 
-                                            <div className="col">
-                                                <button className="btn btn-primary btn-sm mt-2 mb-2">
-                                                    Learn
-                                                </button>
+                                                <div className="col">
+                                                    <button className="btn btn-primary btn-sm mt-2 mb-2">
+                                                        Learn
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>;
+                                    );
                                 })}
-                                <div
-                                    className="tab-pane fade"
-                                    id="pills-transaction"
-                                    role="tabpanel"
-                                    aria-labelledby="pills-transaction-tab"
-                                >
-                                    <h1>Transaction</h1>
-                                </div>
-                                <div
-                                    className="tab-pane fade"
-                                    id="pills-profile"
-                                    role="tabpanel"
-                                    aria-labelledby="pills-profile-tab"
-                                >
-                                    <h1>profile</h1>
-                                </div>
                             </div>
                         </div>
-                    </div>
+                        {/* list transaction */}
+                        <div
+                            className="tab-pane fade"
+                            id="pills-transaction"
+                            role="tabpanel"
+                            aria-labelledby="pills-transaction-tab"
+                        >
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <h2>Transactions</h2>
+                                    <h5 className="text-secondary">
+                                        This is all your transaction record
+                                    </h5>
+                                </div>
+                            </div>
+                            <div className="row mt-5">
+                                <p>List of transaction</p>
+                            </div>
+                        </div>
+                        {/* profile */}
+                        <div
+                            className="tab-pane fade"
+                            id="pills-profile"
+                            role="tabpanel"
+                            aria-labelledby="pills-profile-tab"
+                        >
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <h2>Your Profile</h2>
+                                    <h5 className="text-secondary">
+                                        You can change your profile here
+                                    </h5>
+                                </div>
+                            </div>
+                            <div className="row mt-5">
 
+                            </div>
+                        </div>
+
+                    </div>
                     <div className="mt-5 row">
                         <span></span>
                     </div>

@@ -15,6 +15,7 @@ import Register from "./assets/pages/Register";
 import Transaction from "./assets/pages/Transaction";
 
 const Main = () => {
+
     return (
         <Router>
             <div>
@@ -28,7 +29,6 @@ const Main = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/checkout/:id" element={<Transaction />} />
-                    <Route path="/dashboard-user" element={<DashboardUser />} />
                     <Route path="/add-diary" element={<AddDiary />} />
                     <Route path="/edit-diary/:id" element={<AddDiary />} />
                     <Route path="/dashboard-conselor" element={<DashboardConselor />} />

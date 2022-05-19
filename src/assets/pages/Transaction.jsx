@@ -2,6 +2,7 @@ import React from "react";
 import Faq from "../../components/Faq";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
+import swal from "sweetalert";
 
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -9,10 +10,13 @@ import { useEffect, useState } from "react";
 
 import image_transaction from "../../assets/images/image_transaction.svg";
 import icon_info from "../../assets/images/icon_info.svg";
+import CurrencyFormat from "react-currency-format";
 
 const Transaction = () => {
   let { id } = useParams();
   const [course, setCourse] = useState({});
+  let token = localStorage.getItem("token");
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     axios
@@ -25,6 +29,29 @@ const Transaction = () => {
         console.log(err);
       });
   }, [id]);
+
+
+  if (!token) {
+    swal("Oops...", "You must login first!", "error").then(() => {
+      document.location.href = "/login";
+    });
+  }
+
+  // fetch authenticated user by token
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/api/user", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        setUser(res.data.data);
+        console.log(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div>
@@ -56,6 +83,7 @@ const Transaction = () => {
                       className="form-control"
                       id="fullname"
                       placeholder="Fullname"
+                      defaultValue={user.detailUser?.name}
                     />
                   </div>
                   <div className="col">
@@ -64,15 +92,23 @@ const Transaction = () => {
                       className="form-control"
                       id="phone-number"
                       placeholder="Phone Number"
+                      defaultValue={user.detailUser?.phone}
                     />
                   </div>
                 </div>
                 <div className="row mt-4">
                   <div className="col">
                     <select id="inputState" className="form-select">
-                      <option selected>Gender</option>
-                      <option>L</option>
-                      <option>P</option>
+                      {
+                        ["L", "P"].map((item, index) => {
+                          return (
+                            (item === user.detailUser?.gender) ?
+                              <option key={index} value={item} selected>{item}</option>
+                              :
+                              <option key={index} value={item}>{item}</option>
+                          )
+                        })
+                      }
                     </select>
                   </div>
                   <div className="col">
@@ -80,6 +116,7 @@ const Transaction = () => {
                       type="date"
                       className="form-control"
                       id="birth"
+                      defaultValue={user.detailUser?.birth}
                       placeholder="Birth"
                     />
                   </div>
@@ -90,6 +127,7 @@ const Transaction = () => {
                       type="email"
                       className="form-control"
                       id="email"
+                      defaultValue={user.user?.email}
                       placeholder="Email Address"
                     />
                   </div>
@@ -110,7 +148,15 @@ const Transaction = () => {
                     </h5>
                   </div>
                 </div>
-                <div className="col-md-4 text-end p-0 mx-0">
+              </div>
+              <div className="row mt-5">
+                <div className="col">
+                  <span>Total</span>
+                  <h3 className="price d-flex my-auto">
+                    <CurrencyFormat value={course.price} displayType={'text'} thousandSeparator={true} prefix={'IDR '} />
+                  </h3>
+                </div>
+                <div className="col">
                   <button className="btn btn-primary float-end">Submit</button>
                 </div>
               </div>

@@ -3,6 +3,13 @@ import React from "react";
 import Brand from '../../../images/speakup.jpg';
 
 const Header = (props) => {
+
+    // logout with delete local storage
+    const logout = () => {
+        localStorage.removeItem('token');
+        document.location.href = '/';
+    }
+
     return (
         <header className="p-3 mb-3 my-navbar">
             <div className="container">
@@ -17,7 +24,9 @@ const Header = (props) => {
                         </a>
 
                         <ul className="dropdown-menu text-small mt-2" aria-labelledby="dropdownUser1">
-                            <li><a className="dropdown-item" href="/">Sign out</a></li>
+                            <li><a className="dropdown-item" onClick={() => {
+                                logout();
+                            }}>Sign out</a></li>
                         </ul>
                     </div>
                 </div>
