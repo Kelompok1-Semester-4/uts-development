@@ -22,6 +22,12 @@ const Login = () => {
       password,
     });
 
+    // reset form value
+    const resetForm = () => {
+      setEmail("");
+      setPassword("");
+    }
+
     // call api
     await fetch("http://127.0.0.1:8000/api/login", {
       method: "POST",
@@ -54,6 +60,8 @@ const Login = () => {
         } else if (data.meta.code == 400) {
           swal("Login Failed", data.data, "error");
         }
+
+        resetForm();
       });
   };
 
@@ -77,12 +85,14 @@ const Login = () => {
                   type="text"
                   className="form-control"
                   placeholder="Email Address"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                   type="password"
                   className="form-control"
                   placeholder="Password"
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <div className="d-grid gap-2">
