@@ -9,8 +9,10 @@ const DashboardUser = () => {
     const [user, setUser] = useState({});
     const [diaries, setDiaries] = useState([]);
     const [course, setCourse] = useState([]);
+    const [role, setRole] = useState("");
 
     const token = localStorage.getItem("token");
+    if(!token) {window.location.replace("/login")}
 
     let navigate = useNavigate();
     // fetch authenticated user by token
@@ -22,6 +24,7 @@ const DashboardUser = () => {
         })
             .then((res) => {
                 setUser(res.data.data.detailUser);
+                setRole(res.data.data.user.role_id);
             })
             .catch((err) => {
                 console.log(err);
@@ -58,7 +61,11 @@ const DashboardUser = () => {
                 console.log(err);
             });
     }, []);
-
+    
+    if(role == 2 || role == 3) {
+        window.location.href = "/login";
+        localStorage.clear();
+    }
     // console.log(user.id);
     // console.log(diaries);
     // console.log(course);

@@ -1,9 +1,58 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import CoursesConselor from "../../../items/CoursesConselor";
 import DiariesUser from "../../../items/DiariesUser";
 import Header from "../Dashboard User/partials/Header";
 
 const DashboardConselor = () => {
+
+    let token = localStorage.getItem("token");
+    if(!token) {window.location.replace("/login")}
+    const [user, setUser] = useState({});
+    const [diaries, setDiaries] = useState([]);
+    const [course, setCourse] = useState([]);
+
+    const [role, setRole] = useState("");
+
+    // fetch authenticated user by token
+    useEffect(() => {
+        axios.get("http://127.0.0.1:8000/api/user", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((res) => {
+                setUser(res.data.data.detailUser);
+                setRole(res.data.data.user.role_id);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get(`http://127.0.0.1:8000/api/diaries-user`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            .then((res) => {
+                setDiaries(res.data.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
+    
+
+    if(role == 1 || role == 3) {
+        window.location.href = "/login";
+        localStorage.clear();
+    }
+
+
     return (
         <div className="dashboard">
             {/* HEADER */}

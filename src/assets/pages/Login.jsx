@@ -50,7 +50,9 @@ const Login = () => {
             setUser(data.user);
           } else if (data.data.user.role_id == 2) {
             // window.location.href = "/dashboard-conselor";
-            swal("Login Success", "Kamu adalah conselor", "success");
+            swal("Login Success", "Kamu adalah conselor", "success").then(() => {
+              window.location.href = "/dashboard-conselor";
+            });
             setUser(data.user);
           } else if (data.data.user.role_id == 3) {
             // window.location.href = "/dashboard-admin";
