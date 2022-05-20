@@ -1061,3 +1061,13 @@ img.transaction-image {
 }
 
 /* END */
+
+/* Quiz */
+.quiz-image {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 1.875rem;
+}
+
+/* End */
