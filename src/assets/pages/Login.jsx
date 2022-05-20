@@ -12,8 +12,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [user, setUser] = useState({});
   const [navigate, setNavigate] = useState(false);
+  const [conselor_verified_status, setConselorVerifiedStatus] = useState("");
 
-  console.log(navigate);
+  // console.log(navigate);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -42,7 +43,7 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data.meta.code == 200) {
           localStorage.setItem("token", data.data.token);
           if (data.data.user.role_id == 1) {
@@ -50,20 +51,29 @@ const Login = () => {
             setUser(data.user);
           } else if (data.data.user.role_id == 2) {
             // window.location.href = "/dashboard-conselor";
-            swal("Login Success", "Kamu adalah conselor", "success").then(() => {
-              window.location.href = "/dashboard-conselor";
-            });
+            console.log(data.data.detail_user);
+            setConselorVerifiedStatus(data.data.detail_user.is_verified);
+            console.log(conselor_verified_status);
+            if (conselor_verified_status == 1) {
+              swal("Login Success", "Kamu adalah conselor", "success").then(() => {
+                window.location.href = "/dashboard-conselor";
+              });
+            } else {
+              swal("Login Failed", "Kamu belum terverifikasi", "error")
+            }
             setUser(data.user);
           } else if (data.data.user.role_id == 3) {
             // window.location.href = "/dashboard-admin";
-            swal("Login Success", "Kamu adalah admin", "success");
+            swal("Login Success", "Kamu adalah admin", "success").then(() => {
+              window.location.href = '/dashboard-admin';
+            });
             setUser(data.user);
           }
         } else if (data.meta.code == 400) {
           swal("Login Failed", data.data, "error");
         }
 
-        resetForm();
+        // resetForm();
       });
   };
 
