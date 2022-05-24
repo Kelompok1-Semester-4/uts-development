@@ -29,15 +29,11 @@ const Transaction = () => {
         console.log(err);
       });
   }, [id]);
-
-
   if (!token) {
     swal("Oops...", "You must login first!", "error").then(() => {
       document.location.href = "/login";
     });
   }
-
-  // fetch authenticated user by token
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/user", {
       headers: {

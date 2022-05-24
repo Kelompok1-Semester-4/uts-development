@@ -8,9 +8,10 @@ const DashboardUser = () => {
 
     const [user, setUser] = useState({});
     const [diaries, setDiaries] = useState([]);
-    const [course, setCourse] = useState([]);
     const [role, setRole] = useState("");
     const [credential, setCredential] = useState({});
+    const [transactions, setTransactions] = useState([]);
+    const [detail_transaction, setDetailTransaction] = useState([]);
 
     const token = localStorage.getItem("token");
     if (!token) { window.location.replace("/login") }
@@ -49,6 +50,7 @@ const DashboardUser = () => {
             });
     }, []);
 
+    // get transaction by user id
     useEffect(() => {
         axios
             .get(`http://127.0.0.1:8000/api/transaction`, {
@@ -57,7 +59,8 @@ const DashboardUser = () => {
                 },
             })
             .then((res) => {
-                setCourse(res.data.data);
+                setTransactions(res.data.data.transaction);
+                setDetailTransaction(res.data.data.detail_transactions);
             })
             .catch((err) => {
                 console.log(err);
@@ -68,10 +71,6 @@ const DashboardUser = () => {
         window.location.href = "/login";
         localStorage.clear();
     }
-    // console.log(user.id);
-    // console.log(diaries);
-    // console.log(course);
-
     // delete diary
     const handleDelete = (id) => {
         axios.delete('http://127.0.0.1:8000/api/diary/' + id, {
@@ -87,6 +86,48 @@ const DashboardUser = () => {
         });
     };
 
+    const [name, setName] = useState("");
+    const [gender, setGender] = useState("");
+    const [birth, setBirth] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const [photo, setPhoto] = useState("");
+    const [job, setJob] = useState("");
+
+
+    const updateProfile = async (e) => {
+        e.preventDefault();
+        const data = new FormData();
+        data.append("name", name);
+        data.append("gender", gender);
+        data.append("birth", birth);
+        data.append('phone', phone);
+        data.append('address', address);
+        data.append('photo', photo);
+        data.append('job', job);
+
+        await axios.post("http://127.0.0.1:8000/api/user", data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${token}`,
+            },
+        })
+            .then((res) => {
+                console.log(res);
+                // check if code is 200
+                if (res.status === 200) {
+                    swal("Success!", "Your profile has been updated.", "success");
+                    setUser(res.data.data.detailUser);
+                } else {
+                    swal("Error", res.data, "error");
+                }
+            });
+    };
+
+    // if (transactions.length != 0 && detail_transaction.length != 0) {
+    //     console.log('transaction', transactions);
+    //     console.log('detail_transaction', detail_transaction);
+    // }
     return (
         <div className="dashboard">
             {/* HEADER */}
@@ -160,7 +201,7 @@ const DashboardUser = () => {
 
                     {/* CONTENT */}
                     <div className="tab-content p-0 content" id="pills-tabContent">
-                        {/* list diary */}
+                        {/* list diary ✅*/}
                         <div
                             className="tab-pane fade show active"
                             id="pills-diary"
@@ -252,31 +293,33 @@ const DashboardUser = () => {
                                 </div>
                             </div>
                             <div className="row mt-5 courses">
-                                {course?.map((course) => {
-                                    return (
-                                        <div className="col-md-3 mx-4 class-item">
-                                            <img
-                                                src={course['detail_transaction']['course']['thumbnail']}
-                                                className="img-fluid square"
-                                                alt=""
-                                            />
+                                {detail_transaction?.map((detail, index) => {
+                                    if (transactions[index].status == 'SUCCESS') {
+                                        return (
+                                            <div className="col-md-3 mx-4 class-item" key={detail.id}>
+                                                <img
+                                                    src={detail.course.thumbnail}
+                                                    className="img-fluid square"
+                                                    alt=""
+                                                />
 
-                                            <div className="row">
-                                                <h4 className="class-title">{course['detail_transaction']['course']['title']}</h4>
-                                                <p className="giveMeEllipsis col-md-8"> Enroll Date:
-                                                    {
-                                                        course['detail_transaction']['created_at']?.split("T")[0].split("-").reverse().join("-")
-                                                    }
-                                                </p>
+                                                <div className="row">
+                                                    <h4 className="class-title">{detail.course.title}</h4>
+                                                    <p className="giveMeEllipsis col-md-8"> Enroll Date: 
+                                                        {
+                                                            detail.created_at?.split("T")[0].split("-").reverse().join("-")
+                                                        }
+                                                    </p>
 
-                                                <div className="col">
-                                                    <button className="btn btn-primary btn-sm mt-2 mb-2">
-                                                        Learn
-                                                    </button>
+                                                    <div className="col">
+                                                        <button className="btn btn-primary btn-sm mt-2 mb-2">
+                                                            Learn
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    );
+                                        );
+                                    }
                                 })}
                             </div>
                         </div>
@@ -296,10 +339,50 @@ const DashboardUser = () => {
                                 </div>
                             </div>
                             <div className="row mt-5">
-                                <p>List of transaction</p>
+                                {/* table */}
+                                <div className="col-md-12">
+                                    <table className="table table-hover" >
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Course</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                detail_transaction?.map((transaction, index) => {
+                                                    return (
+                                                        <tr key={transaction.id}>
+                                                            <th scope="row">{index + 1}</th>
+                                                            <td>{transaction.course.title}</td>
+                                                            <td>{transaction.total_price}</td>
+                                                            <td>
+                                                                {
+                                                                    transactions?.map((data) => {
+                                                                        if (data.id === transaction.id) {
+                                                                            return (
+                                                                                <span key={data.id}>
+                                                                                    {data.status}
+                                                                                </span>
+                                                                            )
+                                                                        }
+                                                                    })
+                                                                }
+                                                            </td>
+                                                            <td>{transaction.created_at?.split("T")[0].split("-").reverse().join("-")}</td>
+                                                        </tr>
+                                                    );
+                                                })
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                        {/* profile */}
+                        {/* profile ✅*/}
                         <div
                             className="tab-pane fade"
                             id="pills-profile"
@@ -317,7 +400,7 @@ const DashboardUser = () => {
 
 
                             <div className="row mt-5">
-                                <form>
+                                <form onSubmit={updateProfile} encType="multipart/form-data">
                                     <div className="row">
                                         <div className="col-md-3">
                                             {
@@ -328,11 +411,11 @@ const DashboardUser = () => {
                                                         alt=""
                                                     />
                                                 ) : (
-                                                        <img
-                                                            src={'https://www.jobstreet.co.id/en/cms/employer/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png'}
-                                                            width="175" height="175" className="rounded-circle"
-                                                            alt=""
-                                                        />
+                                                    <img
+                                                        src={'https://www.jobstreet.co.id/en/cms/employer/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png'}
+                                                        width="175" height="175" className="rounded-circle"
+                                                        alt=""
+                                                    />
                                                 )
                                             }
                                         </div>
@@ -342,20 +425,13 @@ const DashboardUser = () => {
                                                     <input
                                                         type="file"
                                                         className="form-control"
-                                                        id="cover_image"
-                                                        name="cover_image"
-                                                        defaultValue={user?.cover_image}
+                                                        id="photo"
+                                                        name="photo"
+                                                        defaultValue={user?.photo}
+                                                        onChange={(e) => {
+                                                            setPhoto(e.target.files[0])
+                                                        }}
                                                         placeholder="Drop Your File Profile Image"
-                                                    />
-                                                </div>
-                                                <div className="col-md">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        id="email"
-                                                        name="email"
-                                                        defaultValue={credential?.email}
-                                                        placeholder="Email"
                                                     />
                                                 </div>
                                             </div>
@@ -369,16 +445,9 @@ const DashboardUser = () => {
                                                         name="fullname"
                                                         placeholder="Fullname"
                                                         defaultValue={user?.name}
-                                                    />
-                                                </div>
-                                                <div className="col-md">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        id="password"
-                                                        name="password"
-                                                        placeholder="Password"
-                                                        defaultValue={credential?.password}
+                                                        onChange={(e) => {
+                                                            setName(e.target.value)
+                                                        }}
                                                     />
                                                 </div>
                                             </div>
@@ -387,6 +456,9 @@ const DashboardUser = () => {
                                                     <select
                                                         name="gender"
                                                         className="form-select"
+                                                        onChange={(e) => {
+                                                            setGender(e.target.value)
+                                                        }}
                                                         id="gender">
                                                         {
                                                             ["L", "P"].map((item, index) => {
@@ -394,7 +466,7 @@ const DashboardUser = () => {
                                                                     (item === user?.gender) ?
                                                                         <option key={index} value={item} selected>{item}</option>
                                                                         :
-                                                                        <option key={index} value={item}>{item}</option> 
+                                                                        <option key={index} value={item}>{item}</option>
                                                                 )
                                                             })
                                                         }
@@ -407,6 +479,9 @@ const DashboardUser = () => {
                                                         id="job"
                                                         name="job"
                                                         placeholder="Job"
+                                                        onChange={(e) => {
+                                                            setJob(e.target.value)
+                                                        }}
                                                         defaultValue={user?.job}
                                                     />
                                                 </div>
@@ -419,6 +494,9 @@ const DashboardUser = () => {
                                                         id="birth"
                                                         name="birth"
                                                         placeholder="Birth"
+                                                        onChange={(e) => {
+                                                            setBirth(e.target.value)
+                                                        }}
                                                         defaultValue={user?.birth}
                                                     />
                                                 </div>
@@ -430,6 +508,9 @@ const DashboardUser = () => {
                                                         name="phone"
                                                         placeholder="Phone Number"
                                                         defaultValue={user?.phone}
+                                                        onChange={(e) => {
+                                                            setPhone(e.target.value)
+                                                        }}
                                                     />
                                                 </div>
                                             </div>
@@ -442,6 +523,9 @@ const DashboardUser = () => {
                                                         name="address"
                                                         defaultValue={user?.address}
                                                         id="address"
+                                                        onChange={(e) => {
+                                                            setAddress(e.target.value)
+                                                        }}
                                                     ></textarea>
                                                 </div>
                                             </div>
