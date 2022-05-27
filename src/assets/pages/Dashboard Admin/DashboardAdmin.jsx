@@ -1,10 +1,19 @@
-import React from "react";
-import CoursesConselor from "../../../items/CoursesConselor";
-import DiariesUser from "../../../items/DiariesUser";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import QuizItem from "../../../items/QuizItem";
 import Header from "../Dashboard User/partials/Header";
 
 const DashboardAdmin = () => {
+    const [conselors, setConselor] = useState({});
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/users?role_id=2')
+            .then(res => {
+                setConselor(res.data);
+                console.log(res.data);
+            });
+    }, []);
+
     return (
         <div>
             <div className="dashboard">
@@ -46,20 +55,7 @@ const DashboardAdmin = () => {
                                     Conselors
                                 </button>
                             </li>
-                            <li className="nav-item flex-sm-fill" role="presentation">
-                                <button
-                                    className="nav-link btn"
-                                    id="pills-profile-tab"
-                                    data-bs-toggle="pill"
-                                    data-bs-target="#pills-profile"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="pills-profile"
-                                    aria-selected="false"
-                                >
-                                    Profile
-                                </button>
-                            </li>
+
                         </ul>
                         {/* CONTENT */}
                         <div className="tab-content p-0 content" id="pills-tabContent">
@@ -110,119 +106,46 @@ const DashboardAdmin = () => {
                                             this is the class you offer
                                         </h5>
                                     </div>
-                                    <div className="col-md-3 text-end">
-                                        <a className="btn btn-primary" href="/add-course">
-                                            Add New
-                                        </a>
-                                    </div>
+
                                 </div>
-                                <div className=" d-flex justify-content-around">
-                                    <QuizItem
-                                        gambar="https://images.unsplash.com/photo-1581300134629-4c3a06a31948?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                                        title="Make Me Happy" />
-                                    <QuizItem
-                                        gambar="https://images.unsplash.com/photo-1581300134629-4c3a06a31948?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                                        title="Make Me Happy" />
-                                    <QuizItem
-                                        gambar="https://images.unsplash.com/photo-1581300134629-4c3a06a31948?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                                        title="Make Me Happy" />
-                                    <QuizItem
-                                        gambar="https://images.unsplash.com/photo-1581300134629-4c3a06a31948?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                                        title="Make Me Happy" />
-                                </div>
-                            </div>
-                            <div
-                                className="tab-pane fade"
-                                id="pills-transaction"
-                                role="tabpanel"
-                                aria-labelledby="pills-transaction-tab"
-                            >
-                                <div className="row justify-content-between">
-                                    <div className="col-md-6">
-                                        <h2>Transaction</h2>
-                                        <h5 className="text-secondary">
-                                            this is the transaction you made
-                                        </h5>
+                                <div className="row mt-5">
+                                    {/* table */}
+                                    <div className="col-md-12">
+                                        <table className="table table-hover" >
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">No</th>
+                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Email</th>
+                                                    <th scope="col">Phone</th>
+                                                    <th scope="col">Work Adress</th>
+                                                    <th scope="col">Is Verified</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    conselors?.map((item, index) => {
+                                                        return (
+                                                            <tr key={item.id}>
+                                                                <th scope="row">{index + 1}</th>
+                                                                <td>{item.detail_user.name}</td>
+                                                                <td>{item.email}</td>
+                                                                <td>{item.detail_user.office_phone_number}</td>
+                                                                <td>{item.detail_user.work_address}</td>
+                                                                <td>{item.email_verified_at?.split("T")[0].split("-").reverse().join("-")}</td>
+                                                            </tr>
+                                                        )
+                                                    })
+                                                }
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div className="col-md-3 text-end">
-                                        <a className="btn btn-primary" href="/add-course">
-                                            Add New
-                                        </a>
-                                    </div>
-                                </div>
-                                <div className="row justify-content-between mt-5 d-flex align-items-center mb-5">
-                                    <div className="col-md-8">
-                                        <p>
-                                            Shows Entries
-                                        </p>
-                                    </div>
-                                    <label for="Search" class="col-sm-1 col-form-label text-end ">Serach</label>
-                                    <div className="col-md-3 text-end">
-                                        <input class="form-control form-control-sm" type="text" id="Search" placeholder="" aria-label="default input example" />
-                                    </div>
-                                </div>
-                                <div class="table-responsive-md mb-5">
-                                    <table class="table ">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Title</th>
-                                                <th scope="col">Created At</th>
-                                                <th scope="col">Durasi</th>
-                                                <th scope="col">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td scope="col" className="text-secondary">Kenali Dirimu</td>
-                                                <td>September 9, 2013</td>
-                                                <td>2:00</td>
-                                                <td>
-                                                    <a className="text-warning text-decoration-none">Edit </a>
-                                                    <a className="text-danger text-decoration-none">Delete </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td scope="row" className="text-secondary">Bikin Schedule</td>
-                                                <td>August 2, 2013</td>
-                                                <td>6:30</td>
-                                                <td> <a className="text-warning text-decoration-none">Edit </a>
-                                                    <a className="text-danger text-decoration-none">Delete </a></td>
-                                            </tr>
-                                            <tr>
-                                                <td scope="col" className="text-secondary">Kenali Dirimu</td>
-                                                <td>September 9, 2013</td>
-                                                <td>2:00</td>
-                                                <td>
-                                                    <a className="text-warning text-decoration-none">Edit </a>
-                                                    <a className="text-danger text-decoration-none">Delete </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td scope="col" className="text-secondary">Kenali Dirimu</td>
-                                                <td>September 9, 2013</td>
-                                                <td>2:00</td>
-                                                <td>
-                                                    <a className="text-warning text-decoration-none">Edit </a>
-                                                    <a className="text-danger text-decoration-none">Delete </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td scope="col" className="text-secondary">Kenali Dirimu</td>
-                                                <td>September 9, 2013</td>
-                                                <td>2:00</td>
-                                                <td>
-                                                    <a className="text-warning text-decoration-none">Edit </a>
-                                                    <a className="text-danger text-decoration-none">Delete </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         </div >
     );
 };
