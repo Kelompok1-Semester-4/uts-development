@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import swal from "sweetalert";
 import QuizItem from "../../../items/QuizItem";
 import Header from "../Dashboard User/partials/Header";
 
 const DashboardAdmin = () => {
-    const [conselors, setConselor] = useState({});
+    const [conselors, setConselor] = useState([]);
+    const [token, setToken] = useState(localStorage.getItem("token"));
 
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/users?role_id=2')
@@ -13,6 +15,22 @@ const DashboardAdmin = () => {
                 console.log(res.data);
             });
     }, []);
+
+    const deleteConselor = (id) => {
+        try {
+            axios.delete(`http://127.0.0.1:8000/api/user/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }) 
+            .then(res => {
+                swal("Deleted!", "Your file has been deleted.", "success");
+                window.location.reload();
+            })           
+        } catch (error) {
+            swal("Oops!", "Something went wrong!", "error");
+        }
+    }
 
     return (
         <div>
@@ -23,7 +41,7 @@ const DashboardAdmin = () => {
                 <div className="container">
                     <div className="row justify-content-center menu">
                         <ul
-                            className="nav nav-pills mb-3 flex-column flex-sm-row nav-justified dashboard-tab"
+                            className="nav nav-pills mb-3 flex-column col-md-6 flex-sm-row nav-justified dashboard-tab"
                             id="pills-tab"
                             role="tablist"
                         >
@@ -79,7 +97,7 @@ const DashboardAdmin = () => {
                                     </div>
                                 </div>
                                 <div className=" d-flex justify-content-around">
-                                    <QuizItem
+                                    {/* <QuizItem
                                         gambar="https://images.unsplash.com/photo-1581300134629-4c3a06a31948?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
                                         title="Make Me Happy" />
                                     <QuizItem
@@ -90,7 +108,7 @@ const DashboardAdmin = () => {
                                         title="Make Me Happy" />
                                     <QuizItem
                                         gambar="https://images.unsplash.com/photo-1581300134629-4c3a06a31948?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                                        title="Make Me Happy" />
+                                        title="Make Me Happy" /> */}
                                 </div>
                             </div>
                             <div
@@ -120,6 +138,7 @@ const DashboardAdmin = () => {
                                                     <th scope="col">Phone</th>
                                                     <th scope="col">Work Adress</th>
                                                     <th scope="col">Is Verified</th>
+                                                    <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -132,7 +151,38 @@ const DashboardAdmin = () => {
                                                                 <td>{item.email}</td>
                                                                 <td>{item.detail_user.office_phone_number}</td>
                                                                 <td>{item.detail_user.work_address}</td>
-                                                                <td>{item.email_verified_at?.split("T")[0].split("-").reverse().join("-")}</td>
+                                                                <td>
+                                                                    {
+                                                                        item.detail_user.is_verified == 1 ?
+                                                                            <span className="text-success">Verified</span>
+                                                                            :
+                                                                            <span className="text-danger">Not Verified</span>
+                                                                    }
+                                                                </td>
+                                                                <td>
+                                                                    <a href="" className="text-primary">Info</a> &nbsp;
+                                                                    {/* link confirmation delete */}
+                                                                    <a className="text-danger" onClick={() => {
+                                                                        swal({
+                                                                            title: "Are you sure?",
+                                                                            text: "Once deleted, you will not be able to recover this imaginary file!",
+                                                                            icon: "warning",
+                                                                            buttons: true,
+                                                                            dangerMode: true,
+                                                                        })
+                                                                            .then((willDelete) => {
+                                                                                if (willDelete) {
+                                                                                    swal("Poof! Your imaginary file has been deleted!", {
+                                                                                        icon: "success",
+                                                                                    });
+                                                                                    deleteConselor(item.id)
+                                                                                } else {
+                                                                                    swal("Your imaginary file is safe!");
+                                                                                }
+                                                                            }
+                                                                        );
+                                                                    }}>Delete</a>
+                                                                </td>
                                                             </tr>
                                                         )
                                                     })

@@ -133,9 +133,9 @@ const DashboardUser = () => {
             {/* HEADER */}
             <Header photo={(user.photo == '' ? 'https://www.jobstreet.co.id/en/cms/employer/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png' : 'http://127.0.0.1:8000/' + user.photo)} />
 
-            {/* MENU */}
             <div className="container">
                 <div className="row justify-content-center menu">
+            {/* MENU */}
                     <ul
                         className="nav nav-pills mb-3 flex-column flex-sm-row nav-justified dashboard-tab"
                         id="pills-tab"
