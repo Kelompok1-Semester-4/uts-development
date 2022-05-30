@@ -1,10 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
-import QuizItem from "../../../items/QuizItem";
 import Header from "../Dashboard User/partials/Header";
 
 const DashboardAdmin = () => {
+
+    const navigate = useNavigate();
+
     const [conselors, setConselor] = useState([]);
     const [token, setToken] = useState(localStorage.getItem("token"));
     const [quizzes, setQuizzes] = useState([]);
@@ -124,9 +127,7 @@ const DashboardAdmin = () => {
                                         </h5>
                                     </div>
                                     <div className="col-md-3 text-end">
-                                        <a className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addQuiz">
-                                            Add New
-                                        </a>
+                                        <a className="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addQuiz">Add New</a>
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-start">
@@ -151,7 +152,9 @@ const DashboardAdmin = () => {
                                                             </div>
                                                             <div className="row d-flex align-items-center ps-2 mb-2">
                                                                 <div className="col-md d-flex justify-content-center">
-                                                                    <button className="btn btn-primary btn-small">Detail Quiz</button>
+                                                                    <button className="btn btn-primary btn-small" onClick={() => {
+                                                                        navigate('/admin-quizzes/' + quiz.id);
+                                                                    }}>Detail Quiz</button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -181,7 +184,7 @@ const DashboardAdmin = () => {
                                                     <label htmlFor="photo" className="form-label">Photo</label>
                                                     <input type="file" className="form-control" onChange={(e) => {
                                                         setPhoto(e.target.files[0]);
-                                                    }} id="photo"/>
+                                                    }} id="photo" />
                                                 </div>
                                                 <div className="mb-3">
                                                     <label htmlFor="description" className="form-label">Description</label>
