@@ -38,9 +38,16 @@ const Quizzes = () => {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
-            swal("Success!", "Quiz has been added!", "success");
-            // reload page
-            window.location.reload();
+            swal("Success!", "Quiz has been added!", "success").then(() => {
+                // reload page
+                window.location.reload();
+                // clear form
+                setTitle("");
+                setQuestion1("");
+                setQuestion2("");
+                setQuestion3("");
+                setQuestion4("");
+            });
         } catch (error) {
             swal("Error", error, "error");
         }
