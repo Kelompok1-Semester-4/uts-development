@@ -16,6 +16,7 @@ const DashboardAdmin = () => {
     const [title, setTitle] = useState("");
     const [photo, setPhoto] = useState("");
     const [description, setDescription] = useState("");
+    const [quiz_id, setQuizId] = useState("");
 
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/users?role_id=2')
@@ -48,6 +49,23 @@ const DashboardAdmin = () => {
             });
     }, []);
 
+    const resetField = () => {
+        setTitle("");
+        setPhoto("");
+        setDescription("");
+        setQuizId("");
+    }
+
+    const getQuiz = (id) => {
+        axios.get(`http://127.0.0.1:8000/api/detail-quiz/${id}`)
+            .then(res => {
+                setTitle(res.data.data.title);
+                setPhoto(res.data.data.photo);
+                setDescription(res.data.data.description);
+                setQuizId(res.data.data.id);
+            });
+    }
+
     // add quiz
     const addQuiz = async () => {
         const formData = new FormData();
@@ -68,6 +86,43 @@ const DashboardAdmin = () => {
         }
     }
 
+    // update quiz
+    const updateQuiz = async (id) => {
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("photo", photo);
+        formData.append("description", description);
+        try {
+            await axios.post(`http://127.0.0.1:8000/api/quiz/update/${id}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            swal("Success!", "Your file has been updated.", "success").then(() => {
+                window.location.reload();
+                resetField();
+            });
+        } catch (error) {
+            swal("Oops!", "Something went wrong!", "error");
+        }
+    }
+
+    // delete quiz
+    const deleteQuiz = async (id) => {
+        try {
+            await axios.delete(`http://127.0.0.1:8000/api/quiz/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            swal("Deleted!", "Your file has been deleted.", "success").then(() => {
+                window.location.reload();
+            });
+        } catch (error) {
+            swal("Oops!", "Something went wrong!", "error");
+        }
+    }
+
     return (
         <div>
             <div className="dashboard">
@@ -76,14 +131,10 @@ const DashboardAdmin = () => {
                 {/* MENU */}
                 <div className="container">
                     <div className="row justify-content-center menu">
-                        <ul
-                            className="nav nav-pills mb-3 flex-column col-md-6 flex-sm-row nav-justified dashboard-tab"
-                            id="pills-tab"
-                            role="tablist"
-                        >
+                        <ul className="nav nav-pills mb-3 flex-column col-md-6 flex-sm-row nav-justified dashboard-tab" id="pills-tab" role="tablist">
                             <li className="nav-item me-4 flex-sm-fill" role="presentation">
-                                <button
-                                    className="nav-link btn active"
+
+                                <button className="nav-link btn active"
                                     id="pills-quiz-tab"
                                     data-bs-toggle="pill"
                                     data-bs-target="#pills-quiz"
@@ -152,13 +203,75 @@ const DashboardAdmin = () => {
                                                             </div>
                                                             <div className="row d-flex align-items-center ps-2 mb-2">
                                                                 <div className="col-md d-flex justify-content-center">
-                                                                    <button className="btn btn-primary btn-small" onClick={() => {
-                                                                        navigate('/admin-quizzes/' + quiz.id);
-                                                                    }}>Detail Quiz</button>
+                                                                    {/* <button className="btn btn-primary btn-small">Detail Quiz</button> */}
+                                                                    <div className="btn-group">
+                                                                        <button type="button" className="btn btn-small btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                            Menu
+                                                                        </button>
+                                                                        <ul className="dropdown-menu">
+                                                                            <li><a className="dropdown-item" href="" onClick={() => {
+                                                                                navigate('/admin-quizzes/' + quiz.id);
+                                                                            }}>Detail</a></li>
+                                                                            <li><a className="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#updateQuiz" onClick={() => {
+                                                                                getQuiz(quiz.id);
+                                                                            }}>Update</a></li>
+                                                                            <li><a className="dropdown-item" href="#" onClick={() => {
+                                                                                swal({
+                                                                                    title: "Are you sure?",
+                                                                                    text: "Once deleted, you will not be able to recover this imaginary file!",
+                                                                                    icon: "warning",
+                                                                                    buttons: true,
+                                                                                    dangerMode: true,
+                                                                                })
+                                                                                    .then((willDelete) => {
+                                                                                        if (willDelete) {
+                                                                                            deleteQuiz(quiz.id);
+                                                                                        }
+                                                                                    });
+                                                                            }}>Delete</a></li>
+                                                                        </ul>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div >
+                                                    </div>
+
+                                                    <div className="modal fade" id="updateQuiz" tabIndex="-1" aria-labelledby="updateQuizLabel" aria-hidden="true">
+                                                        <div className="modal-dialog">
+                                                            <div className="modal-content">
+                                                                <div className="modal-header">
+                                                                    <h5 className="modal-title" id="updateQuizLabel">Update Quiz</h5>
+                                                                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div className="modal-body">
+                                                                    <div className="form-group mb-3">
+                                                                        <label htmlFor="title">Title</label>
+                                                                        <input type="text" className="form-control" id="title" placeholder="Title" defaultValue={title} onChange={(e) => {
+                                                                            setTitle(e.target.value);
+                                                                        }} />
+                                                                    </div>
+                                                                    <div className="form-group mb-3">
+                                                                        <label htmlFor="photo">Photo</label>
+                                                                        <input type="file" className="form-control" defaultValue={photo} onChange={(e) => {
+                                                                            setPhoto(e.target.files[0]);
+                                                                        }} />
+                                                                    </div>
+                                                                    <div className="form-group mb-3">
+                                                                        <label htmlFor="description">Description</label>
+                                                                        <textarea className="form-control" id="description" placeholder="Description" defaultValue={description} onChange={(e) => {
+                                                                            setDescription(e.target.value);
+                                                                        }}></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="modal-footer">
+                                                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    <button type="button" className="btn btn-primary" onClick={() => {
+                                                                        updateQuiz(quiz_id);
+                                                                    }}>Save changes</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             );
                                         })
