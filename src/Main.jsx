@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Counseling from "./assets/pages/Counseling";
 import Courses from "./assets/pages/Courses";
+import ConselorProfile from "./assets/pages/Dashboard Admin/ConselorProfile";
 import DashboardAdmin from "./assets/pages/Dashboard Admin/DashboardAdmin";
 import Quizzes from "./assets/pages/Dashboard Admin/Quizzes";
 import DashboardConselor from "./assets/pages/Dashboard Conselor/DashboardConselor";
@@ -40,6 +41,7 @@ const Main = () => {
                     <Route path="/dashboard-user" element={<DashboardUser />} />
                     <Route path="/dashboard-admin" element={<DashboardAdmin />} />
                     <Route path="/admin-quizzes/:id" element={<Quizzes />} />
+                    <Route path="/dashboard-admin/conselor/:id" element={<ConselorProfile />} />
                 </Routes>
             </div>
         </Router>

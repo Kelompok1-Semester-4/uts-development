@@ -17,12 +17,15 @@ const DashboardAdmin = () => {
     const [photo, setPhoto] = useState("");
     const [description, setDescription] = useState("");
     const [quiz_id, setQuizId] = useState("");
+    const [role_id, setRoleId] = useState("");
+    
 
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/users?role_id=2')
             .then(res => {
                 setConselor(res.data);
                 console.log(res.data);
+                setRoleId(res.data.data.user.role_id);
             });
     }, []);
 
@@ -121,6 +124,12 @@ const DashboardAdmin = () => {
         } catch (error) {
             swal("Oops!", "Something went wrong!", "error");
         }
+    }
+
+    if (role_id == 1 || role_id == 2) {
+        swal("Oops!", "You are not authorized!", "error").then(() => {
+            window.history.back();
+        });
     }
 
     return (
@@ -352,8 +361,8 @@ const DashboardAdmin = () => {
                                                                 <th scope="row">{index + 1}</th>
                                                                 <td>{item.detail_user.name}</td>
                                                                 <td>{item.email}</td>
-                                                                <td>{item.detail_user.office_phone_number}</td>
-                                                                <td>{item.detail_user.work_address}</td>
+                                                                <td>{item.detail_user.phone}</td>
+                                                                <td>{item.detail_user.address}</td>
                                                                 <td>
                                                                     {
                                                                         item.detail_user.is_verified == 1 ?
@@ -363,7 +372,9 @@ const DashboardAdmin = () => {
                                                                     }
                                                                 </td>
                                                                 <td>
-                                                                    <a href="" className="text-primary">Info</a> &nbsp;
+                                                                    <a onClick={() => {
+                                                                        navigate('/dashboard-admin/conselor/' + item.id);
+                                                                    }} className="text-primary">Info</a> &nbsp;
                                                                     {/* link confirmation delete */}
                                                                     <a className="text-danger" onClick={() => {
                                                                         swal({

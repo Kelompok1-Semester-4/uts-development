@@ -14,8 +14,34 @@ const DashboardConselor = () => {
     const [user, setUser] = useState({});
     const [diaries, setDiaries] = useState([]);
     const [course, setCourse] = useState([]);
-
+    const [transaction, setTransaction] = useState([]);
+    const [detailTransaction, setDetailTransaction] = useState({});
     const [role, setRole] = useState("");
+
+    // get detail transaction
+    const getDetailTransaction = async (id) => {
+        await axios.get(`http://127.0.0.1:8000/api/conselor-transaction/detail/${id}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }).then(res => {
+            setDetailTransaction(res.data.data);
+            console.log(detailTransaction);
+        }, [])
+    }
+
+    // get transaction
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:8000/api/conselor-transaction`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }).then(res => {
+            setTransaction(res.data.data);
+        }).catch(err => {
+            console.log(err);
+        })
+    }, [])
 
     // fetch authenticated user by token
     useEffect(() => {
@@ -72,6 +98,11 @@ const DashboardConselor = () => {
         localStorage.clear();
     }
 
+    // if(user !== null && transaction !== null) {
+    //     console.log(user);
+    //     console.log(transaction);
+    // }
+
 
     return (
         <div className="dashboard">
@@ -80,6 +111,7 @@ const DashboardConselor = () => {
             {/* MENU */}
             <div className="container">
                 <div className="row justify-content-center menu">
+                    {/* MENU */}
                     <ul
                         className="nav nav-pills mb-3 flex-column flex-sm-row nav-justified dashboard-tab"
                         id="pills-tab"
@@ -265,79 +297,79 @@ const DashboardConselor = () => {
                                         this is the transaction you made
                                     </h5>
                                 </div>
-                                <div className="col-md-3 text-end">
+                                {/* <div className="col-md-3 text-end">
                                     <a className="btn btn-primary" href="/add-course">
                                         Add New
                                     </a>
-                                </div>
+                                </div> */}
                             </div>
-                            <div className="row justify-content-between mt-5 d-flex align-items-center mb-5">
+                            {/* <div className="row justify-content-between mt-5 d-flex align-items-center mb-5">
                                 <div className="col-md-8">
                                     <p>
                                         Shows Entries
                                     </p>
                                 </div>
-                                <label htmlFor="Search" className="col-sm-1 col-form-label text-end ">Serach</label>
+                                <label htmlFor="Search" className="col-sm-1 col-form-label text-end ">Search</label>
                                 <div className="col-md-3 text-end">
                                     <input className="form-control form-control-sm" type="text" id="Search" placeholder="" aria-label="default input example" />
                                 </div>
-                            </div>
-                            <div className="table-responsive-md mb-5">
+                            </div> */}
+                            <div className="table-responsive-md mb-5 mt-5">
                                 <table className="table ">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Created At</th>
-                                            <th scope="col">Durasi</th>
-                                            <th scope="col">Action</th>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Buyer</th>
+                                            <th scope="col">Transaction Date</th>
+                                            <td scope="col">Course Title</td>
+                                            <td scope="col" className="text-center">Action</td>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td scope="col" className="text-secondary">Kenali Dirimu</td>
-                                            <td>September 9, 2013</td>
-                                            <td>2:00</td>
-                                            <td>
-                                                <a className="text-warning text-decoration-none">Edit </a>
-                                                <a className="text-danger text-decoration-none">Delete </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="row" className="text-secondary">Bikin Schedule</td>
-                                            <td>August 2, 2013</td>
-                                            <td>6:30</td>
-                                            <td> <a className="text-warning text-decoration-none">Edit </a>
-                                                <a className="text-danger text-decoration-none">Delete </a></td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="col" className="text-secondary">Kenali Dirimu</td>
-                                            <td>September 9, 2013</td>
-                                            <td>2:00</td>
-                                            <td>
-                                                <a className="text-warning text-decoration-none">Edit </a>
-                                                <a className="text-danger text-decoration-none">Delete </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="col" className="text-secondary">Kenali Dirimu</td>
-                                            <td>September 9, 2013</td>
-                                            <td>2:00</td>
-                                            <td>
-                                                <a className="text-warning text-decoration-none">Edit </a>
-                                                <a className="text-danger text-decoration-none">Delete </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td scope="col" className="text-secondary">Kenali Dirimu</td>
-                                            <td>September 9, 2013</td>
-                                            <td>2:00</td>
-                                            <td>
-                                                <a className="text-warning text-decoration-none">Edit </a>
-                                                <a className="text-danger text-decoration-none">Delete </a>
-                                            </td>
-                                        </tr>
+                                        {
+                                            transaction?.map((trans, index) => {
+                                                return (
+                                                    <tr key={trans.id}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{trans.user.detail_user.name}</td>
+                                                        <td>{trans.created_at.split("T")[0].split("-").reverse().join("-")}</td>
+                                                        <td>{trans.course.title}</td>
+                                                        <td className="text-center">
+                                                            <div className="dropdown">
+                                                                <button className="btn btn-primary btn-small dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    Menu
+                                                                </button>
+                                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                                    <li><a className="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#detailTransaction" onClick={() => {
+                                                                        getDetailTransaction(trans.id);
+                                                                    }}>Detail</a></li>
+                                                                    <li><a className="dropdown-item" href="#">Delete</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
+                                        }
                                     </tbody>
                                 </table>
+                                <div className="modal fade" id="detailTransaction" tabIndex="-1" aria-labelledby="detailTransactionLabel" aria-hidden="true">
+                                    <div className="modal-dialog">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h4 className="modal-title" id="detailTransactionLabel">Detail Transaction</h4>
+                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div className="modal-body">
+                                                ...
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" className="btn btn-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
