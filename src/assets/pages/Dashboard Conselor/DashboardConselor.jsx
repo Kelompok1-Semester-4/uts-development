@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import CurrencyFormat from "react-currency-format";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import CoursesConselor from "../../../items/CoursesConselor";
 import DiariesUser from "../../../items/DiariesUser";
+import iconPlay from './../../../assets/icon/light/Play.svg';
 import Header from "../Dashboard User/partials/Header";
 
 const DashboardConselor = () => {
@@ -13,10 +15,120 @@ const DashboardConselor = () => {
     if (!token) { window.location.replace("/login") }
     const [user, setUser] = useState({});
     const [diaries, setDiaries] = useState([]);
-    const [course, setCourse] = useState([]);
+    const [courses, setCourse] = useState([]);
+    const [course_id, setCourseId] = useState('');
     const [transaction, setTransaction] = useState([]);
     const [detailTransaction, setDetailTransaction] = useState({});
     const [role, setRole] = useState("");
+
+    // form field
+    const [thumbnail, setThumbnail] = useState("");
+    const [title, setTitle] = useState("");
+    const [price, setPrice] = useState("");
+    const [benefit, setBenefit] = useState("");
+    const [course_type_id, setCourseTypeId] = useState("");
+
+    // get detail course
+    const getDetailCourse = async (id) => {
+        await axios.get(`http://127.0.0.1:8000/api/courses?id=${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }).then(res => {
+            setThumbnail(res.data.thumbnail);
+            setTitle(res.data.title);
+            setPrice(res.data.price);
+            setBenefit(res.data.benefit);
+            setCourseTypeId(res.data.course_type_id);
+        }, [])
+    }
+
+    // add course
+    const addCourse = async () => {
+        const formData = new FormData();
+        formData.append("thumbnail", thumbnail);
+        formData.append("title", title);
+        formData.append("price", price);
+        formData.append("course_type_id", course_type_id);
+        formData.append("benefit", benefit);
+
+        await axios.post(`http://127.0.0.1:8000/api/course`, formData, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                swal("Success", "Add course success", "success").then(() => {
+                    window.location.reload();
+                });
+            })
+            .catch(err => {
+                swal("Error", "Add course failed", "error");
+            });
+    }
+
+    // update course
+    const updateCourse = async (id) => {
+        const formData = new FormData();
+        formData.append("thumbnail", thumbnail);
+        formData.append("title", title);
+        formData.append("price", price);
+        formData.append("course_type_id", course_type_id);
+        formData.append("benefit", benefit);
+        
+        await axios.post(`http://127.0.0.1:8000/api/course/${id}`, formData, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                swal("Success", "Update course success", "success").then(() => {
+                    window.location.reload();
+                    setThumbnail("");
+                    setTitle("");
+                    setPrice("");
+                    setBenefit("");
+                    setCourseTypeId("");
+                });
+            })
+            .catch(err => {
+                swal("Error", "Update course failed", "error");
+            });
+    }
+
+    // delete course
+    const deleteCourse = async (id) => {
+        await axios.delete(`http://127.0.0.1:8000/api/course/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                swal("Success", "Delete course success", "success").then(() => {
+                    window.location.reload();
+                });
+            })
+            .catch(err => {
+                swal("Error", "Delete course failed", "error");
+            });
+    }
+
+
+    // update transaction status
+    const updateTransaction = async (id) => {
+        await fetch(`http://127.0.0.1:8000/api/update-transaction/${id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        })
+            .then(() => {
+                swal("Success", "Transaction has been updated", "success").then(() => {
+                    window.location.reload();
+                });
+            })
+    }
 
     // get detail transaction
     const getDetailTransaction = async (id) => {
@@ -98,10 +210,15 @@ const DashboardConselor = () => {
         localStorage.clear();
     }
 
-    // if(user !== null && transaction !== null) {
-    //     console.log(user);
-    //     console.log(transaction);
-    // }
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:8000/api/conselor-courses`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((res) => {
+            setCourse(res.data.data);
+        })
+    }, [])
 
 
     return (
@@ -264,32 +381,186 @@ const DashboardConselor = () => {
                                     </h5>
                                 </div>
                                 <div className="col-md-3 text-end">
-                                    <a className="btn btn-primary" href="/add-course">
+                                    <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCourse">
                                         Add New
-                                    </a>
+                                    </button>
                                 </div>
+                                {/* modal add course */}
+                                <div className="modal fade" id="addCourse" tabIndex="-1" aria-labelledby="addCourseLabel" aria-hidden="true">
+                                    <div className="modal-dialog">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h4 className="modal-title" id="addCourseLabel">Add Course</h4>
+                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div className="modal-body">
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="thumbnail">Thumbnail</label>
+                                                    <input type="file" className="form-control" onChange={(e) => {
+                                                        setThumbnail(e.target.files[0])
+                                                    }} />
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="title">Title</label>
+                                                    <input type="text" className="form-control" id="title" onChange={(e) => {
+                                                        setTitle(e.target.value)
+                                                    }} placeholder="Course Name" />
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="course_type_id">Course Type</label>
+                                                    <select className="form-select" onChange={(e) => {
+                                                        setCourseTypeId(e.target.value)
+                                                    }} id="course_type_id">
+                                                        <option value="1">Online Course</option>
+                                                        <option value="2">Counseling</option>
+                                                    </select>
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="price">Price</label>
+                                                    <input type="number" className="form-control" onChange={(e) => {
+                                                        setPrice(e.target.value)
+                                                    }} />
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="benefit">Benefit</label>
+                                                    <input type="text" className="form-control" placeholder="benefit1, benefit2" />
+                                                </div>
+                                                <div className="modal-footer">
+                                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" className="btn btn-primary" onClick={() => {
+                                                        addCourse()
+                                                    }}>Add Course</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* modal add course */}
+                                <div className="modal fade" id="updateCourse" tabIndex="-1" aria-labelledby="updateCourseLabel" aria-hidden="true">
+                                    <div className="modal-dialog">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h4 className="modal-title" id="updateCourseLabel">Add Course</h4>
+                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div className="modal-body">
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="thumbnail">Thumbnail</label>
+                                                    <input type="file" className="form-control" defaultValue={thumbnail} onChange={(e) => {
+                                                        setThumbnail(e.target.files[0])
+                                                    }} />
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="title">Title</label>
+                                                    <input type="text" className="form-control" defaultValue={title} id="title" onChange={(e) => {
+                                                        setTitle(e.target.value)
+                                                    }} placeholder="Course Name" />
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="course_type_id">Course Type</label>
+                                                    <select className="form-select" onChange={(e) => {
+                                                        setCourseTypeId(e.target.value)
+                                                    }} id="course_type_id">
+                                                        {
+                                                            [1, 2].map((courseType, index) => {
+                                                                return (
+                                                                    (courseType == 1) ?
+                                                                        <option value={index} key={index} selected>{
+                                                                            courseType == 1 ? 'Online Course' : 'Counseling'
+                                                                        }</option> :
+                                                                        <option value={index} key={index}>{
+                                                                            courseType == 1 ? 'Online Course' : 'Counseling'
+                                                                        }</option>
+                                                                );
+                                                            })
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="price">Price</label>
+                                                    <input type="number" defaultValue={price} className="form-control" onChange={(e) => {
+                                                        setPrice(e.target.value)
+                                                    }} />
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="benefit">Benefit</label>
+                                                    <input type="text" className="form-control" defaultValue={benefit} placeholder="benefit1, benefit2" />
+                                                </div>
+                                                <div className="modal-footer">
+                                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" className="btn btn-primary" onClick={() => {
+                                                        updateCourse(course_id);
+                                                    }}>Update Course</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                            <div className="d-flex justify-content-around">
-                                <CoursesConselor
-                                    title="Be Happy"
-                                    gambar="https://images.unsplash.com/photo-1489710437720-ebb67ec84dd2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8aGFwcHl8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-                                    price="20.000" />
-                                <CoursesConselor
-                                    title="Be Happy"
-                                    gambar="https://images.unsplash.com/photo-1489710437720-ebb67ec84dd2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8aGFwcHl8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-                                    price="20.000" />
-                                <CoursesConselor
-                                    title="Be Happy"
-                                    gambar="https://images.unsplash.com/photo-1489710437720-ebb67ec84dd2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8aGFwcHl8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"
-                                    price="20.000" />
+                            <div className="d-flex row justify-content-between mt-5">
+                                {
+                                    courses?.map((course) => {
+                                        return (
+                                            <div className="col-md-4 diary-item" key={course.id}>
+                                                <div className="row">
+                                                    <div className="col-md">
+                                                        <img src={
+                                                            course.thumbnail == '' ?
+                                                                'https://source.unsplash.com/random'
+                                                                :
+                                                                'http://127.0.0.1:8000/' + course.thumbnail
+                                                        } className="img-fluid diary-image" alt="" />
+                                                    </div>
+                                                    <div className="col-md-8">
+                                                        <h4 className='diary-title'>{course.title}</h4>
+                                                        <h3 className='diary-date'>{
+                                                            course.created_at.split('T')[0].split('-').reverse().join('-')
+                                                        }</h3>
+                                                        <div className='d-flex justify-content-start iconInfo mb-3'>
+                                                            <img src={iconPlay} width={15} alt="" className='' />
+                                                            <span href="#" className='text-decoration-none text-secondary ps-2'>{
+                                                                course.detail_course.length
+                                                            }</span>
+                                                            {/* <img src={iconUser} alt="" className='ps-2' /> */}
+                                                            {/* <span href="#" className='text-decoration-none text-secondary ps-2'>100 users </span> */}
+                                                        </div>
+                                                        <p className='priceCourse text-primary'>
+                                                            <CurrencyFormat value={course.price} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} />
+                                                        </p>
+                                                        <div className="row d-inline ms-0">
+                                                            <button className='btn btn-edit btn-warning' data-bs-toggle="modal" data-bs-target="#updateCourse" onClick={() => {
+                                                                getDetailCourse(course.id)
+                                                                setCourseId(course.id)
+                                                            }}>Edit</button>
+                                                            <a onClick={() => {
+                                                                swal({
+                                                                    title: "Are you sure?",
+                                                                    text: "Once deleted, you will not be able to recover this imaginary file!",
+                                                                    icon: "warning",
+                                                                    buttons: true,
+                                                                    dangerMode: true,
+                                                                })
+                                                                    .then((willDelete) => {
+                                                                        if (willDelete) {
+                                                                            deleteCourse(course.id);
+                                                                        }
+                                                                    });
+                                                            }} className='ms-4 text-decoration-none text-secondary'>Delete</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                }
                             </div>
                         </div>
-                        <div
-                            className="tab-pane fade"
+                        <div className="tab-pane fade"
                             id="pills-transaction"
                             role="tabpanel"
-                            aria-labelledby="pills-transaction-tab"
-                        >
+                            aria-labelledby="pills-transaction-tab">
                             <div className="row justify-content-between">
                                 <div className="col-md-6">
                                     <h2>Transaction</h2>
@@ -343,7 +614,7 @@ const DashboardConselor = () => {
                                                                     <li><a className="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#detailTransaction" onClick={() => {
                                                                         getDetailTransaction(trans.id);
                                                                     }}>Detail</a></li>
-                                                                    <li><a className="dropdown-item" href="#">Delete</a></li>
+                                                                    {/* <li><a className="dropdown-item" href="#">Delete</a></li> */}
                                                                 </ul>
                                                             </div>
                                                         </td>
@@ -361,11 +632,37 @@ const DashboardConselor = () => {
                                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div className="modal-body">
-                                                ...
+                                                <p>
+                                                    <span className="font-weight-bold">Buyer:</span> {detailTransaction?.detail_transaction?.user.detail_user.name}
+                                                </p>
+                                                <p>
+                                                    <span className="font-weight-bold">Course:</span> {detailTransaction?.detail_transaction?.course.title}
+                                                </p>
+                                                <p>
+                                                    <span className="font-weight-bold">Total Pay:</span> <CurrencyFormat value={detailTransaction?.detail_transaction?.total_price} displayType={'text'} thousandSeparator={true} prefix={'IDR '} />
+                                                </p>
+                                                {
+                                                    detailTransaction?.status == 'PENDING' ?
+                                                        <button className="btn btn-small btn-warning" onClick={() => {
+                                                            swal({
+                                                                title: "Are you sure?",
+                                                                text: "You will update this transaction status!",
+                                                                icon: "warning",
+                                                                buttons: true,
+                                                                dangerMode: true,
+                                                            })
+                                                                .then((willDelete) => {
+                                                                    if (willDelete) {
+                                                                        updateTransaction(detailTransaction?.id);
+                                                                    }
+                                                                });
+                                                        }}>PENDING</button>
+                                                        :
+                                                        <button className="btn btn-small btn-success">SUCCESS</button>
+                                                }
                                             </div>
                                             <div className="modal-footer">
                                                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" className="btn btn-primary">Save changes</button>
                                             </div>
                                         </div>
                                     </div>
