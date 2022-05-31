@@ -19,6 +19,7 @@ import PublicQuizzes from "./assets/pages/PublicQuizzes";
 import Register from "./assets/pages/Register";
 import StartQuiz from "./assets/pages/StartQuiz";
 import Transaction from "./assets/pages/Transaction";
+import DetailCourseConselor from "./assets/pages/Dashboard Conselor/DetailCourse";
 
 const Main = () => {
 
@@ -46,7 +47,7 @@ const Main = () => {
                     <Route path="/dashboard-admin/conselor/:id" element={<ConselorProfile />} />
                     <Route path="/quiz" element={<PublicQuizzes />} />
                     <Route path="/quiz/:id" element={<StartQuiz />} />
-
+                    <Route path="/dashboard-conselor/course/:id" element={<DetailCourseConselor />} />
                 </Routes>
             </div>
         </Router>

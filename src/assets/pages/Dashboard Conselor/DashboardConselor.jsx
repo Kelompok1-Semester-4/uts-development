@@ -514,7 +514,9 @@ const DashboardConselor = () => {
                                                         } className="img-fluid diary-image" alt="" />
                                                     </div>
                                                     <div className="col-md-8">
-                                                        <h4 className='diary-title'>{course.title}</h4>
+                                                        <h4 className='diary-title fs-5' onClick={() => {
+                                                            window.location.href = '/dashboard-conselor/course/' + course.id
+                                                        }}>{course.title}</h4>
                                                         <h3 className='diary-date'>{
                                                             course.created_at.split('T')[0].split('-').reverse().join('-')
                                                         }</h3>
