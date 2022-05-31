@@ -23,21 +23,21 @@ const Header = () => {
   }
 
   // fetch authenticated user by token
-// useEffect(() => {
-//     axios
-//       .get("http://127.0.0.1:8000/api/user", {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       })
-//       .then((res) => {
-//         setUser(res.data.data.detailUser);
-//         // console.log(res);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   }, []);
+  // useEffect(() => {
+  //     axios
+  //       .get("http://127.0.0.1:8000/api/user", {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       })
+  //       .then((res) => {
+  //         setUser(res.data.data.detailUser);
+  //         // console.log(res);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   }, []);
 
   return (
     <header className="d-flex container my-navbar flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
@@ -77,6 +77,11 @@ const Header = () => {
                 Counseling
               </a>
             </li>
+            <li>
+              <a href="/quiz" className="dropdown-item">
+                Quiz
+              </a>
+            </li>
           </ul>
         </li>
         <li>
@@ -84,6 +89,7 @@ const Header = () => {
             Diary
           </a>
         </li>
+
       </ul>
 
       <div className="col-md-3 text-end d-none d-xl-block">

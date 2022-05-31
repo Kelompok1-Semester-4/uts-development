@@ -15,7 +15,9 @@ import DetailDiary from "./assets/pages/DetailDiary";
 import Diaries from "./assets/pages/Diaries";
 import Home from "./assets/pages/Home";
 import Login from "./assets/pages/Login";
+import PublicQuizzes from "./assets/pages/PublicQuizzes";
 import Register from "./assets/pages/Register";
+import StartQuiz from "./assets/pages/StartQuiz";
 import Transaction from "./assets/pages/Transaction";
 
 const Main = () => {
@@ -42,6 +44,9 @@ const Main = () => {
                     <Route path="/dashboard-admin" element={<DashboardAdmin />} />
                     <Route path="/admin-quizzes/:id" element={<Quizzes />} />
                     <Route path="/dashboard-admin/conselor/:id" element={<ConselorProfile />} />
+                    <Route path="/quiz" element={<PublicQuizzes />} />
+                    <Route path="/quiz/:id" element={<StartQuiz />} />
+
                 </Routes>
             </div>
         </Router>
