@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import CurrencyFormat from "react-currency-format";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
-import CoursesConselor from "../../../items/CoursesConselor";
-import DiariesUser from "../../../items/DiariesUser";
 import iconPlay from './../../../assets/icon/light/Play.svg';
 import Header from "../Dashboard User/partials/Header";
 
@@ -27,6 +25,49 @@ const DashboardConselor = () => {
     const [price, setPrice] = useState("");
     const [benefit, setBenefit] = useState("");
     const [course_type_id, setCourseTypeId] = useState("");
+
+    // form field conselor
+    const [photo, setPhoto] = useState("");
+    const [name, setName] = useState("");
+    const [gender, setGender] = useState("");
+    const [birth, setBirth] = useState("");
+    const [address, setAddress] = useState("");
+    const [job, setJob] = useState("");
+    const [work_address, setWorkAddress] = useState("");
+    const [practice_place_address, setPracticePlaceAddress] = useState("");
+    const [office_phone_number, setOfficePhoneNumber] = useState("");
+    const [benefits, setBenefits] = useState("");
+    const [conselor_price, setConselorPrice] = useState(""); // price
+    
+    // update conselor
+    const updateConselor = async () => {
+        const data = new FormData();
+        data.append("photo", photo);
+        data.append("name", name);
+        data.append('gender', gender);
+        data.append('birth', birth);
+        data.append('address', address);
+        data.append('job', job);
+        data.append('work_address', work_address);
+        data.append('practice_place_address', practice_place_address);
+        data.append('office_phone_number', office_phone_number);
+        data.append('benefits', benefits);
+        data.append('price', conselor_price);
+
+        await axios.post(`http://127.0.0.1:8000/api/user/update`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                swal("Update Conselor Success!", "", "success").then(() => {
+                    window.location.reload();
+                })
+            })
+            .catch(err => {
+                swal("Update Conselor Failed!", "", "error");
+            });     
+    }
 
     // get detail course
     const getDetailCourse = async (id) => {
@@ -75,7 +116,7 @@ const DashboardConselor = () => {
         formData.append("price", price);
         formData.append("course_type_id", course_type_id);
         formData.append("benefit", benefit);
-        
+
         await axios.post(`http://127.0.0.1:8000/api/course/${id}`, formData, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -112,7 +153,6 @@ const DashboardConselor = () => {
                 swal("Error", "Delete course failed", "error");
             });
     }
-
 
     // update transaction status
     const updateTransaction = async (id) => {
@@ -671,11 +711,150 @@ const DashboardConselor = () => {
                                 </div>
                             </div>
                         </div>
+                        <div className="tab-pane fade"
+                            id="pills-profile"
+                            role="tabpanel"
+                            aria-labelledby="pills-profile-tab">
+                            <div className="row justify-content-between">
+                                <div className="col-md-6">
+                                    <h2>Profile</h2>
+                                    <h5 className="text-secondary">
+                                        Update your profile information
+                                    </h5>
+                                </div>
+                            </div>
+
+                            <div className="row mt-5">
+                                <div className="col-md-2 me-2">
+                                    <img src={
+                                        user?.photo == '' ?
+                                            'https://www.w3schools.com/howto/img_avatar.png' :
+                                            `http://127.0.0.1:8000/${user?.photo}`
+                                    } alt="" className="img-fluid rounded-circle" />
+                                </div>
+                                <div className="col-md">
+                                    <div className="row">
+                                        <div className="col">
+                                            <div className="form-group mb-3">
+                                                <label htmlFor="">Photo</label>
+                                                <input type="file" className="form-control" name="photo" defaultValue={user?.photo} onChange={(e) => {
+                                                    setPhoto(e.target.files[0]);
+                                                }}/>
+                                            </div>
+                                        </div>
+                                        <div className="col">
+                                            <div className="form-group mb-3">
+                                                <label htmlFor="">Name</label>
+                                                <input type="text" className="form-control" name="name" defaultValue={user?.name} onChange={(e) => {
+                                                    setName(e.target.value);
+                                                }} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col">
+                                            <div className="form-group mb-3">
+                                                <label htmlFor="">Gender</label>
+                                                <select
+                                                    name="gender"
+                                                    className="form-select"
+                                                    onChange={(e) => {
+                                                        setGender(e.target.value);
+                                                    }}
+                                                    id="gender">
+                                                    {
+                                                        ["L", "P"].map((item, index) => {
+                                                            return (
+                                                                (item === user?.gender) ?
+                                                                    <option key={index} value={item} selected>{item}</option>
+                                                                    :
+                                                                    <option key={index} value={item}>{item}</option>
+                                                            )
+                                                        })
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="col">
+                                            <div className="form-group mb-3">
+                                                <label htmlFor="">Birth</label>
+                                                <input type="date" className="form-control" name="birth" onChange={(e) => {
+                                                    setBirth(e.target.value);
+                                                }} defaultValue={user?.birth} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col">
+                                            <div className="form-group">
+                                                <label htmlFor="">Address</label>
+                                                <textarea cols="30" rows="10" className="form-control" onChange={(e) => {
+                                                    setAddress(e.target.value);
+                                                }} defaultValue={user?.address}></textarea>
+                                            </div>
+                                        </div>
+                                        <div className="col">
+                                            <div className="form-group">
+                                                <label htmlFor="">Job</label>
+                                                <input type="text" className="form-control" onChange={(e) => {
+                                                    setJob(e.target.value);
+                                                }} defaultValue={user?.job} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row mt-3">
+                                        <div className="col">
+                                            <div className="form-group">
+                                                <label htmlFor="">Work Address</label>
+                                                <input type="text" className="form-control" onChange={(e) => {
+                                                    setWorkAddress(e.target.value);
+                                                }} defaultValue={user?.work_address}/>
+                                            </div>
+                                        </div>
+                                        <div className="col">
+                                            <div className="form-group">
+                                                <label htmlFor="">Practice Address</label>
+                                                <input type="text" className="form-control" onChange={(e) => {
+                                                    setPracticePlaceAddress(e.target.value);
+                                                }} defaultValue={user?.practice_place_address}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row mt-3">
+                                        <div className="col">
+                                            <label htmlFor="">Office Phone Number</label>
+                                            <input type="text" className="form-control" onChange={(e) => {
+                                                setOfficePhoneNumber(e.target.value);
+                                            }} defaultValue={user?.office_phone_number}/>
+                                        </div>
+                                        <div className="col">
+                                            <label htmlFor="">Benefit</label>
+                                            <input type="text" className="form-control" onChange={(e) => {
+                                                setBenefits(e.target.value);
+                                            }} defaultValue={user?.benefits} />                                            
+                                        </div>
+                                    </div>
+                                    <div className="row mt-3 mb-5">
+                                        <div className="col">
+                                            <label htmlFor="">Price</label>
+                                            <input type="number" className="form-control" onChange={(e) => {
+                                                setConselorPrice(e.target.value);
+                                            }} defaultValue={user?.price}/>
+                                        </div>
+                                        <div className="col mt-auto text-end">
+                                            <button className="btn btn-primary" onClick={() => {
+                                                updateConselor()
+                                            }}>Save Changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     );
-};
+}
 
 export default DashboardConselor;
