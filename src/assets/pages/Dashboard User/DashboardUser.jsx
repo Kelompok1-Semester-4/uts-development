@@ -124,10 +124,9 @@ const DashboardUser = () => {
             });
     };
 
-    // if (transactions.length != 0 && detail_transaction.length != 0) {
-    //     console.log('transaction', transactions);
-    //     console.log('detail_transaction', detail_transaction);
-    // }
+    if(detail_transaction.length !== 0) {
+        console.log(detail_transaction);
+    }
     return (
         <div className="dashboard">
             {/* HEADER */}
@@ -312,7 +311,9 @@ const DashboardUser = () => {
                                                     </p>
 
                                                     <div className="col">
-                                                        <button className="btn btn-primary btn-sm mt-2 mb-2">
+                                                        <button onClick={() => {
+                                                            window.location.href = '/dashboard-user/course/' + detail.course_id
+                                                        }} className="btn btn-primary btn-sm mt-2 mb-2">
                                                             Learn
                                                         </button>
                                                     </div>
