@@ -128,6 +128,17 @@ const Transaction = () => {
                     />
                   </div>
                 </div>
+                <div className="row mt-4">
+                  <div className="col">
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="credit_card_number"
+                      placeholder="Credit Card Number"
+                      defaultValue={user.detail_user?.credit_card_number}
+                    />
+                  </div>
+                </div>
               </form>
               <div className="row d-flex align-items-end">
                 <div className="col">
