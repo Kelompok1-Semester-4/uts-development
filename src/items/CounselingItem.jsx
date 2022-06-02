@@ -1,4 +1,5 @@
 import React from "react";
+import CurrencyFormat from "react-currency-format";
 import icon_check from "../assets/images/icon_check.svg";
 
 const CounselingItem = (props) => {
@@ -35,7 +36,9 @@ const CounselingItem = (props) => {
                     </div>
                     <hr className="my-3" />
                     <div className="row d-flex align-items-center ps-2 mb-2">
-                        <h3 className="my-auto p-0 mx-0 counseling-price">IDR 450.000</h3>
+                        <h3 className="my-auto p-0 mx-0 counseling-price">{
+                            <CurrencyFormat value={props.price} displayType={'text'} thousandSeparator={true} prefix={'IDR '} />
+                        }</h3>
                         <div className="col-md d-flex justify-content-end">
                             <button className="btn btn-primary btn-small">Enroll Now</button>
                         </div>

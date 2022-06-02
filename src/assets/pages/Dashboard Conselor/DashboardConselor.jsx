@@ -65,7 +65,7 @@ const DashboardConselor = () => {
                 })
             })
             .catch(err => {
-                swal("Update Conselor Failed!", "", "error");
+                swal("Update Conselor Failed!", '', "error");
             });     
     }
 
@@ -264,7 +264,11 @@ const DashboardConselor = () => {
     return (
         <div className="dashboard">
             {/* HEADER */}
-            <Header photo='https://png.pngtree.com/png-vector/20200614/ourlarge/pngtree-businessman-user-avatar-character-vector-illustration-png-image_2242909.jpg' />
+            <Header photo={
+                user.photo == '' ?
+                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' :
+                `http://127.0.0.1:8000/${user.photo}`
+            } />
             {/* MENU */}
             <div className="container">
                 <div className="row justify-content-center menu">

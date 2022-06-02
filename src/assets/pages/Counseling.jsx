@@ -64,6 +64,7 @@ class Counseling extends React.Component {
                                             photo={user.detail_user.photo}
                                             job={user.detail_user.job}
                                             benefits={user.detail_user.benefits}
+                                            price={user.detail_user.price}
                                         />
                                     )
                                 })
