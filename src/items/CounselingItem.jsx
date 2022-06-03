@@ -6,7 +6,7 @@ const CounselingItem = (props) => {
     return (
         <div className="col-md-4 col-sm-6">
             <div className="card custom-card-course">
-                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=600&q=60" className="card-img-top conselor-image" alt="..." />
+                <img src={props.photo} className="card-img-top conselor-image" alt="..." />
                 <div className="card-body conseling-body mt-3">
                     <div className="row">
                         <div className="col-md">

@@ -61,7 +61,11 @@ class Counseling extends React.Component {
                                         <CounselingItem
                                             key={user.id}
                                             name={user.detail_user.name}
-                                            photo={user.detail_user.photo}
+                                            photo={
+                                                user.detail_user.photo == '' ?
+                                                    "https://via.placeholder.com/150" :
+                                                    'http://127.0.0.1:8000/' + user.detail_user.photo
+                                            }
                                             job={user.detail_user.job}
                                             benefits={user.detail_user.benefits}
                                             price={user.detail_user.price}
