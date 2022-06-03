@@ -297,7 +297,11 @@ const DashboardUser = () => {
                                         return (
                                             <div className="col-md-3 mx-4 class-item" key={detail.id}>
                                                 <img
-                                                    src={detail.course.thumbnail}
+                                                    src={
+                                                        detail.course.thumbnail == '' ?
+                                                        'https://via.placeholder.com/150' :
+                                                        'http://127.0.0.1:8000/' + detail.course.thumbnail
+                                                    }
                                                     className="img-fluid square"
                                                     alt=""
                                                 />
