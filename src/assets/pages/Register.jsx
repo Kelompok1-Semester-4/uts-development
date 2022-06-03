@@ -28,6 +28,8 @@ const Register = () => {
     const [file_url, setFileUrl] = useState("");
     const [role_id, setRole] = useState("");
 
+    const [errMessage, setErrMessage] = useState("");
+
     // Register As User
     const registerAsUser = async (e) => {
         e.preventDefault();
@@ -125,20 +127,22 @@ const Register = () => {
                 "Content-Type": "multipart/form-data",
             },
         })
+            .then((res) => res.json())
             .then((res) => {
                 console.log(res);
                 // check if code is 200
-                if (res.status === 200) {
+                if (res.meta.code === 200) {
                     // set local storage
                     // localStorage.setItem("token", res.data.token);
                     swal("Success", "Register Success", "success").then(() => {
                         window.location.href = "/login";
                     });
-                } else {
-                    swal("Error", res.data, "error");
                 }
+            })
+            .catch((err) => {
+                swal("Error", err.message, "error");
             });
-    };
+    }
 
     return (
         <div>
