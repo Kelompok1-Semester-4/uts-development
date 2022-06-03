@@ -39,7 +39,7 @@ const StartQuiz = () => {
                                                             <h5 className="card-title conselor-name giveMeEllipsis">{detail.title}</h5>
                                                         </div>
                                                         <div className="col-md d-flex justify-content-end">
-                                                            <h5 className="card-title conselor-name giveMeEllipsis">{index + 1}</h5>
+                                                            <h5 className="text-secondary">{index + 1}</h5>
                                                         </div>
                                                     </div>
                                                     <div className="row d-flex justify-content-center mb-2 ">
