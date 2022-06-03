@@ -136,16 +136,25 @@ const DetailCourse = () => {
                     <div className="col-md-6 about">
                         <h4 className="mb-2">About This Course</h4>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad dignissimos voluptatibus saepe velit nobis nemo! Velit inventore animi esse odio fugiat quas vero! Aperiam, rerum nemo. Quo provident nihil incidunt soluta, voluptate repellendus temporibus quaerat id odit voluptates, dolore eaque!
+                            {
+                                course.detail_course?.map((item, index) => {
+                                    if (index == 0) {
+                                        return item.description
+                                    }
+                                })
+                            }
                         </p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut exercitationem, tempore dolorem saepe provident, aut sunt laudantium ullam dignissimos accusantium eaque consequatur? Necessitatibus voluptas voluptatem placeat quis dolor eaque ducimus.</p>
 
                         <h4 className="mb-2">Experts</h4>
                         <div className="row expert mt-3">
                             <div className="col-md-6">
                                 <div className="row">
                                     <div className="col-md-3">
-                                        <img src={course.detail_user?.photo} className="conselor-img img-fluid" alt="" />
+                                        <img src={
+                                            course.detail_user?.photo == '' ?
+                                                'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200' :
+                                                'http://127.0.0.1:8000/' + course.detail_user?.photo
+                                        } className="conselor-img img-fluid" alt="" />
                                     </div>
                                     <div className="col-md-8 profile d-block mt-2">
                                         <h6>Alisiana Route</h6>

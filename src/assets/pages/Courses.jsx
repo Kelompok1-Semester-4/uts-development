@@ -106,9 +106,17 @@ const Courses = () => {
                   <CourseItem
                     key={course.id}
                     id={course.id}
-                    thumbnail={course.thumbnail}
+                    thumbnail={
+                      course.thumbnail == '' ?
+                      'https://via.placeholder.com/150' :
+                      'http://127.0.0.1:8000/' + course.thumbnail
+                    }
                     title={course.title}
-                    user_photo={course.detail_user.photo}
+                    user_photo={
+                      course.detail_user.photo == '' ?
+                      'https://via.placeholder.com/150' :
+                      'http://127.0.0.1:8000/' + course.detail_user.photo
+                    }
                     description={course.detail_course[0].description}
                     count_of_videos={course.detail_course.length}
                   />
