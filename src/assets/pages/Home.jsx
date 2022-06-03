@@ -109,7 +109,11 @@ class Home extends React.Component {
                     <PopularCourseItem
                       key={course.id}
                       id={course.id}
-                      img={course.thumbnail}
+                      img={
+                        course.thumbnail == '' ?
+                        "https://via.placeholder.com/150" :
+                        'http://127.0.0.1:8000/' + course.thumbnail
+                      }
                       title={course.title}
                       desc={course.detail_course[0].description}
                     />
@@ -143,7 +147,11 @@ class Home extends React.Component {
               return (
                 <ConselorItems
                   key={conselors.id}
-                  img={conselors.detail_user.photo}
+                  img={
+                    conselors.detail_user.photo == '' ?
+                    "https://via.placeholder.com/150" :
+                    'http://127.0.0.1:8000/' + conselors.detail_user.photo
+                  }
                   name={conselors.detail_user.name}
                   position={
                     (conselors.detail_user.job == ""
