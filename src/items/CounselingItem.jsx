@@ -25,9 +25,9 @@ const CounselingItem = (props) => {
                                     <div className="col-md-6 mb-2" key={benefit}>
                                         <div className="row d-flex align-items-center">
                                             <img src={icon_check} className="icon_check align-self-center" alt="" />
-                                            <h5 className="benefit-item my-auto giveMeEllipsis">{
+                                            <h4 className="benefit-item my-auto giveMeEllipsis">{
                                                 benefit
-                                            }</h5>
+                                            }</h4>
                                         </div>
                                     </div>
                                 );  // return
