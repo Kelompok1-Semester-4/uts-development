@@ -61,6 +61,7 @@ class Counseling extends React.Component {
                                         <CounselingItem
                                             key={user.id}
                                             name={user.detail_user.name}
+                                            id={user.id}
                                             photo={
                                                 user.detail_user.photo == '' ?
                                                     "https://via.placeholder.com/150" :

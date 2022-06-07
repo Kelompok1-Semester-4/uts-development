@@ -321,6 +321,20 @@ const DashboardConselor = () => {
                                 Transaction
                             </button>
                         </li>
+                        <li className="nav-item me-4 flex-sm-fill" role="presentation">
+                            <button
+                                className="nav-link btn"
+                                id="pills-conseling-tab"
+                                data-bs-toggle="pill"
+                                data-bs-target="#pills-conseling"
+                                type="button"
+                                role="tab"
+                                aria-controls="pills-conseling"
+                                aria-selected="false"
+                            >
+                                Conseling
+                            </button>
+                        </li>
                         <li className="nav-item flex-sm-fill" role="presentation">
                             <button
                                 className="nav-link btn"
@@ -338,6 +352,7 @@ const DashboardConselor = () => {
                     </ul>
                     {/* CONTENT */}
                     <div className="tab-content p-0 content" id="pills-tabContent">
+                        {/* diary */}
                         <div
                             className="tab-pane fade show active"
                             id="pills-diary"
@@ -412,6 +427,7 @@ const DashboardConselor = () => {
                                 })}
                             </div>
                         </div>
+                        {/* courses */}
                         <div
                             className="tab-pane fade"
                             id="pills-course"
@@ -542,8 +558,8 @@ const DashboardConselor = () => {
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
+                            {/* courses item */}
                             <div className="d-flex row justify-content-between mt-5">
                                 {
                                     courses?.map((course) => {
@@ -570,8 +586,6 @@ const DashboardConselor = () => {
                                                             <span href="#" className='text-decoration-none text-secondary ps-2'>{
                                                                 course.detail_course.length
                                                             }</span>
-                                                            {/* <img src={iconUser} alt="" className='ps-2' /> */}
-                                                            {/* <span href="#" className='text-decoration-none text-secondary ps-2'>100 users </span> */}
                                                         </div>
                                                         <p className='priceCourse text-primary'>
                                                             <CurrencyFormat value={course.price} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} />
@@ -604,34 +618,19 @@ const DashboardConselor = () => {
                                 }
                             </div>
                         </div>
+                        {/* transaction course */}
                         <div className="tab-pane fade"
                             id="pills-transaction"
                             role="tabpanel"
                             aria-labelledby="pills-transaction-tab">
                             <div className="row justify-content-between">
                                 <div className="col-md-6">
-                                    <h2>Transaction</h2>
+                                    <h2>Course Transaction</h2>
                                     <h5 className="text-secondary">
                                         this is the transaction you made
                                     </h5>
                                 </div>
-                                {/* <div className="col-md-3 text-end">
-                                    <a className="btn btn-primary" href="/add-course">
-                                        Add New
-                                    </a>
-                                </div> */}
                             </div>
-                            {/* <div className="row justify-content-between mt-5 d-flex align-items-center mb-5">
-                                <div className="col-md-8">
-                                    <p>
-                                        Shows Entries
-                                    </p>
-                                </div>
-                                <label htmlFor="Search" className="col-sm-1 col-form-label text-end ">Search</label>
-                                <div className="col-md-3 text-end">
-                                    <input className="form-control form-control-sm" type="text" id="Search" placeholder="" aria-label="default input example" />
-                                </div>
-                            </div> */}
                             <div className="table-responsive-md mb-5 mt-5">
                                 <table className="table ">
                                     <thead>
@@ -716,6 +715,8 @@ const DashboardConselor = () => {
                                 </div>
                             </div>
                         </div>
+                        {/* Conseling */}
+                        {/* profile */}
                         <div className="tab-pane fade"
                             id="pills-profile"
                             role="tabpanel"

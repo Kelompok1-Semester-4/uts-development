@@ -1,5 +1,6 @@
 import React from "react";
 import CurrencyFormat from "react-currency-format";
+import { useNavigate } from "react-router-dom";
 import icon_check from "../assets/images/icon_check.svg";
 
 const CounselingItem = (props) => {
@@ -40,7 +41,9 @@ const CounselingItem = (props) => {
                             <CurrencyFormat value={props.price} displayType={'text'} thousandSeparator={true} prefix={'IDR '} />
                         }</h3>
                         <div className="col-md d-flex justify-content-end">
-                            <button className="btn btn-primary btn-small">Enroll Now</button>
+                            <button className="btn btn-primary btn-small" onClick={() => {
+                                window.location.href = '/conselor/detail/' + props.id;
+                            }}>Enroll Now</button>
                         </div>
                     </div>
                 </div>

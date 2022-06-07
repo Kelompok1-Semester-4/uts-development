@@ -21,6 +21,7 @@ import StartQuiz from "./assets/pages/StartQuiz";
 import Transaction from "./assets/pages/Transaction";
 import DetailCourseConselor from "./assets/pages/Dashboard Conselor/DetailCourse";
 import DetailCourseUser from "./assets/pages/Dashboard User/DetailCourseUser";
+import DetailConseling from "./assets/pages/DetailConseling";
 
 const Main = () => {
 
@@ -50,6 +51,7 @@ const Main = () => {
                     <Route path="/quiz/:id" element={<StartQuiz />} />
                     <Route path="/dashboard-conselor/course/:id" element={<DetailCourseConselor />} />
                     <Route path="/dashboard-user/course/:id" element={<DetailCourseUser />} />
+                    <Route path="/conselor/detail/:id" element={<DetailConseling />} />
                 </Routes>
             </div>
         </Router>
