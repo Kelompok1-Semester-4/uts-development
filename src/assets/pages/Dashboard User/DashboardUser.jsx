@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import CurrencyFormat from "react-currency-format";
 import { Navigate, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import Header from "./partials/Header";
@@ -12,6 +13,8 @@ const DashboardUser = () => {
     const [credential, setCredential] = useState({});
     const [transactions, setTransactions] = useState([]);
     const [detail_transaction, setDetailTransaction] = useState([]);
+    const [conseling_transaction, setConselingTransaction] = useState([]);
+    const [user_id, setUserId] = useState("");
 
     const token = localStorage.getItem("token");
     if (!token) { window.location.replace("/login") }
@@ -26,6 +29,7 @@ const DashboardUser = () => {
         })
             .then((res) => {
                 setUser(res.data.data.detailUser);
+                setUserId(res.data.data.detailUser.id);
                 setCredential(res.data.data.user);
                 setRole(res.data.data.user.role_id);
             })
@@ -124,9 +128,22 @@ const DashboardUser = () => {
             });
     };
 
-    if(detail_transaction.length !== 0) {
-        console.log(detail_transaction);
+    // get user conseling data
+    useEffect(() => {
+        axios.get("http://127.0.0.1:8000/api/user-conseling-transaction", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((res) => {
+                setConselingTransaction(res.data.data);
+            })
+    }, []);
+
+    if (conseling_transaction !== null) {
+        console.log(conseling_transaction);
     }
+
     return (
         <div className="dashboard">
             {/* HEADER */}
@@ -134,7 +151,7 @@ const DashboardUser = () => {
 
             <div className="container">
                 <div className="row justify-content-center menu">
-            {/* MENU */}
+                    {/* MENU */}
                     <ul
                         className="nav nav-pills mb-3 flex-column flex-sm-row nav-justified dashboard-tab"
                         id="pills-tab"
@@ -182,6 +199,20 @@ const DashboardUser = () => {
                                 Transaction
                             </button>
                         </li>
+                        <li className="nav-item me-4 flex-sm-fill" role="presentation">
+                            <button
+                                className="nav-link btn"
+                                id="pills-conseling-tab"
+                                data-bs-toggle="pill"
+                                data-bs-target="#pills-conseling"
+                                type="button"
+                                role="tab"
+                                aria-controls="pills-conseling"
+                                aria-selected="false"
+                            >
+                                Conseling
+                            </button>
+                        </li>
                         <li className="nav-item flex-sm-fill" role="presentation">
                             <button
                                 className="nav-link btn"
@@ -200,7 +231,7 @@ const DashboardUser = () => {
 
                     {/* CONTENT */}
                     <div className="tab-content p-0 content" id="pills-tabContent">
-                        {/* list diary ✅*/}
+                        {/* list diary*/}
                         <div
                             className="tab-pane fade show active"
                             id="pills-diary"
@@ -299,8 +330,8 @@ const DashboardUser = () => {
                                                 <img
                                                     src={
                                                         detail.course.thumbnail == '' ?
-                                                        'https://via.placeholder.com/150' :
-                                                        'http://127.0.0.1:8000/' + detail.course.thumbnail
+                                                            'https://via.placeholder.com/150' :
+                                                            'http://127.0.0.1:8000/' + detail.course.thumbnail
                                                     }
                                                     className="img-fluid square"
                                                     alt=""
@@ -308,7 +339,7 @@ const DashboardUser = () => {
 
                                                 <div className="row">
                                                     <h4 className="class-title">{detail.course.title}</h4>
-                                                    <p className="giveMeEllipsis col-md-8"> Enroll Date: 
+                                                    <p className="giveMeEllipsis col-md-8"> Enroll Date:
                                                         {
                                                             detail.created_at?.split("T")[0].split("-").reverse().join("-")
                                                         }
@@ -387,7 +418,78 @@ const DashboardUser = () => {
                                 </div>
                             </div>
                         </div>
-                        {/* profile ✅*/}
+
+                        {/* list conseling */}
+                        <div
+                            className="tab-pane fade"
+                            id="pills-conseling"
+                            role="tabpanel"
+                            aria-labelledby="pills-conseling-tab"
+                        >
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <h2>Conselings</h2>
+                                    <h5 className="text-secondary">
+                                        This is all your conseling record
+                                    </h5>
+                                </div>
+                            </div>
+                            <div className="row mt-5">
+                                {/* table */}
+                                <div className="col-md-12">
+                                    <table className="table table-hover" >
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Conselor</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Start - End</th>
+                                                <th scope="col">Pay Status</th>
+                                                <th scope="col">Conseling Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                conseling_transaction?.map((transaction, index) => {
+                                                    return (
+                                                        <tr key={transaction?.id}>
+                                                            <th scope="row align-middle">{index + 1}</th>
+                                                            <td className="align-middle">{transaction?.conselor?.name}</td>
+                                                            <td className="align-middle">{
+                                                                <CurrencyFormat value={transaction?.price} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} />
+                                                            }</td>
+                                                            <td className="align-middle">{
+                                                                transaction?.start_time.split("T")[0].split("-").reverse().join("-") +
+                                                                " - " +
+                                                                transaction?.end_time.split("T")[0].split("-").reverse().join("-")
+                                                            }</td>
+                                                            <td>
+                                                                {
+                                                                    transaction?.pay_status == 'success' ?
+                                                                    <button className="btn btn-small btn-success">Success</button>
+                                                                    :
+                                                                    <button className="btn btn-small btn-danger">Pending</button>
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                {
+                                                                    transaction?.conseling_status == 'success' ?
+                                                                        <button className="btn btn-small btn-success">Success</button>
+                                                                        :
+                                                                        <button className="btn btn-small btn-danger">Pending</button>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* profile*/}
                         <div
                             className="tab-pane fade"
                             id="pills-profile"

@@ -38,7 +38,7 @@ const DashboardConselor = () => {
     const [office_phone_number, setOfficePhoneNumber] = useState("");
     const [benefits, setBenefits] = useState("");
     const [conselor_price, setConselorPrice] = useState(""); // price
-    
+
     // update conselor
     const updateConselor = async () => {
         const data = new FormData();
@@ -67,7 +67,7 @@ const DashboardConselor = () => {
             })
             .catch(err => {
                 swal("Update Conselor Failed!", '', "error");
-            });     
+            });
     }
 
     // get detail course
@@ -261,14 +261,24 @@ const DashboardConselor = () => {
         })
     }, [])
 
+    const [conseling_transaction, setConselingTransaction] = useState([]);
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:8000/api/user-conseling-transaction`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((res) => {
+            setConselingTransaction(res.data.data);
+        })
+    }, [])
 
     return (
         <div className="dashboard">
             {/* HEADER */}
             <Header photo={
                 user.photo == '' ?
-                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' :
-                `http://127.0.0.1:8000/${user.photo}`
+                    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' :
+                    `http://127.0.0.1:8000/${user.photo}`
             } />
             {/* MENU */}
             <div className="container">
@@ -716,6 +726,91 @@ const DashboardConselor = () => {
                             </div>
                         </div>
                         {/* Conseling */}
+                        <div className="tab-pane fade"
+                            id="pills-conseling"
+                            role="tabpanel"
+                            aria-labelledby="pills-conseling-tab">
+                            <div className="row justify-content-between">
+                                <div className="col-md-6">
+                                    <h2>Conseling Transaction</h2>
+                                    <h5 className="text-secondary">
+                                        this is the transaction you made
+                                    </h5>
+                                </div>
+                            </div>
+                            <div className="row mt-5">
+                                {/* table */}
+                                <div className="col-md-12">
+                                    <table className="table table-hover" >
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Conselor</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Start - End</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Pay Status</th>
+                                                <th scope="col">Conseling Status</th>
+                                                <th scope="col">Invite</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                conseling_transaction?.map((transaction, index) => {
+                                                    return (
+                                                        <tr key={transaction?.id}>
+                                                            <th scope="align-middle">{index + 1}</th>
+                                                            <td className="align-middle">{transaction?.user?.name}</td>
+                                                            <td className="align-middle">{
+                                                                <CurrencyFormat value={transaction?.price} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} />
+                                                            }</td>
+                                                            <td className="align-middle">{
+                                                                transaction?.start_time.split("T")[0].split("-").reverse().join("-") +
+                                                                " - " +
+                                                                transaction?.end_time.split("T")[0].split("-").reverse().join("-")
+                                                            }</td>
+                                                            <td className="align-middle">
+                                                                {
+                                                                    transaction?.created_at.split("T")[0].split("-").reverse().join("-")
+                                                                }
+                                                            </td>
+                                                            <td className="align-middle">
+                                                                {
+                                                                    transaction?.pay_status == 'success' ?
+                                                                        <span className="text-success">Success</span>
+                                                                        :
+                                                                        <span className="text-danger">Pending</span>
+                                                                }
+                                                            </td>
+                                                            <td className="align-middle">
+                                                                {
+                                                                    transaction?.conseling_status == 'success' ?
+                                                                        <span className="text-success">Success</span>
+                                                                        :
+                                                                        <span className="text-danger">Pending</span>
+                                                                }
+                                                            </td>
+                                                            <td>
+                                                                <div class="btn-group">
+                                                                    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        Menu
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li><a class="dropdown-item" href="#">Update</a></li>
+                                                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                                                        <li><a class="dropdown-item" href="#">Send Invitation</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                })
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                         {/* profile */}
                         <div className="tab-pane fade"
                             id="pills-profile"
@@ -745,7 +840,7 @@ const DashboardConselor = () => {
                                                 <label htmlFor="">Photo</label>
                                                 <input type="file" className="form-control" name="photo" defaultValue={user?.photo} onChange={(e) => {
                                                     setPhoto(e.target.files[0]);
-                                                }}/>
+                                                }} />
                                             </div>
                                         </div>
                                         <div className="col">
@@ -814,7 +909,7 @@ const DashboardConselor = () => {
                                                 <label htmlFor="">Work Address</label>
                                                 <input type="text" className="form-control" onChange={(e) => {
                                                     setWorkAddress(e.target.value);
-                                                }} defaultValue={user?.work_address}/>
+                                                }} defaultValue={user?.work_address} />
                                             </div>
                                         </div>
                                         <div className="col">
@@ -822,7 +917,7 @@ const DashboardConselor = () => {
                                                 <label htmlFor="">Practice Address</label>
                                                 <input type="text" className="form-control" onChange={(e) => {
                                                     setPracticePlaceAddress(e.target.value);
-                                                }} defaultValue={user?.practice_place_address}/>
+                                                }} defaultValue={user?.practice_place_address} />
                                             </div>
                                         </div>
                                     </div>
@@ -831,13 +926,13 @@ const DashboardConselor = () => {
                                             <label htmlFor="">Office Phone Number</label>
                                             <input type="text" className="form-control" onChange={(e) => {
                                                 setOfficePhoneNumber(e.target.value);
-                                            }} defaultValue={user?.office_phone_number}/>
+                                            }} defaultValue={user?.office_phone_number} />
                                         </div>
                                         <div className="col">
                                             <label htmlFor="">Benefit</label>
                                             <input type="text" className="form-control" onChange={(e) => {
                                                 setBenefits(e.target.value);
-                                            }} defaultValue={user?.benefits} />                                            
+                                            }} defaultValue={user?.benefits} />
                                         </div>
                                     </div>
                                     <div className="row mt-3 mb-5">
@@ -845,7 +940,7 @@ const DashboardConselor = () => {
                                             <label htmlFor="">Price</label>
                                             <input type="number" className="form-control" onChange={(e) => {
                                                 setConselorPrice(e.target.value);
-                                            }} defaultValue={user?.price}/>
+                                            }} defaultValue={user?.price} />
                                         </div>
                                         <div className="col mt-auto text-end">
                                             <button className="btn btn-primary" onClick={() => {
