@@ -12,6 +12,7 @@ const DashboardConselor = () => {
     let navigate = useNavigate();
     if (!token) { window.location.replace("/login") }
     const [user, setUser] = useState({});
+    const [users, setUsers] = useState([]);
     const [diaries, setDiaries] = useState([]);
     const [courses, setCourse] = useState([]);
     const [course_id, setCourseId] = useState('');
@@ -38,6 +39,114 @@ const DashboardConselor = () => {
     const [office_phone_number, setOfficePhoneNumber] = useState("");
     const [benefits, setBenefits] = useState("");
     const [conselor_price, setConselorPrice] = useState(""); // price
+
+    // form field conseling
+    const [user_id, setUserId] = useState("");
+    const [conseling_price, setConselingPrice] = useState("");
+    const [pay_status, setPayStatus] = useState("");
+    const [conseling_status, setConselingStatus] = useState("");
+    const [start_time, setStartTime] = useState("");
+    const [end_time, setEndTime] = useState("");
+
+    // get all users
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:8000/api/users`)
+            .then(res => {
+                setUsers(res.data);
+            })
+    }, []);
+
+    // add conseling
+    const addConseling = async () => {
+        await fetch("http://127.0.0.1:8000/api/conseling-transaction/store", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                user_id: user_id,
+                price: user['price'],
+                pay_status: pay_status,
+                conseling_status: conseling_status,
+                start_time: start_time,
+                end_time: end_time
+            })
+        })
+            .then(res => {
+                swal("Success", "Successfully added conseling", "success").then(() => {
+                    window.location.reload();
+                    setUserId("");
+                    setConselingPrice("");
+                    setPayStatus("");
+                    setConselingStatus("");
+                    setStartTime("");
+                    setEndTime("");
+                });
+            })
+            .catch(err => {
+                swal("Error", "Failed to add conseling", "error");
+            })
+    }
+
+    // get detail conseling
+    const [detail_conseling, setDetailConseling] = useState({});
+    const getDetailConseling = async (id) => {
+        await axios.get(`http://127.0.0.1:8000/api/user-conseling-transaction?id=${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                setDetailConseling(res.data.data);
+            }, [])
+    }
+
+    // update conseling
+    const updateConseling = async (id) => {
+        await fetch(`http://127.0.0.1:8000/api/conseling-transaction/update/${id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                // user_id: user_id,
+                price: user['price'],
+                pay_status: pay_status,
+                conseling_status: conseling_status,
+                start_time: start_time,
+                end_time: end_time
+            })
+        }).then(res => {
+            swal("Success", "Successfully updated conseling", "success").then(() => {
+                window.location.reload();
+                setUserId("");
+                setConselingPrice("");
+                setPayStatus("");
+                setConselingStatus("");
+                setStartTime("");
+                setEndTime("");
+            });
+        }).catch(err => {
+            swal("Error", "Failed to update conseling", "error");
+        })
+    }
+
+    // delete conseling
+    const deleteConseling = async (id) => {
+        await fetch(`http://127.0.0.1:8000/api/conseling-transaction/delete/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                swal("Success", "Successfully deleted conseling", "success").then(() => {
+                    window.location.reload();
+                })
+            })
+    }
 
     // update conselor
     const updateConselor = async () => {
@@ -737,6 +846,11 @@ const DashboardConselor = () => {
                                         this is the transaction you made
                                     </h5>
                                 </div>
+                                <div className="col-md-6 text-end">
+                                    <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addConseling">
+                                        Add New
+                                    </button>
+                                </div>
                             </div>
                             <div className="row mt-5">
                                 {/* table */}
@@ -791,14 +905,29 @@ const DashboardConselor = () => {
                                                                 }
                                                             </td>
                                                             <td>
-                                                                <div class="btn-group">
-                                                                    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                <div className="btn-group">
+                                                                    <button type="button" className="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                                                         Menu
                                                                     </button>
-                                                                    <ul class="dropdown-menu">
-                                                                        <li><a class="dropdown-item" href="#">Update</a></li>
-                                                                        <li><a class="dropdown-item" href="#">Delete</a></li>
-                                                                        <li><a class="dropdown-item" href="#">Send Invitation</a></li>
+                                                                    <ul className="dropdown-menu">
+                                                                        <li><a className="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateConseling" onClick={() => {
+                                                                            getDetailConseling(transaction?.id);
+                                                                        }}>Update</a></li>
+                                                                        <li><a className="dropdown-item" onClick={() => {
+                                                                            swal({
+                                                                                title: "Are you sure?",
+                                                                                text: "You will delete this conseling transaction!",
+                                                                                icon: "warning",
+                                                                                buttons: true,
+                                                                                dangerMode: true,
+                                                                            })
+                                                                                .then((willDelete) => {
+                                                                                    if (willDelete) {
+                                                                                        deleteConseling(transaction?.id);
+                                                                                    }
+                                                                                });
+                                                                        }}>Delete</a></li>
+                                                                        <li><a className="dropdown-item" href="#">Send Invitation</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </td>
@@ -808,6 +937,151 @@ const DashboardConselor = () => {
                                             }
                                         </tbody>
                                     </table>
+                                </div>
+                                {/* add conseling modal */}
+                                <div className="modal fade" id="addConseling" tabIndex="-1" aria-labelledby="addConseling" aria-hidden="true">
+                                    <div className="modal-dialog modal-dialog-scrollable">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h4 className="modal-title" id="addConseling">Add New Schedule</h4>
+                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div className="modal-body">
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="exampleDataList" className="form-label">Datalist example</label>
+                                                    {/* dynamic datallist */}
+                                                    <input type="text" className="form-control" onChange={(e) => {
+                                                        setUserId(e.target.value);
+                                                    }} id="exampleDataList" list="dataList" />
+                                                    <datalist id="dataList">
+                                                        {
+                                                            users?.map((user, index) => {
+                                                                return (
+                                                                    <option value={user?.id} key={user?.id}>{user?.detail_user?.name}</option>
+                                                                )
+                                                            })
+                                                        }
+                                                    </datalist>
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label className="form-label">Price</label>
+                                                    <input type="text" className="form-control" disabled placeholder="Price" defaultValue={user.price} />
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label className="form-label">Pay Status</label>
+                                                    <select className="form-select" onChange={(e) => {
+                                                        setPayStatus(e.target.value);
+                                                    }}>
+                                                        <option value="success">Success</option>
+                                                        <option value="pending">Pending</option>
+                                                    </select>
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label className="form-label">Conseling Status</label>
+                                                    <select className="form-select" onChange={(e) => {
+                                                        setConselingStatus(e.target.value);
+                                                    }}>
+                                                        <option value="success">Success</option>
+                                                        <option value="pending">Pending</option>
+                                                    </select>
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label className="form-label">Start Time</label>
+                                                    <input type="time" className="form-control" onChange={(e) => {
+                                                        setStartTime(e.target.value);
+                                                    }} />
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label className="form-label">End Time</label>
+                                                    <input type="time" className="form-control" onChange={(e) => {
+                                                        setEndTime(e.target.value);
+                                                    }} />
+                                                </div>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" className="btn btn-primary" onClick={() => {
+                                                    addConseling();
+                                                }}>Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* update conseling modal */}
+                                <div className="modal fade" id="updateConseling" tabIndex="-1" aria-labelledby="updateConseling" aria-hidden="true">
+                                    <div className="modal-dialog modal-dialog-scrollable">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h4 className="modal-title" id="updateConseling">Update Schedule</h4>
+                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div className="modal-body">
+                                                <div className="form-group mb-3">
+                                                    <label htmlFor="exampleDataList" className="form-label">Datalist example</label>
+                                                    {/* dynamic datallist */}
+                                                    <input type="text" className="form-control" disabled onChange={(e) => {
+                                                        setUserId(e.target.value);
+                                                    }} defaultValue={detail_conseling?.user?.name} />
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label className="form-label">Price</label>
+                                                    <input type="text" className="form-control" disabled placeholder="Price" defaultValue={user.price} />
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label className="form-label">Pay Status</label>
+                                                    <select className="form-select" onChange={(e) => {
+                                                        setPayStatus(e.target.value);
+                                                    }}>
+                                                        {
+                                                            ['success', 'pending'].map((status, index) => {
+                                                                return (
+                                                                    (detail_conseling?.pay_status === status) ?
+                                                                        <option value={status} key={index} selected>{status}</option>
+                                                                        :
+                                                                        <option value={status} key={index}>{status}</option>
+                                                                )
+                                                            })
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label className="form-label">Conseling Status</label>
+                                                    <select className="form-select" onChange={(e) => {
+                                                        setConselingStatus(e.target.value);
+                                                    }}>
+                                                        {
+                                                            ['success', 'pending'].map((status, index) => {
+                                                                return (
+                                                                    (detail_conseling?.pay_status === status) ?
+                                                                        <option value={status} key={index} selected>{status}</option>
+                                                                        :
+                                                                        <option value={status} key={index}>{status}</option>
+                                                                )
+                                                            })
+                                                        }
+                                                    </select>
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label className="form-label">Start Time</label>
+                                                    <input type="time" className="form-control" defaultValue={detail_conseling?.start_time} onChange={(e) => {
+                                                        setStartTime(e.target.value);
+                                                    }} />
+                                                </div>
+                                                <div className="form-group mb-3">
+                                                    <label className="form-label">End Time</label>
+                                                    <input type="time" className="form-control" defaultValue={detail_conseling?.end_time} onChange={(e) => {
+                                                        setEndTime(e.target.value);
+                                                    }} />
+                                                </div>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" className="btn btn-primary" onClick={() => {
+                                                    updateConseling(detail_conseling?.id);
+                                                }}>Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
