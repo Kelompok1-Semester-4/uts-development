@@ -927,7 +927,20 @@ const DashboardConselor = () => {
                                                                                     }
                                                                                 });
                                                                         }}>Delete</a></li>
-                                                                        <li><a className="dropdown-item" href="#">Send Invitation</a></li>
+                                                                        <li><a className="dropdown-item" onClick={() => {
+                                                                            swal("You will invite this conseling transaction!", {
+                                                                                content: "input",
+                                                                            }).then((value) => {
+                                                                                // convert input to encoded string
+                                                                                let encoded = encodeURIComponent(value);
+                                                                                if (value) {
+                                                                                    // send invite to whatsapp web
+                                                                                    window.open(`https://api.whatsapp.com/send?phone=${transaction?.user?.phone}&text=${encoded}`);
+                                                                                } else {
+                                                                                    swal("You need to write something!");
+                                                                                }
+                                                                            });
+                                                                        }}>Send Invitation</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </td>

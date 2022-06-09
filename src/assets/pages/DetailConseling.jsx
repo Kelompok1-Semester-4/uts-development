@@ -84,7 +84,13 @@ const DetailConseling = () => {
                                             <p className="mb-4"><b>Contact Person:</b> {user.detail_user?.phone}</p>
                                         </div>
                                         <div className="col text-end col-md-4">
-                                            <button className="btn-success btn btn-small">Book Now</button>
+                                            <button className="btn-dark btn" onClick={() => {
+                                                /* 
+                                                redirect to whatsapp chat with default message
+                                                Good evening, I am interested in joining the counseling program that you offer. Guess how I can follow it?    
+                                                */
+                                                window.open(`https://api.whatsapp.com/send?phone=${user.detail_user?.phone}&text=Good%20evening%2C%20I%20am%20interested%20in%20joining%20the%20counseling%20program%20that%20you%20offer.%20Guess%20how%20I%20can%20follow%20it%3F`)
+                                            }}>Book Now</button>
                                         </div>
                                     </div>
                                     <div className="row px-2 mt-3">
