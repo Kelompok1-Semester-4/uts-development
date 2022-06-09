@@ -42,17 +42,17 @@ const Login = () => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then((res) => {
         // console.log(data);
-        if (data.meta.code == 200) {
-          localStorage.setItem("token", data.data.token);
-          if (data.data.user.role_id == 1) {
+        if (res.meta.code == 200) {
+          localStorage.setItem("token", res.data.token);
+          if (res.data.user.role_id == 1) {
             window.location.href = "/dashboard-user";
-            setUser(data.user);
-          } else if (data.data.user.role_id == 2) {
+            setUser(res.user);
+          } else if (res.data.user.role_id == 2) {
             // window.location.href = "/dashboard-conselor";
-            console.log(data.data.detail_user);
-            setConselorVerifiedStatus(data.data.detail_user.is_verified);
+            console.log(res.data.detail_user);
+            setConselorVerifiedStatus(res.data.detail_user.is_verified);
             console.log(conselor_verified_status);
             if (conselor_verified_status == 1) {
               swal("Login Success", "Kamu adalah conselor", "success").then(() => {
@@ -61,16 +61,16 @@ const Login = () => {
             } else {
               swal("Login Failed", "Kamu belum terverifikasi", "error")
             }
-            setUser(data.user);
-          } else if (data.data.user.role_id == 3) {
+            setUser(res.user);
+          } else if (res.data.user.role_id == 3) {
             // window.location.href = "/dashboard-admin";
             swal("Login Success", "Kamu adalah admin", "success").then(() => {
               window.location.href = '/dashboard-admin';
             });
-            setUser(data.user);
+            setUser(res.user);
           }
-        } else if (data.meta.code == 400) {
-          swal("Login Failed", data.data, "error");
+        } else if (res.meta.code == 400) {
+          swal("Login Failed", res.data, "error");
         }
 
         // resetForm();

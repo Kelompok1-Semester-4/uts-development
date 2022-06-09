@@ -766,11 +766,11 @@ const DashboardConselor = () => {
                                             transaction?.map((trans, index) => {
                                                 return (
                                                     <tr key={trans.id}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{trans.user.detail_user.name}</td>
-                                                        <td>{trans.created_at.split("T")[0].split("-").reverse().join("-")}</td>
-                                                        <td>{trans.course.title}</td>
-                                                        <td className="text-center">
+                                                        <td className="align-middle">{index + 1}</td>
+                                                        <td className="align-middle">{trans.user.detail_user.name}</td>
+                                                        <td className="align-middle">{trans.created_at.split("T")[0].split("-").reverse().join("-")}</td>
+                                                        <td className="align-middle">{trans.course.title}</td>
+                                                        <td className="text-center align-middle">
                                                             <div className="dropdown">
                                                                 <button className="btn btn-primary btn-small dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                                     Menu
@@ -873,7 +873,7 @@ const DashboardConselor = () => {
                                                 conseling_transaction?.map((transaction, index) => {
                                                     return (
                                                         <tr key={transaction?.id}>
-                                                            <th scope="align-middle">{index + 1}</th>
+                                                            <td className="align-middle">{index + 1}</td>
                                                             <td className="align-middle">{transaction?.user?.name}</td>
                                                             <td className="align-middle">{
                                                                 <CurrencyFormat value={transaction?.price} displayType={'text'} thousandSeparator={true} prefix={'IDR. '} />
