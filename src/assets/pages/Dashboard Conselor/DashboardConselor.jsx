@@ -757,8 +757,8 @@ const DashboardConselor = () => {
                                             <th scope="col">#</th>
                                             <th scope="col">Buyer</th>
                                             <th scope="col">Transaction Date</th>
-                                            <td scope="col">Course Title</td>
-                                            <td scope="col" className="text-center">Action</td>
+                                            <th scope="col">Course Title</th>
+                                            <th scope="col" className="text-center">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>

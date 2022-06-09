@@ -25,6 +25,9 @@ const Header = (props) => {
 
                         <ul className="dropdown-menu text-small mt-2" aria-labelledby="dropdownUser1">
                             <li><a className="dropdown-item" onClick={() => {
+                                window.location.href = '/';
+                            }}>Beranda</a></li>
+                            <li><a className="dropdown-item" onClick={() => {
                                 logout();
                             }}>Sign out</a></li>
                         </ul>

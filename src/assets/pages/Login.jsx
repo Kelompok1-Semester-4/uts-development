@@ -50,7 +50,6 @@ const Login = () => {
             window.location.href = "/dashboard-user";
             setUser(res.user);
           } else if (res.data.user.role_id == 2) {
-            // window.location.href = "/dashboard-conselor";
             console.log(res.data.detail_user);
             setConselorVerifiedStatus(res.data.detail_user.is_verified);
             console.log(conselor_verified_status);
