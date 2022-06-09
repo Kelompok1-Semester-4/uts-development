@@ -84,7 +84,9 @@ const DashboardUser = () => {
             },
         }).then((res) => {
             console.log(res);
-            swal("Deleted!", "Your diary has been deleted.", "success");
+            swal("Deleted!", "Your diary has been deleted.", "success").then(() => {
+                window.location.reload();
+            });
         }).catch((err) => {
             console.log(err);
         });

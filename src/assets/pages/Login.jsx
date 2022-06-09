@@ -42,11 +42,11 @@ const Login = () => {
       }),
     })
       .then((res) => res.json())
-      .then((res) => {
+      .then((data) => {
         // console.log(data);
-        if (res.meta.code == 200) {
-          localStorage.setItem("token", res.data.token);
-          if (res.data.user.role_id == 1) {
+        if (data.meta.code == 200) {
+          localStorage.setItem("token", data.data.token);
+          if (data.data.user.role_id == 1) {
             window.location.href = "/dashboard-user";
             setUser(res.user);
           } else if (res.data.user.role_id == 2) {
@@ -60,16 +60,16 @@ const Login = () => {
             } else {
               swal("Login Failed", "Kamu belum terverifikasi", "error")
             }
-            setUser(res.user);
-          } else if (res.data.user.role_id == 3) {
+            setUser(data.user);
+          } else if (data.data.user.role_id == 3) {
             // window.location.href = "/dashboard-admin";
             swal("Login Success", "Kamu adalah admin", "success").then(() => {
               window.location.href = '/dashboard-admin';
             });
-            setUser(res.user);
+            setUser(data.user);
           }
-        } else if (res.meta.code == 400) {
-          swal("Login Failed", res.data, "error");
+        } else if (data.meta.code == 400) {
+          swal("Login Failed", data.data, "error");
         }
 
         // resetForm();
