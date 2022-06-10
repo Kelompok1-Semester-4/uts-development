@@ -54,7 +54,7 @@ const DetailConseling = () => {
                                 <div className="row">
                                     <div className="col-md-3">
                                         <h5 className="text-muted">Courses</h5>
-                                        <h1>{ courses.length }</h1>
+                                        <h1>{courses.length}</h1>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@ const DetailConseling = () => {
                                 <div className="row">
                                     <div className="col-md-3">
                                         <h5 className="text-muted">Diaries</h5>
-                                        <h1>{ diaries.length }</h1>
+                                        <h1>{diaries.length}</h1>
                                     </div>
                                 </div>
                             </div>
@@ -85,11 +85,13 @@ const DetailConseling = () => {
                                         </div>
                                         <div className="col text-end col-md-4">
                                             <button className="btn-dark btn" onClick={() => {
+                                                let phone = user.detail_user?.phone;
+                                                phone = phone.replace(/^0/, '+62');
                                                 /* 
                                                 redirect to whatsapp chat with default message
                                                 Good evening, I am interested in joining the counseling program that you offer. Guess how I can follow it?    
                                                 */
-                                                window.open(`https://api.whatsapp.com/send?phone=${user.detail_user?.phone}&text=Good%20evening%2C%20I%20am%20interested%20in%20joining%20the%20counseling%20program%20that%20you%20offer.%20Guess%20how%20I%20can%20follow%20it%3F`)
+                                                window.open(`https://api.whatsapp.com/send?phone=${phone}&text=Good%20evening%2C%20I%20am%20interested%20in%20joining%20the%20counseling%20program%20that%20you%20offer.%20Guess%20how%20I%20can%20follow%20it%3F`)
                                             }}>Book Now</button>
                                         </div>
                                     </div>

@@ -127,17 +127,10 @@ const Register = () => {
                 "Content-Type": "multipart/form-data",
             },
         })
-            .then((res) => res.json())
             .then((res) => {
-                console.log(res);
-                // check if code is 200
-                if (res.meta.code === 200) {
-                    // set local storage
-                    // localStorage.setItem("token", res.data.token);
-                    swal("Success", "Register Success", "success").then(() => {
-                        window.location.href = "/login";
-                    });
-                }
+                swal("Success", "Register Success", "success").then(() => {
+                    window.location.href = "/login";
+                });
             })
             .catch((err) => {
                 swal("Error", err.message, "error");

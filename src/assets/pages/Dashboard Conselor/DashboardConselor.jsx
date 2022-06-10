@@ -934,8 +934,10 @@ const DashboardConselor = () => {
                                                                                 // convert input to encoded string
                                                                                 let encoded = encodeURIComponent(value);
                                                                                 if (value) {
+                                                                                    let phone = transaction?.user?.phone;
+                                                                                    phone = phone.replace(/^0/, '+62');
                                                                                     // send invite to whatsapp web
-                                                                                    window.open(`https://api.whatsapp.com/send?phone=${transaction?.user?.phone}&text=${encoded}`);
+                                                                                    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encoded}`);
                                                                                 } else {
                                                                                     swal("You need to write something!");
                                                                                 }
