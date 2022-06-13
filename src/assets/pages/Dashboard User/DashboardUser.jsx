@@ -16,6 +16,15 @@ const DashboardUser = () => {
     const [conseling_transaction, setConselingTransaction] = useState([]);
     const [user_id, setUserId] = useState("");
 
+    // user credentials
+    const [name, setName] = useState("");
+    const [gender, setGender] = useState("");
+    const [birth, setBirth] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const [photo, setPhoto] = useState();
+    const [job, setJob] = useState("");
+
     const token = localStorage.getItem("token");
     if (!token) { window.location.replace("/login") }
 
@@ -32,11 +41,25 @@ const DashboardUser = () => {
                 setUserId(res.data.data.detailUser.id);
                 setCredential(res.data.data.user);
                 setRole(res.data.data.user.role_id);
+
+                setName(res.data.data.detailUser.name);
+                setGender(res.data.data.detailUser.gender);
+                setBirth(res.data.data.detailUser.birth);
+                setPhone(res.data.data.detailUser.phone);
+                setAddress(res.data.data.detailUser.address);
+                setPhoto(res.data.data.detailUser.photo);
+                setJob(res.data.data.detailUser.job);
+
             })
             .catch((err) => {
                 console.log(err);
             });
     }, []);
+
+    const handleUpload = (e) => {
+        e.preventDefault();
+        setPhoto(e.target.files[0]);
+    }
 
     // fetch diaries by user id
     useEffect(() => {
@@ -92,15 +115,6 @@ const DashboardUser = () => {
         });
     };
 
-    const [name, setName] = useState("");
-    const [gender, setGender] = useState("");
-    const [birth, setBirth] = useState("");
-    const [phone, setPhone] = useState("");
-    const [address, setAddress] = useState("");
-    const [photo, setPhoto] = useState("");
-    const [job, setJob] = useState("");
-
-
     const updateProfile = async (e) => {
         e.preventDefault();
         const data = new FormData();
@@ -112,22 +126,23 @@ const DashboardUser = () => {
         data.append('photo', photo);
         data.append('job', job);
 
-        await axios.post("http://127.0.0.1:8000/api/user", data, {
+        await fetch('http://127.0.0.1:8000/api/user/update', {
+            method: 'POST',
             headers: {
-                "Content-Type": "multipart/form-data",
-                "Authorization": `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
             },
+            body: data,
         })
+            .then((res) => res.json())
             .then((res) => {
-                console.log(res);
-                // check if code is 200
-                if (res.status === 200) {
-                    swal("Success!", "Your profile has been updated.", "success");
-                    setUser(res.data.data.detailUser);
+                if (res.meta.code == 200) {
+                    swal("Success!", "Your profile has been updated.", "success").then(() => {
+                        window.location.reload();
+                    });
                 } else {
-                    swal("Error", res.data, "error");
+                    swal("Error!", res.data, "error");
                 }
-            });
+            })
     };
 
     // get user conseling data
@@ -468,9 +483,9 @@ const DashboardUser = () => {
                                                             <td>
                                                                 {
                                                                     transaction?.pay_status == 'success' ?
-                                                                    <button className="btn btn-small btn-success">Success</button>
-                                                                    :
-                                                                    <button className="btn btn-small btn-danger">Pending</button>
+                                                                        <button className="btn btn-small btn-success">Success</button>
+                                                                        :
+                                                                        <button className="btn btn-small btn-danger">Pending</button>
                                                                 }
                                                             </td>
                                                             <td>
@@ -538,7 +553,7 @@ const DashboardUser = () => {
                                                         name="photo"
                                                         defaultValue={user?.photo}
                                                         onChange={(e) => {
-                                                            setPhoto(e.target.files[0])
+                                                            handleUpload(e);
                                                         }}
                                                         placeholder="Drop Your File Profile Image"
                                                     />
