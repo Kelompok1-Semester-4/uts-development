@@ -20,7 +20,7 @@ const DashboardConselor = () => {
     const [detailTransaction, setDetailTransaction] = useState({});
     const [role, setRole] = useState("");
 
-    // form field
+    // form field course
     const [thumbnail, setThumbnail] = useState("");
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
@@ -28,7 +28,7 @@ const DashboardConselor = () => {
     const [course_type_id, setCourseTypeId] = useState("");
 
     // form field conselor
-    const [photo, setPhoto] = useState("");
+    const [photo, setPhoto] = useState();
     const [name, setName] = useState("");
     const [gender, setGender] = useState("");
     const [birth, setBirth] = useState("");
@@ -39,6 +39,10 @@ const DashboardConselor = () => {
     const [office_phone_number, setOfficePhoneNumber] = useState("");
     const [benefits, setBenefits] = useState("");
     const [conselor_price, setConselorPrice] = useState(""); // price
+
+    const handleuploadPhoto = (e) => {
+        setPhoto(e.target.files[0]);
+    }
 
     // form field conseling
     const [user_id, setUserId] = useState("");
@@ -163,20 +167,24 @@ const DashboardConselor = () => {
         data.append('benefits', benefits);
         data.append('price', conselor_price);
 
-        await axios.post(`http://127.0.0.1:8000/api/user/update`, data, {
+        await fetch('http://127.0.0.1:8000/api/user/update', {
+            method: "POST",
             headers: {
-                'Accept': 'application/json',
-                Authorization: `Bearer ${token}`
-            }
+                Authorization: `Bearer ${token}`,
+            },
+            body: data
         })
-            .then(res => {
-                swal("Update Conselor Success!", "", "success").then(() => {
+        .then(res => res.json())
+        .then(res => {
+            // check if success
+            if (res.meta.code == 200) {
+                swal("Success", "Successfully updated conselor", "success").then(() => {
                     window.location.reload();
                 })
-            })
-            .catch(err => {
-                swal("Update Conselor Failed!", '', "error");
-            });
+            } else {
+                swal("Error", res.data, "error");
+            }
+        })
     }
 
     // get detail course
@@ -315,6 +323,23 @@ const DashboardConselor = () => {
             .then((res) => {
                 setUser(res.data.data.detailUser);
                 setRole(res.data.data.user.role_id);
+
+                
+                // get photo
+                setPhoto(res.data.data.detailUser.photo);
+
+                console.log(photo);
+
+                setName(res.data.data.detailUser.name);
+                setGender(res.data.data.detailUser.gender);
+                setBirth(res.data.data.detailUser.birth);
+                setAddress(res.data.data.detailUser.address);
+                setJob(res.data.data.detailUser.job);
+                setWorkAddress(res.data.data.detailUser.work_address);
+                setPracticePlaceAddress(res.data.data.detailUser.practice_place_address);
+                setOfficePhoneNumber(res.data.data.detailUser.office_phone_number);
+                setBenefits(res.data.data.detailUser.benefits);
+                setConselorPrice(res.data.data.detailUser.price);
             })
             .catch((err) => {
                 console.log(err);
@@ -1128,7 +1153,7 @@ const DashboardConselor = () => {
                                             <div className="form-group mb-3">
                                                 <label htmlFor="">Photo</label>
                                                 <input type="file" className="form-control" name="photo" defaultValue={user?.photo} onChange={(e) => {
-                                                    setPhoto(e.target.files[0]);
+                                                    handleuploadPhoto(e);
                                                 }} />
                                             </div>
                                         </div>
