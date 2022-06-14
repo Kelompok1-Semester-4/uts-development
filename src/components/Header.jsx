@@ -10,11 +10,13 @@ import Counseling from "../assets/pages/Counseling";
 import Home from "../assets/pages/Home";
 import Diaries from "../assets/pages/Diaries";
 import axios from "axios";
+import swal from "sweetalert";
 
 const Header = () => {
 
   let token = localStorage.getItem("token");
   const [user, setUser] = useState({});
+  const [role, setRole] = useState("");
 
   // logout with delete local storage
   const logout = () => {
@@ -32,7 +34,7 @@ const Header = () => {
       })
       .then((res) => {
         setUser(res.data.data.detailUser);
-        // console.log(res);
+        setRole(res.data.data.user.role_id);
       })
       .catch((err) => {
         console.log(err);
@@ -108,11 +110,14 @@ const Header = () => {
                 <li><a className="dropdown-item" onClick={() => {
                   logout();
                 }}>Sign out</a></li>
+                <li><a className="dropdown-item" onClick={() => {
+                  role == 1 ? document.location.href = '/dashboard-user' : role == 2 ? document.location.href = '/dashboard-conselor' : role == 3 ? document.location.href = '/dashboard-admin' : swal("You are not authorized to access this page");
+                }}>Dashboard</a></li>
               </ul>
             </div>
         }
       </div>
-    </header>
+    </header >
   );
 };
 

@@ -107,15 +107,15 @@ class Home extends React.Component {
                 if (index < 3) {
                   return (
                     <PopularCourseItem
-                      key={course.id}
-                      id={course.id}
+                      key={course?.id}
+                      id={course?.id}
                       img={
-                        course.thumbnail == '' ?
-                        "https://via.placeholder.com/150" :
-                        'http://127.0.0.1:8000/' + course.thumbnail
+                        course?.thumbnail == '' ?
+                          "https://via.placeholder.com/150" :
+                          'http://127.0.0.1:8000/' + course?.thumbnail
                       }
-                      title={course.title}
-                      desc={course.detail_course[0].description}
+                      title={course?.title}
+                      desc={course?.detail_course[0]?.description}
                     />
                   );
                 }
@@ -149,8 +149,8 @@ class Home extends React.Component {
                   key={conselors.id}
                   img={
                     conselors.detail_user.photo == '' ?
-                    "https://via.placeholder.com/150" :
-                    'http://127.0.0.1:8000/' + conselors.detail_user.photo
+                      "https://via.placeholder.com/150" :
+                      'http://127.0.0.1:8000/' + conselors.detail_user.photo
                   }
                   name={conselors.detail_user.name}
                   position={
