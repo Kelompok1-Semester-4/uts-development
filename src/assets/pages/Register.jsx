@@ -25,10 +25,9 @@ const Register = () => {
     const [study_field, setStudyField] = useState("");
     const [graduation_year, setGraduationYear] = useState("");
     const [gpa, setGpa] = useState("");
-    const [file_url, setFileUrl] = useState("");
+    const [file_url, setFileUrl] = useState();
+    const [isfilePicked, setIsFilePicked] = useState(false);
     const [role_id, setRole] = useState("");
-
-    const [errMessage, setErrMessage] = useState("");
 
     // Register As User
     const registerAsUser = async (e) => {
@@ -80,29 +79,16 @@ const Register = () => {
             });
     };
 
+    const handleupload = (e) => {
+        e.preventDefault();
+        const file = e.target.files[0];
+        setFileUrl(file);
+        setIsFilePicked(true);
+    }
+
     // Register As Conselor
     const registerAsConselor = async (e) => {
         e.preventDefault();
-        console.log({
-            name,
-            gender,
-            birth,
-            address,
-            email,
-            password,
-            job,
-            phone,
-            role_id,
-            level,
-            institution,
-            institution_address,
-            major,
-            study_field,
-            graduation_year,
-            gpa,
-            file_url,
-        });
-
         const form_data = new FormData();
         form_data.append("name", name);
         form_data.append("gender", gender);
@@ -121,19 +107,26 @@ const Register = () => {
         form_data.append("graduation_year", graduation_year);
         form_data.append("gpa", gpa);
         form_data.append("file_url", file_url);
-
-        await axios.post("http://127.0.0.1:8000/api/register", form_data, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
+        await fetch("http://127.0.0.1:8000/api/register", {
+            method: "POST",
+            body: form_data,
         })
+            .then((res) => res.json())
             .then((res) => {
-                swal("Success", "Register Success", "success").then(() => {
-                    window.location.href = "/login";
-                });
+                console.log(res);
+                // check if code is 200
+                if (res.meta.code === 200) {
+                    // set local storage
+                    // localStorage.setItem("token", res.data.token);
+                    swal("Success", "Register Success", "success").then(() => {
+                        window.location.href = "/login";
+                    });
+                } else {
+                    swal("Error", res.data, "error");
+                }
             })
             .catch((err) => {
-                swal("Error", err.message, "error");
+                console.log(err);
             });
     }
 
@@ -429,8 +422,7 @@ const Register = () => {
                                                 className="form-control"
                                                 placeholder="File Url Link"
                                                 onChange={(e) => {
-                                                    setFileUrl(e.target.files[0]);
-                                                    console.log(file_url);
+                                                    handleupload(e);
                                                 }}
                                             />
                                         </div>

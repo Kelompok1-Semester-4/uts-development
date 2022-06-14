@@ -20,15 +20,19 @@ const DashboardConselor = () => {
     const [detailTransaction, setDetailTransaction] = useState({});
     const [role, setRole] = useState("");
 
-    // form field
-    const [thumbnail, setThumbnail] = useState("");
+    // form field course
+    const [thumbnail, setThumbnail] = useState();
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
     const [benefit, setBenefit] = useState("");
     const [course_type_id, setCourseTypeId] = useState("");
 
+    const handleUploadThumbnail = (e) => {
+        setThumbnail(e.target.files[0]);
+    }
+
     // form field conselor
-    const [photo, setPhoto] = useState("");
+    const [photo, setPhoto] = useState();
     const [name, setName] = useState("");
     const [gender, setGender] = useState("");
     const [birth, setBirth] = useState("");
@@ -39,6 +43,11 @@ const DashboardConselor = () => {
     const [office_phone_number, setOfficePhoneNumber] = useState("");
     const [benefits, setBenefits] = useState("");
     const [conselor_price, setConselorPrice] = useState(""); // price
+    const [phone, setPhone] = useState("");
+
+    const handleuploadPhoto = (e) => {
+        setPhoto(e.target.files[0]);
+    }
 
     // form field conseling
     const [user_id, setUserId] = useState("");
@@ -99,6 +108,10 @@ const DashboardConselor = () => {
         })
             .then(res => {
                 setDetailConseling(res.data.data);
+                setPayStatus(res.data.data.pay_status);
+                setConselingStatus(res.data.data.conseling_status);
+                setStartTime(res.data.data.start_time);
+                setEndTime(res.data.data.end_time);
             }, [])
     }
 
@@ -157,26 +170,31 @@ const DashboardConselor = () => {
         data.append('birth', birth);
         data.append('address', address);
         data.append('job', job);
+        data.append('phone', phone);
         data.append('work_address', work_address);
         data.append('practice_place_address', practice_place_address);
         data.append('office_phone_number', office_phone_number);
         data.append('benefits', benefits);
         data.append('price', conselor_price);
 
-        await axios.post(`http://127.0.0.1:8000/api/user/update`, data, {
+        await fetch('http://127.0.0.1:8000/api/user/update', {
+            method: "POST",
             headers: {
-                'Accept': 'application/json',
-                Authorization: `Bearer ${token}`
-            }
+                Authorization: `Bearer ${token}`,
+            },
+            body: data
         })
+            .then(res => res.json())
             .then(res => {
-                swal("Update Conselor Success!", "", "success").then(() => {
-                    window.location.reload();
-                })
+                // check if success
+                if (res.meta.code == 200) {
+                    swal("Success", "Successfully updated conselor", "success").then(() => {
+                        window.location.reload();
+                    })
+                } else {
+                    swal("Error", res.data, "error");
+                }
             })
-            .catch(err => {
-                swal("Update Conselor Failed!", '', "error");
-            });
     }
 
     // get detail course
@@ -203,19 +221,25 @@ const DashboardConselor = () => {
         formData.append("course_type_id", course_type_id);
         formData.append("benefit", benefit);
 
-        await axios.post(`http://127.0.0.1:8000/api/course`, formData, {
+        await fetch('http://127.0.0.1:8000/api/course', {
+            method: "POST",
             headers: {
-                Authorization: `Bearer ${token}`
-            }
+                Authorization: `Bearer ${token}`,
+            },
+            body: formData
         })
+            .then(res => res.json())
             .then(res => {
-                swal("Success", "Add course success", "success").then(() => {
-                    window.location.reload();
-                });
+                // check if success
+                if (res.meta.code == 200) {
+                    swal("Success", "Successfully added course", "success").then(() => {
+                        window.location.reload();
+                    })
+                }
+                else {
+                    swal("Error", res.data, "error");
+                }
             })
-            .catch(err => {
-                swal("Error", "Add course failed", "error");
-            });
     }
 
     // update course
@@ -227,24 +251,24 @@ const DashboardConselor = () => {
         formData.append("course_type_id", course_type_id);
         formData.append("benefit", benefit);
 
-        await axios.post(`http://127.0.0.1:8000/api/course/${id}`, formData, {
+        await fetch(`http://127.0.0.1:8000/api/course/${id}`, {
+            method: "POST",
             headers: {
-                Authorization: `Bearer ${token}`
-            }
+                Authorization: `Bearer ${token}`,
+            },
+            body: formData
         })
+            .then(res => res.json())
             .then(res => {
-                swal("Success", "Update course success", "success").then(() => {
-                    window.location.reload();
-                    setThumbnail("");
-                    setTitle("");
-                    setPrice("");
-                    setBenefit("");
-                    setCourseTypeId("");
-                });
+                // check if success
+                if (res.meta.code == 200) {
+                    swal("Success", "Successfully updated course", "success").then(() => {
+                        window.location.reload();
+                    })
+                } else {
+                    swal("Error", res.data, "error");
+                }
             })
-            .catch(err => {
-                swal("Error", "Update course failed", "error");
-            });
     }
 
     // delete course
@@ -315,6 +339,24 @@ const DashboardConselor = () => {
             .then((res) => {
                 setUser(res.data.data.detailUser);
                 setRole(res.data.data.user.role_id);
+
+
+                // get photo
+                setPhoto(res.data.data.detailUser.photo);
+
+                console.log(photo);
+
+                setName(res.data.data.detailUser.name);
+                setGender(res.data.data.detailUser.gender);
+                setBirth(res.data.data.detailUser.birth);
+                setAddress(res.data.data.detailUser.address);
+                setJob(res.data.data.detailUser.job);
+                setWorkAddress(res.data.data.detailUser.work_address);
+                setPracticePlaceAddress(res.data.data.detailUser.practice_place_address);
+                setOfficePhoneNumber(res.data.data.detailUser.office_phone_number);
+                setBenefits(res.data.data.detailUser.benefits);
+                setConselorPrice(res.data.data.detailUser.price);
+                setPhone(res.data.data.detailUser.phone);
             })
             .catch((err) => {
                 console.log(err);
@@ -471,7 +513,7 @@ const DashboardConselor = () => {
                     </ul>
                     {/* CONTENT */}
                     <div className="tab-content p-0 content" id="pills-tabContent">
-                        {/* diary */}
+                        {/* diary ✅*/}
                         <div
                             className="tab-pane fade show active"
                             id="pills-diary"
@@ -577,7 +619,7 @@ const DashboardConselor = () => {
                                                 <div className="form-group mb-3">
                                                     <label htmlFor="thumbnail">Thumbnail</label>
                                                     <input type="file" className="form-control" onChange={(e) => {
-                                                        setThumbnail(e.target.files[0])
+                                                        handleUploadThumbnail(e)
                                                     }} />
                                                 </div>
                                                 <div className="form-group mb-3">
@@ -616,7 +658,7 @@ const DashboardConselor = () => {
                                     </div>
                                 </div>
 
-                                {/* modal add course */}
+                                {/* modal update course */}
                                 <div className="modal fade" id="updateCourse" tabIndex="-1" aria-labelledby="updateCourseLabel" aria-hidden="true">
                                     <div className="modal-dialog">
                                         <div className="modal-content">
@@ -628,7 +670,7 @@ const DashboardConselor = () => {
                                                 <div className="form-group mb-3">
                                                     <label htmlFor="thumbnail">Thumbnail</label>
                                                     <input type="file" className="form-control" defaultValue={thumbnail} onChange={(e) => {
-                                                        setThumbnail(e.target.files[0])
+                                                        handleUploadThumbnail(e);
                                                     }} />
                                                 </div>
                                                 <div className="form-group mb-3">
@@ -1128,7 +1170,7 @@ const DashboardConselor = () => {
                                             <div className="form-group mb-3">
                                                 <label htmlFor="">Photo</label>
                                                 <input type="file" className="form-control" name="photo" defaultValue={user?.photo} onChange={(e) => {
-                                                    setPhoto(e.target.files[0]);
+                                                    handleuploadPhoto(e);
                                                 }} />
                                             </div>
                                         </div>
@@ -1189,6 +1231,12 @@ const DashboardConselor = () => {
                                                 <input type="text" className="form-control" onChange={(e) => {
                                                     setJob(e.target.value);
                                                 }} defaultValue={user?.job} />
+                                            </div>
+                                            <div className="form-group mt-3">
+                                                <label htmlFor="">Phone</label>
+                                                <input type="number" className="form-control" onChange={(e) => {
+                                                    setPhone(e.target.value);
+                                                }} defaultValue={user?.phone} />
                                             </div>
                                         </div>
                                     </div>

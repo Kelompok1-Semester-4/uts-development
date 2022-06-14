@@ -44,6 +44,8 @@ const ConselorProfile = () => {
             });
     }
 
+
+
     return (
         <div>
             <div className="dashboard">
@@ -141,7 +143,15 @@ const ConselorProfile = () => {
                                                                     <td>{edu.major}</td>
                                                                     <td>{edu.study_field}</td>
                                                                     <td>{edu.gpa}</td>
-                                                                    <td>{edu.file_url}</td>
+                                                                    <td>
+                                                                        <a className="text-link" style={
+                                                                            {
+                                                                                cursor: 'pointer',
+                                                                            }
+                                                                        } onClick={() => {
+                                                                            window.open(`http://127.0.0.1:8000/` + edu.file_url, '_blank');
+                                                                        }}>Download</a>
+                                                                    </td>
                                                                 </tr>
                                                             )
                                                         })

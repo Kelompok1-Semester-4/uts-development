@@ -10,13 +10,25 @@ const AddDiary = () => {
     const [durationRead, setDurationRead] = useState("");
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
-    const [cover_image, setCoverImage] = useState("");
+    const [cover_image, setCoverImage] = useState();
 
     const token = localStorage.getItem("token");
     const [user, setUser] = useState({});
     const { id } = useParams();
     const [diary, setDiary] = useState({});
     const [role, setRole] = useState("");
+
+    const handleUpload = (e) => {
+        setCoverImage(e.target.files[0]);
+    }
+
+    const resetFields = () => {
+        setDiaryType("");
+        setDurationRead("");
+        setContent("");
+        setTitle("");
+        setCoverImage("");
+    }
 
     const insertDiary = async (e) => {
         e.preventDefault();
@@ -27,20 +39,24 @@ const AddDiary = () => {
         diaryData.append("title", title);
         diaryData.append("cover_image", cover_image);
 
-        try {
-            const res = await axios.post(`http://127.0.0.1:8000/api/diary`, diaryData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
+        await fetch('http://127.0.0.1:8000/api/diary', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: diaryData
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.meta.code === 200) {
+                    swal("Success", "Diary has been added", "success").then(() => {
+                        resetFields();
+                        window.history.back();
+                    });
+                } else {
+                    swal("Error", res.data, "error");
                 }
-            });
-            console.log(res.data);
-            swal("Success", "Diary has been added", "success").then(() => {
-                window.location.href = `/dashboard-user`;
-            });
-        } catch (err) {
-            console.log(err);
-            swal("Error", "Something went wrong", "error");
-        }
+            })
     };
 
     const editDiary = async (e) => {
@@ -52,21 +68,24 @@ const AddDiary = () => {
         diaryData.append("title", title);
         diaryData.append("cover_image", cover_image);
 
-        try {
-            const res = await axios.post(`http://127.0.0.1:8000/api/diary/edit/${id}`, diaryData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
+        await fetch(`http://127.0.0.1:8000/api/diary/edit/${id}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: diaryData
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.meta.code === 200) {
+                    swal("Success", "Diary has been updated", "success").then(() => {
+                        resetFields();
+                        window.history.back();
+                    });
+                } else {
+                    swal("Error", res.data, "error");
                 }
-            });
-            console.log(res.data);
-            swal("Success", "Diary has been edited", "success").then(() => {
-                window.location.href = `/dashboard-user`;
-            }
-            );
-        } catch (err) {
-            console.log(err);
-            swal("Error", "Something went wrong", "error");
-        }
+            })
     };
 
     // fetch authenticated user by token
@@ -103,14 +122,14 @@ const AddDiary = () => {
             });
     }, [id]);
 
-    
+
 
     return (
         <div className="dashboard add-diary">
             <Header photo={
                 user.photo == '' ?
-                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' :
-                `http://127.0.0.1:8000/${user.photo}`
+                    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' :
+                    `http://127.0.0.1:8000/${user.photo}`
             } />
 
             <div className="container">
@@ -134,7 +153,11 @@ const AddDiary = () => {
                             <div className="row">
                                 <div className="col-md-3">
                                     <img
-                                        src={(cover_image == "" && diary.id) ? "https://png.pngtree.com/png-vector/20200602/ourlarge/pngtree-vector-empty-image-icon-png-image_1583806.jpg" : `http://127.0.0.1:8000/` + cover_image}
+                                        src={
+                                            cover_image == null ?
+                                                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' :
+                                                `http://127.0.0.1:8000/${cover_image}`
+                                        }
                                         className="img-fluid diary-image"
                                         alt=""
                                     />
@@ -149,8 +172,7 @@ const AddDiary = () => {
                                                 name="cover_image"
                                                 defaultValue={cover_image}
                                                 onChange={(e) => {
-                                                    setCoverImage(e.target.files[0]);
-                                                    console.log(cover_image);
+                                                    handleUpload(e);
                                                 }}
                                                 placeholder="Url Cover Image"
                                             />
