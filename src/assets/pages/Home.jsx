@@ -111,13 +111,8 @@ class Home extends React.Component {
                       id={course?.id}
                       img={
                         course?.thumbnail == '' ?
-<<<<<<< HEAD
                           "https://via.placeholder.com/150" :
                           'http://127.0.0.1:8000/' + course?.thumbnail
-=======
-                        "https://via.placeholder.com/150" :
-                        'http://127.0.0.1:8000/' + course?.thumbnail
->>>>>>> 4b8201d88e9818a62241dfa878b41976883031a2
                       }
                       title={course?.title}
                       desc={course?.detail_course[0]?.description}
