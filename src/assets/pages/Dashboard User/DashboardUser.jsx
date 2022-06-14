@@ -99,20 +99,22 @@ const DashboardUser = () => {
         localStorage.clear();
     }
     // delete diary
-    const handleDelete = (id) => {
-        axios.delete('http://127.0.0.1:8000/api/diary/' + id, {
+    const handleDeleteDiary = async (id) => {
+        await fetch('http://127.0.0.1:8000/api/diary/' + id, {
+            method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
             },
-        }).then((res) => {
-            console.log(res);
-            swal("Deleted!", "Your diary has been deleted.", "success").then(() => {
-                window.location.reload();
+        })
+            .then((res) => {
+                if (res.status === 200) {
+                    swal("Success", "Diary has been deleted", "success");
+                    window.location.reload();
+                }
+            })
+            .catch((err) => {
+                console.log(err);
             });
-        }).catch((err) => {
-            console.log(err);
-        });
     };
 
     const updateProfile = async (e) => {
@@ -291,30 +293,21 @@ const DashboardUser = () => {
                                                         }}>
                                                             Edit
                                                         </button>
-                                                        <a href="" className="ms-4 text-decoration-none text-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                        <a className="ms-4 text-decoration-none text-secondary" onClick={() => {
+                                                            swal({
+                                                                title: "Are you sure?",
+                                                                text: "You won't be able to revert this!",
+                                                                icon: "warning",
+                                                                buttons: true,
+                                                                dangerMode: true,
+                                                            }).then((willDelete) => {
+                                                                if (willDelete) {
+                                                                    handleDeleteDiary(diary.id)
+                                                                }
+                                                            })
+                                                        }}>
                                                             Delete
                                                         </a>
-
-                                                        {/* Modal */}
-                                                        <div className="modal fade" id="deleteModal" tabIndex={-1} aria-labelledby="deleteModal" aria-hidden="true">
-                                                            <div className="modal-dialog">
-                                                                <div className="modal-content">
-                                                                    <div className="modal-header">
-                                                                        <h5 className="modal-title" id="deleteModalLabel">Konfirmasi</h5>
-                                                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div className="modal-body">
-                                                                        Are you sure you delete this data?
-                                                                    </div>
-                                                                    <div className="modal-footer">
-                                                                        <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
-                                                                        <button type="button" onClick={() => {
-                                                                            handleDelete(diary.id)
-                                                                        }} className="btn btn-primary btn-sm">Delete</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -634,6 +627,7 @@ const DashboardUser = () => {
                                                         defaultValue={user?.phone}
                                                         onChange={(e) => {
                                                             setPhone(e.target.value)
+                                                            console.log(phone);
                                                         }}
                                                     />
                                                 </div>

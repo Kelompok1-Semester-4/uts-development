@@ -6,7 +6,13 @@ const DiaryItems = (props) => {
     let navigate = useNavigate();
     return (
         <div className="col-md-3 col-sm-6 my-3">
-            <img src={props.gambar} className="diary-item" alt="" />
+            <img src={props.gambar} style={
+                {
+                    width: "100%",
+                    height: "200px",
+                    marginBottom: "10px"
+                }
+            } className="diary-item" alt="" />
 
             <h3 className="diary-title">{props.title}</h3>
             <p className="diary-body giveMeEllipsis">These findings suggest certain types of music can help boost memorization abilities and other cognitive functions ...</p>

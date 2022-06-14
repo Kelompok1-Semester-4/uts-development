@@ -18,12 +18,24 @@ const DetailCourse = () => {
     const [video_link, setVideoLink] = useState("");
     const [duration, setDuration] = useState("");
 
+    const handleUploadThumbnail = (e) => {
+        setCoverImage(e.target.files[0]);
+    }
+
     useEffect(() => {
         axios.get(`http://127.0.0.1:8000/api/courses?id=${id}`)
             .then(res => {
                 setDetailCourses(res.data);
             })
     }, []);
+
+    const resetFields = () => {
+        setCoverImage("");
+        setTitle("");
+        setDescription("");
+        setVideoLink("");
+        setDuration("");
+    }
 
     // add  sub course
     const addSubCourse = async () => {
@@ -35,24 +47,23 @@ const DetailCourse = () => {
         formData.append("video_link", video_link);
         formData.append("duration", duration);
 
-        await axios.post(`http://127.0.0.1:8000/api/detailcourse/${id}`, formData, {
+        await fetch(`http://127.0.0.1:8000/api/detailcourse/${id}`, {
+            method: "POST",
             headers: {
-                Authorization: `Bearer ${token}`
-            }
+                "Authorization": `Bearer ${token}`,
+            },
+            body: formData
         })
+            .then(res => res.json())
             .then(res => {
-                swal("Success", "Add detail course success", "success").then(() => {
-                    window.location.reload();
-                    // reset form
-                    setCoverImage("");
-                    setTitle("");
-                    setDescription("");
-                    setVideoLink("");
-                    setDuration("");
-                })
-            })
-            .catch(err => {
-                swal("Error", "Add detail course failed", "error");
+                if (res.meta.code === 200) {
+                    swal("Success", "Add Sub Course Success", "success").then(() => {
+                        window.location.reload();
+                        resetFields();
+                    });
+                } else {
+                    swal("Error", res.data, "error");
+                }
             })
     }
 
@@ -66,24 +77,23 @@ const DetailCourse = () => {
         formData.append("video_link", video_link);
         formData.append("duration", duration);
 
-        await axios.post(`http://127.0.0.1:8000/api/updatedetailcourse/${detail_course_id}`, formData, {
+        await fetch(`http://127.0.0.1:8000/api/updatedetailcourse/${detail_course_id}`, {
+            method: "POST",
             headers: {
-                Authorization: `Bearer ${token}`
-            }
+                "Authorization": `Bearer ${token}`,
+            },
+            body: formData
         })
+            .then(res => res.json())
             .then(res => {
-                swal("Success", "Update detail course success", "success").then(() => {
-                    window.location.reload();
-                    // reset form
-                    setCoverImage("");
-                    setTitle("");
-                    setDescription("");
-                    setVideoLink("");
-                    setDuration("");
-                })
-            })
-            .catch(err => {
-                swal("Error", "Update detail course failed", "error");
+                if (res.meta.code === 200) {
+                    swal("Success", "Update Sub Course Success", "success").then(() => {
+                        window.location.reload();
+                        resetFields();
+                    });
+                } else {
+                    swal("Error", res.data, "error");
+                }
             })
     }
 
@@ -103,7 +113,7 @@ const DetailCourse = () => {
                 swal("Error", "Delete detail course failed", "error");
             })
     }
-    
+
     // get detail sub course
     const getDetailSubCourse = async (id) => {
         await axios.get(`http://127.0.0.1:8000/api/detailsubcourse/${id}`)
@@ -149,14 +159,14 @@ const DetailCourse = () => {
                                     <div className="form-group mb-3">
                                         <label htmlFor="">Cover Image</label>
                                         <input type="file" onChange={(e) => {
-                                            setCoverImage(e.target.files[0])
+                                            handleUploadThumbnail(e);
                                         }} className="form-control" />
                                     </div>
                                     <div className="form-group mb-3">
                                         <label htmlFor="">Title</label>
                                         <input type="text" className="form-control" onChange={(e) => {
                                             setTitle(e.target.value)
-                                        }}/>
+                                        }} />
                                     </div>
                                     <div className="form-group mb-3">
                                         <label htmlFor="">Description</label>
@@ -249,7 +259,6 @@ const DetailCourse = () => {
                         </table>
                     </div>
                     {/* update sub course modal */}
-                    {/* modal */}
                     <div className="modal fade" id="updateSubCourse" tabIndex="-1" aria-labelledby="updateSubCourseLabel" aria-hidden="true">
                         <div className="modal-dialog">
                             <div className="modal-content">
@@ -268,7 +277,7 @@ const DetailCourse = () => {
                                         <label htmlFor="">Title</label>
                                         <input type="text" defaultValue={title} className="form-control" onChange={(e) => {
                                             setTitle(e.target.value)
-                                        }}/>
+                                        }} />
                                     </div>
                                     <div className="form-group mb-3">
                                         <label htmlFor="">Description</label>

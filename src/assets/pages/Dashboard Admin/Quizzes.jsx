@@ -21,8 +21,23 @@ const Quizzes = () => {
         axios.get(`http://127.0.0.1:8000/api/detail-quiz/${id}`)
             .then(res => {
                 setQuiz(res.data.data);
+                setTitle(res.data.data.title);
+                setQuestion1(res.data.data.question1);
+                setQuestion2(res.data.data.question2);
+                setQuestion3(res.data.data.question3);
+                setQuestion4(res.data.data.question4);
+                setQuestion_id(res.data.data.question_id);
             })
     }, []);
+
+    const resetField = () => {
+        setTitle("");
+        setQuestion1("");
+        setQuestion2("");
+        setQuestion3("");
+        setQuestion4("");
+        setQuestion_id("");
+    }
 
     const addQuiz = async () => {
         const data = new FormData();
@@ -32,25 +47,24 @@ const Quizzes = () => {
         data.append("question2", question2);
         data.append("question3", question3);
         data.append("question4", question4);
-        try {
-            await axios.post('http://127.0.0.1:8000/api/detail-quiz/store', data, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+
+        await fetch('http://127.0.0.1:8000/api/detail-quiz/store', {
+            method: 'POST',
+            body: data,
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.meta.code == 200) {
+                    swal("Success!", "Quiz has been added!", "success").then(() => {
+                        window.location.reload();
+                    })
+                } else {
+                    swal("Error!", data.data, "error");
                 }
-            });
-            swal("Success!", "Quiz has been added!", "success").then(() => {
-                // reload page
-                window.location.reload();
-                // clear form
-                setTitle("");
-                setQuestion1("");
-                setQuestion2("");
-                setQuestion3("");
-                setQuestion4("");
-            });
-        } catch (error) {
-            swal("Error", error, "error");
-        }
+            })
     }
 
     const deleteQuiz = async (quiz_id) => {
@@ -151,25 +165,25 @@ const Quizzes = () => {
                                         }} />
                                     </div>
                                     <div className="form-group mb-3">
-                                        <label htmlFor="question1">Question 1</label>
+                                        <label htmlFor="question1">Answer 1</label>
                                         <input type="text" className="form-control" id="question1" placeholder="Enter question" onChange={(e) => {
                                             setQuestion1(e.target.value)
                                         }} />
                                     </div>
                                     <div className="form-group mb-3">
-                                        <label htmlFor="question2">Question 2</label>
+                                        <label htmlFor="question2">Answer 2</label>
                                         <input type="text" className="form-control" id="question2" placeholder="Enter question" onChange={(e) => {
                                             setQuestion2(e.target.value)
                                         }} />
                                     </div>
                                     <div className="form-group mb-3">
-                                        <label htmlFor="question3">Question 3</label>
+                                        <label htmlFor="question3">Answer 3</label>
                                         <input type="text" className="form-control" id="question3" placeholder="Enter question" onChange={(e) => {
                                             setQuestion3(e.target.value)
                                         }} />
                                     </div>
                                     <div className="form-group mb-3">
-                                        <label htmlFor="question4">Question 4</label>
+                                        <label htmlFor="question4">Answer 4</label>
                                         <input type="text" className="form-control" id="question4" placeholder="Enter question" onChange={(e) => {
                                             setQuestion4(e.target.value)
                                         }} />
@@ -202,10 +216,10 @@ const Quizzes = () => {
                                             <td>
                                                 <b>{item.title}</b>
                                                 <ol type="A">
-                                                    {item.question1 ? <li>{item.question1}</li> : null}
-                                                    {item.question2 ? <li>{item.question2}</li> : null}
-                                                    {item.question3 ? <li>{item.question3}</li> : null}
-                                                    {item.question4 ? <li>{item.question4}</li> : null}
+                                                    {item.question1 == '' || item.question1 == 'undefined' || item.question1 == null ? null : <li>{item.question1}</li>}
+                                                    {item.question2 == '' || item.question2 == 'undefined' || item.question2 == null ? null : <li>{item.question2}</li>}
+                                                    {item.question3 == '' || item.question3 == 'undefined' || item.question3 == null ? null : <li>{item.question3}</li>}
+                                                    {item.question4 == '' || item.question4 == 'undefined' || item.question4 == null ? null : <li>{item.question4}</li>}
                                                 </ol>
                                             </td>
                                             <td className="text-end">
@@ -253,25 +267,25 @@ const Quizzes = () => {
                                     }} />
                                 </div>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="question1">Question 1</label>
+                                    <label htmlFor="question1">Answer 1</label>
                                     <input type="text" className="form-control" defaultValue={question1} id="question1" placeholder="Enter question" onChange={(e) => {
                                         setQuestion1(e.target.value)
                                     }} />
                                 </div>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="question2">Question 2</label>
+                                    <label htmlFor="question2">Answer 2</label>
                                     <input type="text" className="form-control" id="question2" defaultValue={question2} placeholder="Enter question" onChange={(e) => {
                                         setQuestion2(e.target.value)
                                     }} />
                                 </div>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="question3">Question 3</label>
+                                    <label htmlFor="question3">Answer 3</label>
                                     <input type="text" className="form-control" defaultValue={question3} id="question3" placeholder="Enter question" onChange={(e) => {
                                         setQuestion3(e.target.value)
                                     }} />
                                 </div>
                                 <div className="form-group mb-3">
-                                    <label htmlFor="question4">Question 4</label>
+                                    <label htmlFor="question4">Answer 4</label>
                                     <input type="text" className="form-control" defaultValue={question4} id="question4" placeholder="Enter question" onChange={(e) => {
                                         setQuestion4(e.target.value)
                                     }} />

@@ -14,12 +14,16 @@ const DashboardAdmin = () => {
 
     // form quiz field
     const [title, setTitle] = useState("");
-    const [photo, setPhoto] = useState("");
+    const [photo, setPhoto] = useState();
     const [description, setDescription] = useState("");
     const [quiz_id, setQuizId] = useState("");
     const [role_id, setRoleId] = useState("");
-    
 
+    const handleUpload = (e) => {
+        setPhoto(e.target.files[0]);
+    }
+
+    // get all conselor
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/users?role_id=2')
             .then(res => {
@@ -29,6 +33,7 @@ const DashboardAdmin = () => {
             });
     }, []);
 
+    // delete conselor
     const deleteConselor = (id) => {
         try {
             axios.delete(`http://127.0.0.1:8000/api/user/${id}`, {
@@ -45,6 +50,7 @@ const DashboardAdmin = () => {
         }
     }
 
+    // get all quiz
     useEffect(() => {
         axios.get('http://127.0.0.1:8000/api/quizzes')
             .then(res => {
@@ -59,6 +65,7 @@ const DashboardAdmin = () => {
         setQuizId("");
     }
 
+    // get detail quiz
     const getQuiz = (id) => {
         axios.get(`http://127.0.0.1:8000/api/detail-quiz/${id}`)
             .then(res => {
@@ -75,18 +82,25 @@ const DashboardAdmin = () => {
         formData.append("title", title);
         formData.append("photo", photo);
         formData.append("description", description);
-        try {
-            await axios.post(`http://127.0.0.1:8000/api/quiz/store`, formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
+
+        await fetch('http://127.0.0.1:8000/api/quiz/store', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.meta.code == 200) {
+                    swal("Success!", "Quiz sucessfully added!", "success").then(() => {
+                        resetField();
+                        window.location.reload();
+                    });
+                } else {
+                    swal("Oops!", res.data, "error");
                 }
-            });
-            swal("Success!", "Your file has been added.", "success").then(() => {
-                window.location.reload();
-            });
-        } catch (error) {
-            swal("Oops!", "Something went wrong!", "error");
-        }
+            })
     }
 
     // update quiz
@@ -95,19 +109,25 @@ const DashboardAdmin = () => {
         formData.append("title", title);
         formData.append("photo", photo);
         formData.append("description", description);
-        try {
-            await axios.post(`http://127.0.0.1:8000/api/quiz/update/${id}`, formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
+        
+        await fetch(`http://127.0.0.1:8000/api/quiz/update/${id}`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.meta.code == 200) {
+                    swal("Success!", "Quiz sucessfully updated!", "success").then(() => {
+                        resetField();
+                        window.location.reload();
+                    });
+                } else {
+                    swal("Oops!", res.data, "error");
                 }
-            });
-            swal("Success!", "Your file has been updated.", "success").then(() => {
-                window.location.reload();
-                resetField();
-            });
-        } catch (error) {
-            swal("Oops!", "Something went wrong!", "error");
-        }
+            })
     }
 
     // delete quiz
@@ -244,7 +264,7 @@ const DashboardAdmin = () => {
                                                             </div>
                                                         </div>
                                                     </div>
-
+                                                    {/* Modal update quiz */}
                                                     <div className="modal fade" id="updateQuiz" tabIndex="-1" aria-labelledby="updateQuizLabel" aria-hidden="true">
                                                         <div className="modal-dialog">
                                                             <div className="modal-content">
@@ -262,7 +282,7 @@ const DashboardAdmin = () => {
                                                                     <div className="form-group mb-3">
                                                                         <label htmlFor="photo">Photo</label>
                                                                         <input type="file" className="form-control" defaultValue={photo} onChange={(e) => {
-                                                                            setPhoto(e.target.files[0]);
+                                                                            handleUpload(e);
                                                                         }} />
                                                                     </div>
                                                                     <div className="form-group mb-3">
@@ -305,7 +325,7 @@ const DashboardAdmin = () => {
                                                 <div className="mb-3">
                                                     <label htmlFor="photo" className="form-label">Photo</label>
                                                     <input type="file" className="form-control" onChange={(e) => {
-                                                        setPhoto(e.target.files[0]);
+                                                        handleUpload(e);
                                                     }} id="photo" />
                                                 </div>
                                                 <div className="mb-3">

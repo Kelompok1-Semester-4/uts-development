@@ -32,7 +32,7 @@ class Home extends React.Component {
   };
 
   getApiconselors = () => {
-    fetch("http://127.0.0.1:8000/api/users?role.id=2")
+    fetch("http://127.0.0.1:8000/api/users?role_id=2")
       .then((response) => response.json())
       .then((response) => {
         this.setState({
