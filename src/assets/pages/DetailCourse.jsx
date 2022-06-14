@@ -15,18 +15,33 @@ import CurrencyFormat from "react-currency-format";
 const DetailCourse = () => {
 
     let navigate = useNavigate();
+    let token = localStorage.getItem("token");
 
     const { id } = useParams();
     const [course, setCourse] = useState({});
     const [benefits, setBenefits] = useState([]);
+    const [user, setUser] = useState({});
 
     useEffect(() => {
         axios.get(`http://127.0.0.1:8000/api/courses?id=${id}`)
             .then(res => {
-                console.log(res.data);
                 setCourse(res.data);
             });
+        fetch('http://127.0.0.1:8000/api/user', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => res.json())
+            .then(res => {
+                setUser(res.data.detailUser);
+            })
     }, []);
+
+    if (user != null) {
+        console.log(user);
+        console.log(course);
+    }
 
     return (
         <div>
@@ -124,9 +139,11 @@ const DetailCourse = () => {
                                     </h3>
                                 </div>
                                 <div className="col-md-4">
-                                    <button className="btn btn-primary btn-small" onClick={() => {
-                                        navigate("/checkout/" + course.id);
-                                    }}>Enroll Now</button>
+                                    {
+                                        course?.detail_user_id == user.id ? null : <button className="btn btn-primary btn-small" onClick={() => {
+                                            navigate("/checkout/" + course.id);
+                                        }}>Enroll Now</button>
+                                    }
                                 </div>
                             </div>
                         </div>

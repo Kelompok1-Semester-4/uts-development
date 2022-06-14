@@ -1,6 +1,5 @@
 import React from "react";
 import HeroImage from "../../assets/images/counseling-hero.svg";
-import icon_check from "../../assets/images/icon_check.svg";
 import CounselingItem from "../../items/CounselingItem";
 import Header from "../../components/Header";
 import Faq from "../../components/Faq";
@@ -13,11 +12,11 @@ class Counseling extends React.Component {
     }
 
     fetchData = () => {
-        fetch("http://127.0.0.1:8000/api/users?role_id=2&is_verified=1")
+        fetch("http://127.0.0.1:8000/api/public-conselor")
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
-                    users: response,
+                    users: response.data,
                 });
             }
             )
@@ -35,9 +34,9 @@ class Counseling extends React.Component {
             <div>
                 <Header />
                 <div className="counseling container">
-                    {/* HERO */}
                     <div className="row mb-5">
                         <div className="col-md-6 align-self-center">
+                    {/* HERO */}
                             <h1 className="title">
                                 Discover The Best Counseling Experience For You
                             </h1>
@@ -56,7 +55,7 @@ class Counseling extends React.Component {
                         <h1>Popular Counseling</h1>
                         <div className="row">
                             {
-                                this.state.users.map((user) => {
+                                this.state.users?.map((user) => {
                                     return (
                                         <CounselingItem
                                             key={user.id}

@@ -44,6 +44,7 @@ const DashboardConselor = () => {
     const [benefits, setBenefits] = useState("");
     const [conselor_price, setConselorPrice] = useState(""); // price
     const [phone, setPhone] = useState("");
+    const [credit_card_number, setCreditCardNumber] = useState("");
 
     const handleuploadPhoto = (e) => {
         setPhoto(e.target.files[0]);
@@ -176,6 +177,7 @@ const DashboardConselor = () => {
         data.append('office_phone_number', office_phone_number);
         data.append('benefits', benefits);
         data.append('price', conselor_price);
+        data.append('credit_card_number', credit_card_number);
 
         await fetch('http://127.0.0.1:8000/api/user/update', {
             method: "POST",
@@ -357,6 +359,7 @@ const DashboardConselor = () => {
                 setBenefits(res.data.data.detailUser.benefits);
                 setConselorPrice(res.data.data.detailUser.price);
                 setPhone(res.data.data.detailUser.phone);
+                setCreditCardNumber(res.data.data.detailUser.credit_card_number);
             })
             .catch((err) => {
                 console.log(err);
@@ -1279,6 +1282,14 @@ const DashboardConselor = () => {
                                                 setConselorPrice(e.target.value);
                                             }} defaultValue={user?.price} />
                                         </div>
+                                        <div className="col">
+                                            <label htmlFor="">Credit Card Number</label>
+                                            <input type="text" className="form-control" onChange={(e) => {
+                                                setCreditCardNumber(e.target.value);
+                                            }} defaultValue={user?.credit_card_number} />
+                                        </div>
+                                    </div>
+                                    <div className="row mt-3">
                                         <div className="col mt-auto text-end">
                                             <button className="btn btn-primary" onClick={() => {
                                                 updateConselor()
