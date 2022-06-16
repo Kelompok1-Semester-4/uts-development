@@ -222,7 +222,7 @@ const Quizzes = () => {
                                                     {item.question4 == '' || item.question4 == 'undefined' || item.question4 == null ? null : <li>{item.question4}</li>}
                                                 </ol>
                                             </td>
-                                            <td className="text-end">
+                                            <td className="text-end" >
                                                 <button className="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateQuestion" onClick={() => {
                                                     getQuestion(item.id)
                                                 }}>Edit</button>
