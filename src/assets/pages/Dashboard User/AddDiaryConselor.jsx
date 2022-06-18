@@ -177,8 +177,10 @@ const AddDiaryConselor = () => {
                                                 }}
                                             >
                                                 <option value="">Diary Type</option>
-                                                <option value="1">Productivity</option>
-                                                <option value="2">Mental Health</option>
+                                                <option value="1">Relationship</option>
+                                                <option value="2">Productivity</option>
+                                                <option value="3">Mental Health</option>
+                                                <option value="4">Life Planning</option>
                                             </select>
                                         </div>
                                         <div className="col-md">

@@ -10,6 +10,7 @@ const DetailCourseUser = () => {
     const token = localStorage.getItem("token");
     const [course, setCourse] = useState({});
     const [detail_course_id, setDetailCourseId] = useState(0);
+    const [user, setUser] = useState({});
    
     useEffect(() => {
         axios.get(`http://127.0.0.1:8000/api/courses?id=${id}`)
@@ -17,13 +18,26 @@ const DetailCourseUser = () => {
                 console.log(res.data);
                 setCourse(res.data);
             });
-    }, []);
+        axios.get(`http://127.0.0.1:8000/api/user`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                console.log(res.data.data.detailUser);
+                setUser(res.data.data.detailUser);
+            })
+    }, [id]);
 
     console.log(course);
 
     return (
         <div className="dashboard">
-            <Header />
+            <Header photo={
+                user?.photo == '' || user?.photo == null ?
+                    'https://www.w3schools.com/howto/img_avatar.png' :
+                    'http://127.0.0.1:8000/' + user?.photo
+            } />
             <div className="container mt-5">
                 <div className="row justify-content-center my-auto">
                     <div className="col-md-6">
