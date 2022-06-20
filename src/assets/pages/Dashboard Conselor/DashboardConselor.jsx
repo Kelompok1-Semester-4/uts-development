@@ -1054,7 +1054,9 @@ const DashboardConselor = () => {
                       return (
                         <tr key={trans.id}>
                           <td className="align-middle">{index + 1}</td>
-                          <td className="align-middle">{trans.user.detail_user.name}</td>
+                          <td className="align-middle">
+                            {trans.user.detail_user.name}
+                          </td>
                           <td className="align-middle">
                             {trans.created_at
                               .split("T")[0]
@@ -1714,6 +1716,11 @@ const DashboardConselor = () => {
                     }
                     alt=""
                     className="img-fluid rounded-circle"
+                    style={{
+                      width: "100%",
+                      height: "200px",
+                      objectFit: "cover",
+                    }}
                   />
                 </div>
                 <div className="col-md">
