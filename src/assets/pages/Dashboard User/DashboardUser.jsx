@@ -524,7 +524,7 @@ const DashboardUser = () => {
                                 .join("-")}
                             </td>
                             <td>
-                              {transaction?.pay_status == "success" ? (
+                              {transaction?.pay_status == "Success" ? (
                                 <button className="btn btn-small btn-success">
                                   Success
                                 </button>
@@ -535,7 +535,7 @@ const DashboardUser = () => {
                               )}
                             </td>
                             <td>
-                              {transaction?.conseling_status == "success" ? (
+                              {transaction?.conseling_status == "Success" ? (
                                 <button className="btn btn-small btn-success">
                                   Success
                                 </button>
