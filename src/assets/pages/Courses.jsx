@@ -24,6 +24,14 @@ const Courses = () => {
     fetchData();
   }, []);
 
+  const courseCategory = (id) => {
+    fetch(`http://127.0.0.1:8000/api/courses?course_type_id=${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCourses(data);
+      });
+  }
+
   return (
     <div>
       <Header />
@@ -48,11 +56,12 @@ const Courses = () => {
                   <select
                     className="form-select"
                     aria-label="Default select example"
+                    onChange={(e) => {
+                      courseCategory(e.target.value);
+                    }}
                   >
-                    <option value="Productivity">Productivity</option>
-                    <option value="Relationship">Relationship</option>
-                    <option value="Career">Career</option>
-                    <option value="Mental Health">Mental Health</option>
+                    <option value="1">Online Courses</option>
+                    <option value="2">Conseling</option>
                   </select>
                 </div>
               </div>

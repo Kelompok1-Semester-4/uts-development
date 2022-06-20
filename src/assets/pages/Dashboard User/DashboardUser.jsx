@@ -395,7 +395,8 @@ const DashboardUser = () => {
                 })}
               </div>
             </div>
-            {/* list transaction */}
+
+        {/* list transaction */}
             <div
               className="tab-pane fade"
               id="pills-transaction"
@@ -455,6 +456,7 @@ const DashboardUser = () => {
               </div>
             </div>
 
+{/* NOGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA */}
             {/* list conseling */}
             <div
               className="tab-pane fade"
