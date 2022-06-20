@@ -102,7 +102,7 @@ const ConselorProfile = () => {
                                 <div className="tab-pane fade show active" id="pills-about" role="tabpanel" aria-labelledby="pills-about-tab">
                                     <div className="row">
                                         <div className="col-md">
-                                            <p> <strong>Birth Date:</strong>
+                                            <p> <strong>Birth Date: </strong>
                                                 {conselor?.birth}
                                             </p>
                                             <p><strong>Phone:</strong> {conselor?.phone}</p>
@@ -127,7 +127,7 @@ const ConselorProfile = () => {
                                                         <th scope="col">Major</th>
                                                         <th scope="col">Study Field</th>
                                                         <th scope="col">GPA</th>
-                                                        <th scope="col">Certified</th>
+                                                        <th className="text-center" scope="col">CV</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
